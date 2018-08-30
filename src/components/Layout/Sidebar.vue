@@ -49,13 +49,13 @@ export default class Sidebar extends Vue {
             items: [
                 {
                     icon: 'el-icon-setting',
-                    index: 'home',
+                    index: '/home',
                     title: '系统首页',
                 },
                 {
                     icon: 'el-icon-tickets',
-                    index: 'table',
-                    title: '基础表格',
+                    index: '/admin/user',
+                    title: '用户管理',
                 },
                 {
                     icon: 'el-icon-message',

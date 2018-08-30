@@ -20,14 +20,14 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
-
+import ApiLogin from '../../services/login';
 @Component
 export default class Login extends Vue {
     data() {
         return {
             ruleForm: {
                 username: 'admin',
-                password: '123123',
+                password: '123456',
             },
             rules: {
                 username: [
@@ -41,13 +41,26 @@ export default class Login extends Vue {
     }
     submitForm(formName: string) {
         (this.$refs[formName] as any).validate((valid: boolean) => {
-            if (valid) {
-                this.$router.push('/');
-            } else {
-                console.log('error submit!!');
-                return false;
+            if (!valid) {
+                return;
             }
+            this.login();
         });
+    }
+    async login() {
+        this.$data.loading = true;
+        const loginParams = {
+            username: this.$data.ruleForm.username,
+            pwd: this.$data.ruleForm.password,
+        };
+        const res = await ApiLogin.login(loginParams);
+        this.$data.loading = false;
+        if (!res.isSuccess) {
+            return;
+        }
+        // @TODO: to app storeManage
+        localStorage.setItem('access-token', res.data.token);
+        this.$router.push({ path: '/' });
     }
 }
 </script>

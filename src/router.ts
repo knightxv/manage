@@ -25,11 +25,11 @@ export default new Router({
           },
         },
         {
-          path: '/about',
-          name: 'about',
-          component: () => import(/* webpackChunkName: "About" */ './pages/home/About.vue'),
+          path: '/admin/user',
+          name: 'userManage',
+          component: () => import(/* webpackChunkName: "UserManage" */ './pages/home/UserManage.vue'),
           meta: {
-            title: '关于',
+            title: '用户管理',
           },
         },
       ],
