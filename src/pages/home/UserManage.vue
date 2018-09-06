@@ -9,14 +9,15 @@
               v-model="filters.name"
               placeholder="用户名/姓名/昵称"
               style="min-width: 240px;"
-              @keyup.enter.native="handleSearch">
+            >
+            <!-- @keyup.enter.native="handleSearch" -->
             </el-input>
           </el-form-item>
           <el-form-item>
-            <el-button type="primary" @click="handleSearch">查询</el-button>
+            <el-button type="primary">查询</el-button>
           </el-form-item>
           <el-form-item>
-            <el-button type="primary" @click="showAddDialog">添加</el-button>
+            <el-button type="primary" @click="addFormVisible = true">添加</el-button>
           </el-form-item>
         </el-form>
       </el-col>
@@ -24,19 +25,21 @@
       <el-table :data="users" highlight-current-row v-loading="loading" style="width: 100%;">
         <el-table-column type="index" width="60">
         </el-table-column>
-        <el-table-column label="序号" prop="userId" width="80">
+        <el-table-column prop="userId" label="用户id" width="80">
         </el-table-column>
-        <el-table-column prop="name" label="姓名" width="120" sortable>
+        <el-table-column prop="name" label="名称" width="120" sortable>
         </el-table-column>
-        <el-table-column prop="username" label="用户名" width="120" sortable>
+        <el-table-column prop="mobile" label="电话" width="120" sortable>
         </el-table-column>
-        <el-table-column prop="sex" label="性别" width="100" :formatter="formatSex" sortable>
+        <el-table-column prop="username" label="登陆名" width="120" sortable>
+        </el-table-column>
+        <el-table-column prop="sex" label="性别" width="100" :formatter="$app.formatter.sexLab" sortable>
         </el-table-column>
         <el-table-column prop="email" label="邮箱" min-width="160" sortable>
         </el-table-column>
         <el-table-column prop="birth" label="出生日期" min-width="160" sortable>
         </el-table-column>
-        <el-table-column prop="addr" label="地址" sortable>
+        <el-table-column prop="liveAddress" label="地址" sortable>
         </el-table-column>
         <el-table-column label="操作" width="150">
           <template slot-scope="scope">
@@ -54,24 +57,37 @@
       <!-- 添加界面 -->
       <el-dialog title="新增" :visible.sync="addFormVisible" :close-on-click-modal="false">
         <el-form :model="addForm" label-width="80px" :rules="addFormRules" ref="addForm">
-          <el-form-item label="用户名" prop="username">
+          <el-form-item label="登陆名" prop="username">
             <el-input v-model="addForm.username" auto-complete="off"></el-input>
           </el-form-item>
           <el-form-item label="密码" prop="password">
             <el-input v-model="addForm.password" auto-complete="off"></el-input>
           </el-form-item>
-          <el-form-item label="姓名" prop="name">
+          <el-form-item label="名称" prop="name">
             <el-input v-model="addForm.name" auto-complete="off"></el-input>
+          </el-form-item>
+          <el-form-item label="电话" prop="mobile">
+            <el-input v-model="addForm.mobile" auto-complete="off"></el-input>
+          </el-form-item>
+          <el-form-item label="性别" prop="sex">
+            <el-radio-group v-model="addForm.sex">
+              <el-radio :label="$app.typeDef.sex.BOY">男</el-radio>
+              <el-radio :label="$app.typeDef.sex.GIRL">女</el-radio>
+            </el-radio-group>
           </el-form-item>
           <el-form-item label="出生日期" prop="birth">
             <el-date-picker type="date" placeholder="出生日期" v-model="addForm.birth"></el-date-picker>
           </el-form-item>
+          <el-form-item label="地址" prop="liveAddress">
+            <el-input v-model="addForm.addr" auto-complete="off"></el-input>
+          </el-form-item>
           <el-form-item label="邮箱" prop="email">
             <el-input type="email" v-model="addForm.email"></el-input>
           </el-form-item>
-          <el-form-item label="角色" prop="roleIds">
-            <el-checkbox-group v-model="roleIds">
-              <el-checkbox v-for="role in roles" :label="role.roleId" :key="role.roleId">{{role.roleName}}
+          <el-form-item label="角色">
+            <el-checkbox-group v-model="addForm.roleIds">
+              <el-checkbox v-for="role in roles" :label="role.roleId" :key="role.roleId">
+                {{role.roleName}}
               </el-checkbox>
             </el-checkbox-group>
           </el-form-item>
@@ -84,21 +100,34 @@
       <!-- 编辑界面 -->
       <el-dialog title="编辑" :visible.sync="editFormVisible" :close-on-click-modal="false">
         <el-form :model="editForm" label-width="80px" :rules="editFormRules" ref="editForm">
-          <el-form-item label="用户名" prop="username">
+          <el-form-item label="用户名" prop="roleName">
             <el-input v-model="editForm.username" auto-complete="off"></el-input>
           </el-form-item>
           <el-form-item label="姓名" prop="name">
             <el-input v-model="editForm.name" auto-complete="off"></el-input>
           </el-form-item>
+          <el-form-item label="性别" prop="sex">
+            <el-radio-group v-model="editForm.sex">
+              <el-radio :label="$app.typeDef.sex.BOY">男</el-radio>
+              <el-radio :label="$app.typeDef.sex.GIRL">女</el-radio>
+            </el-radio-group>
+          </el-form-item>
+          <el-form-item label="电话" prop="mobile">
+            <el-input v-model="editForm.mobile" auto-complete="off"></el-input>
+          </el-form-item>
           <el-form-item label="出生日期" prop="birth">
-            <el-date-picker type="date" placeholder="出生日期" v-model="editForm.birth"></el-date-picker>
+            <el-date-picker type="date" placeholder="创建日期" v-model="editForm.birth"></el-date-picker>
           </el-form-item>
           <el-form-item label="邮箱" prop="email">
             <el-input type="email" v-model="editForm.email"></el-input>
           </el-form-item>
-          <el-form-item label="角色" prop="roleIds">
-            <el-checkbox-group v-model="roleIds">
-              <el-checkbox v-for="role in roles" :label="role.roleId" :key="role.roleId">{{role.roleName}}
+          <el-form-item label="地址" prop="liveAddress">
+            <el-input v-model="editForm.liveAddress" auto-complete="off"></el-input>
+          </el-form-item>
+          <el-form-item label="角色">
+            <el-checkbox-group v-model="editForm.roleIds">
+              <el-checkbox v-for="role in roles" :label="+role.roleId" :key="role.roleId">
+                {{role.roleName}}
               </el-checkbox>
             </el-checkbox-group>
           </el-form-item>
@@ -117,6 +146,7 @@
 import { Component, Prop, Vue } from 'vue-property-decorator';
 import ApiUser from '../../services/user';
 import ApiRole from '../../services/role';
+import { IUserListItem } from '@/services/apiDataType';
 @Component
 export default class UserManage extends Vue {
   data() {
@@ -127,149 +157,147 @@ export default class UserManage extends Vue {
       loading: false,
       users: [],
       roles: [],
-      roleIds: [],
       total: 0,
       page: 1,
       limit: 10,
-      addFormVisible: false,
+      // 修改表单数据
       editFormVisible: false,
+      editLoading: false,
       editFormRules: {
-        username: [
-          {required: true, message: '请输入用户名', trigger: 'blur'},
-        ],
+        username: [{required: true, message: '请输入用户名', trigger: 'blur'}],
         password: [{required: true, message: '请输入作者', trigger: 'blur'}],
         name: [{required: true, message: '请输入姓名', trigger: 'blur'}],
       },
-      editForm: {
-        username: '',
-        password: '',
-        name: '',
-        email: '',
-        roleIds: [],
-      },
-      // 新增相关数据
+      editForm: {},
+      // 新增表单数据
+      addFormVisible: false,
       addLoading: false,
       addFormRules: {
-        username: [
-          {required: true, message: '请输入用户名', trigger: 'blur'},
-        ],
-        password: [{required: true, message: '请输入作者', trigger: 'blur'}],
-        name: [{required: true, message: '请输入姓名', trigger: 'blur'}],
+        roleName: [{required: true, message: '请输入角色名称', trigger: 'blur'}],
+        roleSign: [{required: true, message: '请输入角色标识', trigger: 'blur'}],
       },
-      addForm: {
-        username: '',
-        password: '',
-        name: '',
-        email: '',
-        roleIds: [],
-      },
+      addForm: {},
     };
-  }
-  // @TODO: set this to app common filter
-  formatSex(row: any) {
-    console.log(row);
-    return row.sex === 1 ? '男' : row.sex === 0 ? '女' : '未知';
   }
   handleCurrentChange(val: number) {
     this.$data.page = val;
-    this.search();
+    this.getUserList();
   }
-  handleSearch() {
+  reLoadInfo() {
     this.$data.total = 0;
-    this.$data.page = 1;
-    this.search();
+    this.$data.page = 0;
+    this.getUserList();
   }
   // 获取用户列表
-  async search() {
+  async getUserList() {
     const params = {
-      page: this.$data.page,
-      limit: 10,
+      pageNum: this.$data.page,
+      pageSize: 10,
       name: this.$data.filters.name,
     };
-
     this.$data.loading = true;
-    const res = await ApiRole.findList(params);
-    console.log(res);
+    const res = await ApiUser.findList(params);
     this.$data.loading = false;
     if (!res.isSuccess) {
       return;
     }
     const result = res.data;
-    console.log(result);
-    if (result.page.rows) {
-      this.$data.total = result.page.total;
-      this.$data.users = result.page.rows;
-    }
+    this.$data.total = result.total;
+    this.$data.users = result.data;
   }
-  async showAddDialog() {
-    this.$data.addFormVisible = true;
-    this.$data.roleIds = [];
-    const res = await ApiRole.findList(null);
+  async addSubmit() {
+    (this.$refs.addForm as any).validate(async (valid: boolean) => {
+      if (!valid) {
+        return;
+      }
+      this.$data.addLoading = true;
+      const params = this.$data.addForm;
+      const res = await ApiUser.addUser(params);
+      this.$data.addLoading = false;
+      if (!res.isSuccess) {
+        return;
+      }
+      this.$data.addFormVisible = false;
+      this.$message.success('新增成功');
+      this.resetAddForm();
+      this.getUserList();
+    });
+  }
+  async showEditDialog(index: number, row: IUserListItem) {
+    this.$data.editFormVisible = true;
+    this.$data.editForm = Object.assign({}, row);
+    const res = await ApiRole.findById(row.userId);
     if (!res.isSuccess) {
       return;
     }
-    this.$data.roles = res.data.rows;
-  }
-  async showEditDialog(index: number, row: any) {
-    this.$data.roleIds = [];
-    this.$data.editFormVisible = true;
-    this.$data.editForm = Object.assign({}, row);
-    try {
-      const res = await ApiRole.findList(null);
-      this.$data.roles = res.data.rows;
-      const roleRes = await ApiRole.findById(row.userId);
-      this.$data.roleIds = roleRes.data;
-    } catch (err) {
-      console.log(err);
-    }
-  }
-  async addSubmit() {
-    // (this.$refs.addForm as any).validate((valid: boolean) => {
-    //   if (valid) {
-    //     this.$data.loading = true;
-    //     let params = Object.assign({}, this.addForm);
-    //     params.roleIds = this.roleIds
-    //     const res = await ApiUser.addUser(params);
-    //     this.$data.loading = false;
-    //     this.$message.success({
-    //       showClose: true,
-    //       message: "新增成功",
-    //       duration: 2000,
-    //     });
-    //     (this.$refs.addForm as any).resetFields();
-    //     this.$data.addFormVisible = false;
-    //     this.search();
-    //   }
-    // });
+    this.$data.editForm.roleIds = res.data;
   }
   async editSubmit() {
-    // this.$refs.editForm.validate(async (valid: boolean) => {
-    //   if (valid) {
-    //     this.$data.loading = true;
-    //     const params = Object.assign({}, this.editForm);
-    //     params.roleIds = this.$data.roleIds;
-    //     const res = await ApiUser.editUser(params);
-    //   }
-    // });
+    (this.$refs.editForm as any).validate(async (valid: boolean) => {
+      if (!valid) {
+        return;
+      }
+      this.$data.editLoading = true;
+      const params = Object.assign({}, this.$data.editForm);
+      const res = await ApiUser.editUser(params);
+      this.$data.editLoading = false;
+      this.$data.editFormVisible = !res.isSuccess;
+      this.reLoadInfo();
+    });
   }
-  async removeUser(index: number, row: any) {
-    // const isConfirm = await this.$confirm('确认删除该记录吗?', '提示', {type: 'warning'});
-      // if (!isConfirm) {
-      //   return;
-      // }
-      // const res = await ApiUser.removeUser({ id: row.userId });
-      // if (!res.isSuccess) {
-      //   return;
-      // }
-      // this.$message.success({
-      //   showClose: true,
-      //   message: '删除成功',
-      //   duration: 1500
-      // });
-      // this.search();
+  async removeUser(index: number, row: IUserListItem) {
+    console.log('remove user', row);
+    const isConfirm = await this.$confirm('确认删除该记录吗?', '提示', {type: 'warning'});
+    if (!isConfirm) {
+      return;
+    }
+    const res = await ApiUser.removeUser(row.userId);
+    if (!res.isSuccess) {
+      return;
+    }
+    this.$message.success('删除成功');
+    this.reLoadInfo();
   }
   mounted() {
-    this.handleSearch();
+    this.resetAddForm();
+    this.resetEditForm();
+    this.reLoadInfo();
+    this.getRolesInfo();
+  }
+  async getRolesInfo() {
+    const res = await ApiRole.findList({
+      pageSize: 999,
+      pageNum: 0,
+      name: '',
+    });
+    if (!res.isSuccess) {
+      return;
+    }
+    this.$data.roles = res.data.data;
+  }
+  resetAddForm() {
+    this.$data.addForm = {
+      username: '',
+      name: '',
+      sex: this.$app.typeDef.sex.BOY,
+      password: '',
+      email: '',
+      mobile: '',
+      birth: new Date(),
+      liveAddress: '',
+      roleIds: [],
+    };
+  }
+  resetEditForm() {
+    this.$data.editForm = {
+      roleName: '',
+      roleSign: '',
+      remark: '',
+      mobile: '',
+      liveAddress: '',
+      roleIds: [],
+      sex: this.$app.typeDef.sex.BOY,
+    };
   }
 }
 </script>

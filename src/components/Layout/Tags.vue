@@ -1,4 +1,10 @@
 <template>
+<!-- <el-col :span="24" class="warp-breadcrum">
+      <el-breadcrumb separator="/">
+        <el-breadcrumb-item :to="{ path: '/' }"><b>首页</b></el-breadcrumb-item>
+        <el-breadcrumb-item>角色管理</el-breadcrumb-item>
+      </el-breadcrumb>
+    </el-col> -->
     <div class="tags" v-if="showTags">
         <el-row type="flex" align="middle">
             <el-col :span="20">
@@ -36,7 +42,7 @@ interface TagsListItem {
 @Component({
     computed: {
         showTags() {
-            console.log(this.$data.tagsList);
+            // console.log(this.$data.tagsList);
             return this.$data.tagsList.length > 0;
         },
     },
@@ -85,6 +91,9 @@ export default class Tags extends Vue {
             return item.path === route.fullPath;
         });
         if (isExist) {
+            return;
+        }
+        if (!route.meta.title) {
             return;
         }
         this.$data.tagsList.push({

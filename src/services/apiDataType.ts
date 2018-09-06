@@ -49,3 +49,59 @@ interface IMenuListItem {
     state: any;
     text: string;
 }
+
+/** user */
+export interface IUserListResData extends IApiData {
+    data: IUserListData;
+}
+export interface IUserListData  {
+    currentPage: number;
+    data: IUserListItem[];
+    pageSize: number;
+    start: number;
+    total: number;
+}
+export interface IUserListItem {
+    birth: number;
+    gmtCreate?: number;
+    gmtModified?: number;
+    picId: number;
+    mobile: number;
+    city: string;
+    district: string;
+    hobby: string;
+    liveAddress: string;
+    email: string;
+    name: string;
+    province: string;
+    roleIds: number[] | null;
+    sex: number;
+    status: number;
+    userId: number;
+    userIdCreate: number;
+    username: string;
+}
+
+/** role */
+
+export interface IRoleListData extends IApiData {
+    data: {
+        data: IUserRoleInfoItem[];
+        currentPage: number;
+        pageSize: number;
+        start: number;
+        total: number;
+    };
+}
+export interface IUserRoleInfoItem {
+    roleId: number;
+    menuIds: number;
+    userIdCreate: number;
+    roleName: string;
+    roleSign: string;
+    remark: string;
+    gmtCreate: number | null;
+    gmtModified: number | null;
+
+}
+

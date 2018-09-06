@@ -24,19 +24,19 @@
                     <span class="btn-bell-badge" v-if="message"></span>
                 </div> -->
                 <!-- 用户头像 -->
-                <div class="user-avator"><img src="static/img/img.jpg"></div>
+                <div class="user-avator"><img src="/static/img/default_avatar.jpg"></div>
                 <!-- 用户名下拉菜单 -->
                 <el-dropdown class="user-name" trigger="click" @command="handleCommand">
                     <span class="el-dropdown-link">
-                        {{username}} <i class="el-icon-caret-bottom"></i>
+                        {{myUserInfo.name}} <i class="el-icon-caret-bottom"></i>
                     </span>
                     <el-dropdown-menu slot="dropdown">
-                        <a href="http://blog.gdfengshuo.com/about/" target="_blank">
-                            <el-dropdown-item>关于作者</el-dropdown-item>
-                        </a>
-                        <a href="https://github.com/lin-xin/vue-manage-system" target="_blank">
-                            <el-dropdown-item>项目仓库</el-dropdown-item>
-                        </a>
+                        <router-link :to="{name: 'UserProfile'}">
+                            <el-dropdown-item>个人信息</el-dropdown-item>
+                        </router-link>
+                        <router-link :to="{name: 'UserChangePwd'}">
+                            <el-dropdown-item>修改密码</el-dropdown-item>
+                        </router-link>
                         <el-dropdown-item divided  command="loginout">退出登录</el-dropdown-item>
                     </el-dropdown-menu>
                 </el-dropdown>
@@ -47,26 +47,29 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
+import { MY_USER_INFO } from '../../stores/getters-types';
+import { LOGOUT } from '../../stores/action-types';
 import { TOGGLE_MENU_COLLAPSE } from '../../stores/mutation-types';
+import { IUserListItem } from '@/services/apiDataType';
 import { Getter, Action, State, Mutation } from 'vuex-class';
 @Component({
 })
 export default class Header extends Vue {
     @Mutation TOGGLE_MENU_COLLAPSE!: () => {};
+    @Action LOGOUT!: () => {};
+    @Getter(MY_USER_INFO) myUserInfo!: IUserListItem;
     data() {
         return {
-            collapse: false,
             fullscreen: false,
             name: 'linxin',
             message: 2,
-            username: 'knight',
         };
     }
      // 用户名下拉菜单选择事件
     handleCommand(command: string) {
         if (command === 'loginout') {
-            // localStorage.removeItem('ms_username');
-            // this.$router.push('/login');
+            this.LOGOUT();
+            this.$router.push('/login');
         }
     }
     // 全屏事件
@@ -97,11 +100,11 @@ export default class Header extends Vue {
         }
         this.$data.fullscreen = !this.$data.fullscreen;
     }
-    mounted() {
-        if (document.body.clientWidth < 1500) {
-            this.TOGGLE_MENU_COLLAPSE();
-        }
-    }
+    // mounted() {
+    //     if (document.body.clientWidth < 1500) {
+    //         this.TOGGLE_MENU_COLLAPSE();
+    //     }
+    // }
 }
 </script>
 
@@ -155,8 +158,8 @@ export default class Header extends Vue {
 }
 .user-avator img{
     display: block;
-    width:40px;
-    height:40px;
+    width: 40px;
+    height: 40px;
     border-radius: 50%;
 }
 .el-dropdown-link{

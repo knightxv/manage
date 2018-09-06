@@ -1,1 +1,5 @@
+// app
 export const TOGGLE_MENU_COLLAPSE = 'TOGGLE_MENU_COLLAPSE';
+// user
+export const UPDATE_USER_INFO = 'UPDATE_USER_INFO';
+export const UPDATE_MY_USER_INFO = 'UPDATE_MY_USER_INFO';

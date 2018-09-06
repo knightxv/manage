@@ -21,8 +21,12 @@
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
 import ApiLogin from '../../services/login';
+import { IUserInfoState } from '../../stores/modules/userInfo';
+import { Mutation } from 'vuex-class';
+import { UPDATE_USER_INFO } from '../../stores/mutation-types';
 @Component
 export default class Login extends Vue {
+    @Mutation UPDATE_USER_INFO!: (userInfo: IUserInfoState) => {};
     data() {
         return {
             ruleForm: {
@@ -58,8 +62,7 @@ export default class Login extends Vue {
         if (!res.isSuccess) {
             return;
         }
-        // @TODO: to app storeManage
-        localStorage.setItem('access-token', res.data.token);
+        this.UPDATE_USER_INFO(res.data);
         this.$router.push({ path: '/' });
     }
 }

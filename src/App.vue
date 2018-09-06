@@ -1,8 +1,34 @@
 <template>
   <div id="app">
-      <router-view></router-view>
+      <keep-alive>
+          <router-view></router-view>
+      </keep-alive>
   </div>
 </template>
+
+<script lang="ts">
+import { Component, Vue } from 'vue-property-decorator';
+import { globalEvent } from './app/typeDef';
+@Component({
+})
+export default class App extends Vue {
+  public routerTimer!: any;
+  public created() {
+    this.$root.$on(globalEvent.NO_LOGIN, () => {
+      clearTimeout(this.routerTimer);
+      this.routerTimer = setTimeout(() => {
+        clearTimeout(this.routerTimer);
+        this.$router.push('/login');
+      }, 300);
+    });
+  }
+  destroyed() {
+    console.log('app destroy');
+    // tslint:disable-next-line:no-debugger
+    debugger;
+  }
+}
+</script>
 
 <style lang="less">
 #app {

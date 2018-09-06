@@ -1,11 +1,13 @@
 import Vue from 'vue';
-import App from './App.vue';
 import router from './router';
 import store from './stores/store';
+import App from './App.vue';
 
 import Element from 'element-ui';
 Vue.use(Element, { size: 'small', zIndex: 3000 });
 
+import app from './app/index';
+Vue.use(app);
 // const requireComponent = require.context(
 //   // 其组件目录的相对路径
 //   './components',
@@ -17,8 +19,13 @@ Vue.use(Element, { size: 'small', zIndex: 3000 });
 // console.log(requireComponent);
 Vue.config.productionTip = false;
 
-new Vue({
+export default new Vue({
   router,
   store,
   render: (h) => h(App),
 }).$mount('#app');
+
+
+
+
+

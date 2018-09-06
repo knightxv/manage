@@ -9,8 +9,8 @@ export default {
     editMenu(params: IRoleMenuBody) {
         return http.put('/api-admin/menu', params);
     },
-    menuIdsByRoleId() {
-        return http.get('/api-admin/menu/roleId', null);
+    menuIdsByRoleId(roleId: number) {
+        return http.get('/api-admin/menu/roleId', { roleId });
     },
     /** 添加角色菜单 */
     addRoleMenu(params: IRoleMenuBody) {
@@ -28,5 +28,7 @@ export default {
      * 获取用户当前的权限(菜单)
      * GET /menu/currentUserMenus
      */
-    // currentUserMenus(): Promise<IMenuListData> {}
+    userMenus(): Promise<IMenuListData> {
+        return http.get('/api-admin/menu/userMenus');
+    },
 };

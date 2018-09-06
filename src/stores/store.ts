@@ -1,5 +1,6 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
+import plugins from './plugins/index';
 Vue.use(Vuex);
 
 const requireComponent = require.context(
@@ -17,4 +18,5 @@ export default new Vuex.Store({
   modules: {
     ...modules,
   },
+  plugins,
 });

@@ -11,7 +11,7 @@ interface IStore {
 
 export default {
     state: {
-        menuCollapse: true,
+        menuCollapse: false,
     } as IAppState,
     mutations: {
         [TOGGLE_MENU_COLLAPSE](state: IAppState) {

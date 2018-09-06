@@ -1,27 +1,30 @@
 import http from '../app/http';
+import { IRoleListData } from './apiDataType';
+
+
 
 export default {
-    findList(params: { page: number, limit: number, name: string } | null) {
-        return http.get('/api-admin/role', params);
+    findList(params: { pageSize: number,  pageNum: number, name: string } | null): Promise<IRoleListData> {
+        return http.post('/api-admin/role/list', params);
     },
     findById: (id: number) => {
         return http.get('/api-admin/role/userId/' + id);
     },
 
-    add() {
-        return http.post(`/api-admin/role`, null);
+    add(params: any) {
+        return http.post(`/api-admin/role`, params);
     },
-    update() {
-        return http.put('/api-admin/role', null);
+    update(params: any) {
+        return http.put('/api-admin/role', params);
     },
 
     // 单个删除role
     remove: (id: number) => {
-        return http.delete(`/api/v1/roles/${id}`);
+        return http.delete(`/api-admin/role/${id}`);
     },
 
     // 批量删除，传ids数组
-    removeBatch: (ids: any) => {
-        return http.delete(`/api/v1/roles/batch/${ids}`);
+    removeBatch: (ids: string[]) => {
+        return http.delete(`/api-admin/role/batch/${ids}`);
     },
 };
