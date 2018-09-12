@@ -43,6 +43,14 @@
       <!-- 添加界面 -->
       <el-dialog title="编辑" :visible.sync="addFormVisible" :close-on-click-modal="false">
         <el-form :model="addForm" label-width="80px" :rules="editFormRules" ref="addForm">
+          <el-form-item label="类型" prop="type">
+            <el-radio-group v-model="addForm.type">
+              <el-radio :label="$app.typeDef.menuType.CATALOG">目录</el-radio>
+              <el-radio :label="$app.typeDef.menuType.MENU">菜单</el-radio>
+              <el-radio :label="$app.typeDef.menuType.MODULE">模块</el-radio>
+              <el-radio :label="$app.typeDef.menuType.API">操作</el-radio>
+            </el-radio-group>
+          </el-form-item>
           <el-form-item label="名称" prop="name">
             <el-input v-model="addForm.name" auto-complete="off"></el-input>
           </el-form-item>
@@ -52,30 +60,26 @@
           <el-form-item v-if="addForm.type == $app.typeDef.menuType.CATALOG" label="图标名" prop="icon">
             <el-input v-model="addForm.icon" auto-complete="off"></el-input>
           </el-form-item>
-          <el-form-item v-if="addForm.type == $app.typeDef.menuType.CATALOG" label="是否隐藏" prop="sex">
+          <el-form-item
+            v-if="addForm.type == $app.typeDef.menuType.CATALOG || addForm.type == $app.typeDef.menuType.MENU"
+            label="是否隐藏"
+            prop="hidden"
+          >
             <el-radio-group v-model="addForm.hidden">
               <el-radio :label="true">是</el-radio>
               <el-radio :label="false">否</el-radio>
             </el-radio-group>
           </el-form-item>
-          <el-form-item label="类型" prop="type">
-            <el-radio-group v-model="addForm.type">
-              <el-radio :label="$app.typeDef.menuType.CATALOG">目录</el-radio>
-              <el-radio :label="$app.typeDef.menuType.MENU">菜单</el-radio>
-              <el-radio :label="$app.typeDef.menuType.MODULE">模块</el-radio>
-              <el-radio :label="$app.typeDef.menuType.API">操作</el-radio>
-            </el-radio-group>
-          </el-form-item>
-          <el-form-item v-if="addForm.type == $app.typeDef.menuType.API" label="api类型" prop="perms">
-            <el-checkbox-group v-model="addForm.perms">
-              <el-checkbox
-                v-for="item in permsItems"
+          <el-form-item v-if="addForm.type == $app.typeDef.menuType.API" label="api类型" prop="requestType">
+            <el-radio-group v-model="addForm.requestType">
+              <el-radio
+                v-for="item in requestItems"
                 :label="item.key"
                 :key="item.key"
               >
                 {{item.value}}
-              </el-checkbox>
-            </el-checkbox-group>
+              </el-radio>
+            </el-radio-group>
           </el-form-item>
         </el-form>
         <div slot="footer" class="dialog-footer">
@@ -86,6 +90,14 @@
       <!-- 编辑界面 -->
       <el-dialog title="编辑" :visible.sync="editFormVisible" :close-on-click-modal="false">
         <el-form :model="editForm" label-width="80px" :rules="editFormRules" ref="editForm">
+          <el-form-item label="类型" prop="type">
+            <el-radio-group v-model="editForm.type">
+              <el-radio :label="$app.typeDef.menuType.CATALOG">目录</el-radio>
+              <el-radio :label="$app.typeDef.menuType.MENU">菜单</el-radio>
+              <el-radio :label="$app.typeDef.menuType.MODULE">模块</el-radio>
+              <el-radio :label="$app.typeDef.menuType.API">操作</el-radio>
+            </el-radio-group>
+          </el-form-item>
           <el-form-item label="名称" prop="name">
             <el-input v-model="editForm.name" auto-complete="off"></el-input>
           </el-form-item>
@@ -95,30 +107,26 @@
           <el-form-item v-if="editForm.type == $app.typeDef.menuType.CATALOG" label="图标名" prop="icon">
             <el-input v-model="editForm.icon" auto-complete="off"></el-input>
           </el-form-item>
-          <el-form-item v-if="editForm.type == $app.typeDef.menuType.CATALOG" label="是否隐藏" prop="sex">
+          <el-form-item
+            v-if="editForm.type == $app.typeDef.menuType.CATALOG || editForm.type == $app.typeDef.menuType.MENU"
+            label="是否隐藏"
+            prop="hidden"
+          >
             <el-radio-group v-model="editForm.hidden">
               <el-radio :label="true">是</el-radio>
               <el-radio :label="false">否</el-radio>
             </el-radio-group>
           </el-form-item>
-          <el-form-item label="类型" prop="type">
-            <el-radio-group v-model="editForm.type">
-              <el-radio :label="$app.typeDef.menuType.CATALOG">目录</el-radio>
-              <el-radio :label="$app.typeDef.menuType.MENU">菜单</el-radio>
-              <el-radio :label="$app.typeDef.menuType.MODULE">模块</el-radio>
-              <el-radio :label="$app.typeDef.menuType.API">操作</el-radio>
-            </el-radio-group>
-          </el-form-item>
-          <el-form-item v-if="editForm.type == $app.typeDef.menuType.API" label="api类型" prop="perms">
-            <el-checkbox-group v-model="editForm.perms">
-              <el-checkbox
-                v-for="item in permsItems"
+          <el-form-item v-if="editForm.type == $app.typeDef.menuType.API" label="api类型" prop="requestType">
+            <el-radio-group v-model="editForm.requestType">
+              <el-radio
+                v-for="item in requestItems"
                 :label="item.key"
                 :key="item.key"
               >
                 {{item.value}}
-              </el-checkbox>
-            </el-checkbox-group>
+              </el-radio>
+            </el-radio-group>
           </el-form-item>
           <!-- <el-form-item label="排序" prop="icon">
             <el-input v-model="editForm.orderNum" auto-complete="off"></el-input>
@@ -136,7 +144,7 @@
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
 import treeTable from '../../components/TreeTable/index.vue';
-import ApiMenu from '../../services/menu';
+import ApiMenu from '@/services/admin/menu';
 @Component({
   components: {
     treeTable,
@@ -146,11 +154,11 @@ export default class MenuManage extends Vue {
   data() {
     return {
       loading: false,
-      permsItems: [
-        {key: 'get', value: 'get'},
-        {key: 'post', value: 'post'},
-        {key: 'put', value: 'put'},
-        {key: 'delete', value: 'delete'},
+      requestItems: [
+        {key: 'GET', value: 'GET'},
+        {key: 'POST', value: 'POST'},
+        {key: 'PUT', value: 'PUT'},
+        {key: 'DELETE', value: 'DELETE'},
       ],
       columns: [
         {
@@ -177,10 +185,13 @@ export default class MenuManage extends Vue {
     };
   }
   hiddeForMatter(row: any): string {
-    if (row.object.type !== this.$app.typeDef.menuType.CATALOG) {
-      return '';
+    if (row.object.type === this.$app.typeDef.menuType.CATALOG) {
+      return row.object.hidden ? '是' : '否';
     }
-    return row.object.hidden ? '是' : '否';
+    if (row.object.type === this.$app.typeDef.menuType.MENU) {
+      return row.object.hidden ? '是' : '否';
+    }
+    return '';
   }
   handleCurrentChange(val: number) {
     this.$data.page = val;

@@ -1,4 +1,4 @@
-import http from '../app/http';
+import http from '@/app/http';
 
 export default {
   login: (params: { username: string, pwd: string }) => {

@@ -33,7 +33,7 @@
         </el-table-column>
         <el-table-column prop="username" label="登陆名" width="120" sortable>
         </el-table-column>
-        <el-table-column prop="sex" label="性别" width="100" :formatter="$app.formatter.sexLab" sortable>
+        <el-table-column prop="sex" label="性别" width="100" :formatter="sexFormatter" sortable>
         </el-table-column>
         <el-table-column prop="email" label="邮箱" min-width="160" sortable>
         </el-table-column>
@@ -71,8 +71,8 @@
           </el-form-item>
           <el-form-item label="性别" prop="sex">
             <el-radio-group v-model="addForm.sex">
-              <el-radio :label="$app.typeDef.sex.BOY">男</el-radio>
-              <el-radio :label="$app.typeDef.sex.GIRL">女</el-radio>
+              <el-radio :label="1">男</el-radio>
+              <el-radio :label="0">女</el-radio>
             </el-radio-group>
           </el-form-item>
           <el-form-item label="出生日期" prop="birth">
@@ -108,8 +108,8 @@
           </el-form-item>
           <el-form-item label="性别" prop="sex">
             <el-radio-group v-model="editForm.sex">
-              <el-radio :label="$app.typeDef.sex.BOY">男</el-radio>
-              <el-radio :label="$app.typeDef.sex.GIRL">女</el-radio>
+              <el-radio :label="1">男</el-radio>
+              <el-radio :label="0">女</el-radio>
             </el-radio-group>
           </el-form-item>
           <el-form-item label="电话" prop="mobile">
@@ -144,8 +144,8 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
-import ApiUser from '../../services/user';
-import ApiRole from '../../services/role';
+import ApiUser from '@/services/admin/user';
+import ApiRole from '@/services/admin/role';
 import { IUserListItem } from '@/services/apiDataType';
 @Component
 export default class UserManage extends Vue {
@@ -178,6 +178,16 @@ export default class UserManage extends Vue {
       },
       addForm: {},
     };
+  }
+  sexFormatter(row: any) {
+    const sex = row.sex;
+    if (sex === 0) {
+      return '女';
+    }
+    if (sex === 1) {
+      return '男';
+    }
+    return '未知';
   }
   handleCurrentChange(val: number) {
     this.$data.page = val;
@@ -246,7 +256,6 @@ export default class UserManage extends Vue {
     });
   }
   async removeUser(index: number, row: IUserListItem) {
-    console.log('remove user', row);
     const isConfirm = await this.$confirm('确认删除该记录吗?', '提示', {type: 'warning'});
     if (!isConfirm) {
       return;
@@ -279,7 +288,7 @@ export default class UserManage extends Vue {
     this.$data.addForm = {
       username: '',
       name: '',
-      sex: this.$app.typeDef.sex.BOY,
+      sex: 1,
       password: '',
       email: '',
       mobile: '',
@@ -296,7 +305,7 @@ export default class UserManage extends Vue {
       mobile: '',
       liveAddress: '',
       roleIds: [],
-      sex: this.$app.typeDef.sex.BOY,
+      sex: 1,
     };
   }
 }

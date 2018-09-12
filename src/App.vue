@@ -46,4 +46,21 @@ body, html {
 .el-menu {
   border-right: 0;
 }
+// common
+.container {
+    padding: 30px;
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+.form-box {
+    max-width: 600px;
+}
+img {
+  width: 100%;
+  height: 100%;
+}
+a {
+  color: #409EFF;
+}
 </style>

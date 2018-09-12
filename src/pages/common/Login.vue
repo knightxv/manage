@@ -20,7 +20,7 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
-import ApiLogin from '../../services/login';
+import ApiLogin from '@/services/admin/login';
 import { IUserInfoState } from '../../stores/modules/userInfo';
 import { Mutation } from 'vuex-class';
 import { UPDATE_USER_INFO } from '../../stores/mutation-types';
@@ -63,7 +63,7 @@ export default class Login extends Vue {
             return;
         }
         this.UPDATE_USER_INFO(res.data);
-        this.$router.push({ path: '/' });
+        this.$router.push({ path: '/home' });
     }
 }
 </script>

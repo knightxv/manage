@@ -94,8 +94,8 @@
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
 // import ApiUser from '../../services/user';
-import ApiRole from '../../services/role';
-import ApiMenu from '../../services/menu';
+import ApiRole from '@/services/admin/role';
+import ApiMenu from '@/services/admin/menu';
 import { IUserRoleInfoItem } from '@/services/apiDataType';
 @Component
 export default class UserManage extends Vue {
@@ -106,7 +106,7 @@ export default class UserManage extends Vue {
         },
         roles: [],
         total: 0,
-        page: 1,
+        page: 0,
         limit: 10,
         loading: false,
         sels: [], // 列表选中列

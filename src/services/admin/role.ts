@@ -1,5 +1,5 @@
-import http from '../app/http';
-import { IRoleListData } from './apiDataType';
+import http from '@/app/http';
+import { IRoleListData } from '@/services/apiDataType';
 
 
 

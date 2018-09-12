@@ -6,7 +6,7 @@
         <el-container>
             <v-sidebar></v-sidebar>
             <el-main>
-                <v-tags></v-tags>
+                <!-- <v-tags></v-tags> -->
                 <transition
                     mode="out-in"
                     enter-active-class="fadeIn"

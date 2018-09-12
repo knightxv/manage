@@ -1,10 +1,10 @@
 import Vue from 'vue';
 import { Commit } from 'vuex';
 import { UPDATE_USER_INFO, UPDATE_MY_USER_INFO } from '../mutation-types';
-import { MY_USER_INFO, USER_MENUS } from '../getters-types';
+import { MY_USER_INFO, USER_MENUS, TOKEN } from '../getters-types';
 import { UPDATE_USER_INFO_ASYNC, LOGOUT } from '../action-types';
 import { IUserListItem } from '../../services/apiDataType';
-import ApiLogin from '../../services/login';
+import ApiLogin from '@/services/admin/login';
 
 interface IRouterInfoItem {
   id: number;
@@ -14,6 +14,7 @@ interface IRouterInfoItem {
   parentId: number;
   path: string;
   icon: string;
+  object: any;
   children: IRouterInfoItem[];
 }
 
@@ -69,29 +70,33 @@ export default {
         },
     },
     getters: {
-        [MY_USER_INFO](state: IUserInfoState): IUserListItem {
-            return state.user;
-        },
-        [USER_MENUS](state: IUserInfoState): any[] {
-          return state.router.filter((routerInfo) => routerInfo.menuShow).map((routerInfo) => {
-            const { icon, name, id } = routerInfo;
-            let children: any[] = [];
-            if (routerInfo.children) {
-              children = routerInfo.children.map((child) => {
-                const { path, name: title } = child;
-                return {
-                  index: path,
-                  title,
-                };
-              });
-            }
-            return {
-              icon,
-              index: `${id}`,
-              title: name,
-              children,
-            };
-          });
-        },
+      [TOKEN](state: IUserInfoState): string {
+        return state.token;
+      },
+      [MY_USER_INFO](state: IUserInfoState): IUserListItem {
+          return state.user;
+      },
+      [USER_MENUS](state: IUserInfoState): any[] {
+        return state.router.filter((routerInfo) => routerInfo.menuShow).map((routerInfo) => {
+          const { icon, name, id } = routerInfo;
+          let children: any[] = [];
+          if (routerInfo.children) {
+            children = routerInfo.children.map((child) => {
+              const { path, name: title, menuShow } = child;
+              return {
+                index: path,
+                title,
+                menuShow,
+              };
+            });
+          }
+          return {
+            icon,
+            index: `${id}`,
+            title: name,
+            children,
+          };
+        });
+      },
     },
 };

@@ -1,4 +1,4 @@
-export const formatDate = (time: number, format: string = 'yyyy-MM-dd hh:mm:ss'): string => {
+export const formatDate = (time: number | Date, format: string = 'yyyy-MM-dd hh:mm:ss'): string => {
     if (time == null) {
         return '';
     }
@@ -28,3 +28,6 @@ export const formatDate = (time: number, format: string = 'yyyy-MM-dd hh:mm:ss')
     return format;
 };
 
+export const formatDateBySecTime = (secTime: number, format: string = 'yyyy-MM-dd') => {
+  return formatDate(secTime * 1000, format);
+};

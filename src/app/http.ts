@@ -4,15 +4,24 @@
 import axios from 'axios';
 import localVue from '../main';
 import Vue from 'vue';
-// import Env from './env';
-const NO_LOGIN_ERROR_CODE: number = 401;
+
+// http://21b97p5647.imwork.net:32799 http://192.168.1.10:8002
 const baseURL: string = 'http://192.168.1.10:8002';
 import { IApiData } from '../services/apiDataType';
-import { globalEvent } from './typeDef';
+import { globalEvent, serverCode } from './typeDef';
 
+// axios.defaults.timeout =  60000;
 axios.defaults.withCredentials = true;
 // axios.defaults.headers.common['Authorization'] = AUTH_TOKEN;
 // axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded;charset=UTF-8'; // 配置请求头
+
+interface IApiRes {
+  code: number;
+  currentTime: string;
+  data: any;
+  msg: string;
+}
+
 
 // 添加一个请求拦截器
 axios.interceptors.request.use(
@@ -31,26 +40,20 @@ axios.interceptors.request.use(
 // 添加一个响应拦截器
 axios.interceptors.response.use(
     (response: any) => {
-        if (!response.data) {
-            return Promise.reject('发生未知错误');
-        }
-        if (response.data.code === NO_LOGIN_ERROR_CODE) {
-            localVue.$emit(globalEvent.NO_LOGIN);
-        }
-        return response;
+      const res: IApiRes = response.data;
+      if (!res) {
+        return Promise.reject('发生未知错误');
+      }
+      if (res.code === serverCode.NO_LOGIN_ERROR_CODE) {
+        localVue.$emit(globalEvent.NO_LOGIN);
+      }
+      return response;
     },
-    (error) => {
+    (error: any) => {
         // Do something with response error
         return Promise.reject(error);
     },
 );
-
-interface IApiRes {
-    code: number;
-    currentTime: string;
-    data: any;
-    msg: string;
-}
 
 class Http {
     resolveResponse(requestPromise: Promise<any>, url: string, type: string): Promise<IApiData> {
@@ -67,7 +70,7 @@ class Http {
                     data: null,
                 };
             }
-            if (res.code !== 0) {
+            if (res.code !== serverCode.SUCCESS) {
                 return {
                     isSuccess: false,
                     errMsg: res.msg,

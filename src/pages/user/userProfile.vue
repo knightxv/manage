@@ -31,7 +31,7 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
-import ApiUser from '../../services/user';
+import ApiUser from '@/services/admin/user';
 import { Getter, Mutation } from 'vuex-class';
 import { MY_USER_INFO } from '../../stores/getters-types';
 import { UPDATE_MY_USER_INFO } from '../../stores/mutation-types';

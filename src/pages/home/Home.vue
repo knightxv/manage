@@ -1,8 +1,6 @@
 <template>
   <div class="home">
-    <!-- <img alt="Vue logo" src="../../assets/logo.png">
-    <div class="username">{{ userInfo.userName }}</div>
-    <div class="dataName">{{ a }}</div> -->
+    首页可以放一些直播数据表格
   </div>
 </template>
 

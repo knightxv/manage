@@ -1,5 +1,5 @@
-import http from '../app/http';
-import { IMenuListData, IRoleMenuBody } from './apiDataType';
+import http from '@/app/http';
+import { IMenuListData, IRoleMenuBody } from '@/services/apiDataType';
 
 export default {
     getMenus(): Promise<IMenuListData> {

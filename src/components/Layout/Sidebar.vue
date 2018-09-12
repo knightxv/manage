@@ -12,9 +12,11 @@
                             <i :class="item.icon"></i>
                             <span class="menu-title" slot="title">{{ item.title }}</span>
                         </template>
-                        <el-menu-item v-for="(subItem,i) in item.children" :key="i" :index="subItem.index">
+                        <template v-for="(subItem, i) in item.children" >
+                          <el-menu-item v-if="subItem.menuShow" :index="subItem.index" :key="i">
                             {{ subItem.title }}
-                        </el-menu-item>
+                          </el-menu-item>  
+                        </template>
                     </el-submenu>
                 </template>
                 <template v-else>
@@ -73,6 +75,7 @@ export default class Sidebar extends Vue {
     align-items: stretch;
     background: #2f4050;
     color: #fff;
+    overflow: hidden;
 }
 .sidebar::-webkit-scrollbar{
     width: 0;

@@ -1,5 +1,5 @@
-import http from '../app/http';
-import { IUserListResData, IUserListItem } from './apiDataType';
+import http from '@/app/http';
+import { IUserListResData, IUserListItem } from '@/services/apiDataType';
 
 export default {
   tokenUser: () => {

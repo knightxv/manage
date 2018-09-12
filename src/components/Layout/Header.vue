@@ -24,17 +24,19 @@
                     <span class="btn-bell-badge" v-if="message"></span>
                 </div> -->
                 <!-- 用户头像 -->
-                <div class="user-avator"><img src="/static/img/default_avatar.jpg"></div>
+                <div class="user-avator">
+                  <app-local-img imgUrl="default_avatar"></app-local-img>
+                </div>
                 <!-- 用户名下拉菜单 -->
                 <el-dropdown class="user-name" trigger="click" @command="handleCommand">
                     <span class="el-dropdown-link">
                         {{myUserInfo.name}} <i class="el-icon-caret-bottom"></i>
                     </span>
                     <el-dropdown-menu slot="dropdown">
-                        <router-link :to="{name: 'UserProfile'}">
+                        <router-link :to="{name: 'userProfile'}">
                             <el-dropdown-item>个人信息</el-dropdown-item>
                         </router-link>
-                        <router-link :to="{name: 'UserChangePwd'}">
+                        <router-link :to="{name: 'userChangePwd'}">
                             <el-dropdown-item>修改密码</el-dropdown-item>
                         </router-link>
                         <el-dropdown-item divided  command="loginout">退出登录</el-dropdown-item>
@@ -100,11 +102,11 @@ export default class Header extends Vue {
         }
         this.$data.fullscreen = !this.$data.fullscreen;
     }
-    // mounted() {
-    //     if (document.body.clientWidth < 1500) {
-    //         this.TOGGLE_MENU_COLLAPSE();
-    //     }
-    // }
+    mounted() {
+        if (document.body.clientWidth < 1500) {
+            this.TOGGLE_MENU_COLLAPSE();
+        }
+    }
 }
 </script>
 
