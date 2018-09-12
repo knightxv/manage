@@ -16,10 +16,12 @@
     </el-table-column>
     <el-table-column prop="matchStageType" label="赛程阶段" sortable>
     </el-table-column>
-    <el-table-column prop="homeCourtTeamId" label="主场" sortable>
+    <el-table-column prop="startTime" label="比赛时间" sortable :formatter="$app.formatter.dateSecTime">
+    </el-table-column>
+    <!-- <el-table-column prop="homeCourtTeamId" label="主场" sortable>
     </el-table-column>
     <el-table-column prop="opponentTeamName" label="客场" sortable>
-    </el-table-column>
+    </el-table-column> -->
     <!-- <el-table-column prop="viewType" label="是否隐藏" sortable>
     </el-table-column> -->
     <el-table-column label="操作">

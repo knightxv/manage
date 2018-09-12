@@ -4,7 +4,7 @@
 import axios from 'axios';
 import localVue from '../main';
 import Vue from 'vue';
-
+import * as UUID from 'uuidjs';
 // http://21b97p5647.imwork.net:32799 http://192.168.1.10:8002
 const baseURL: string = 'http://192.168.1.10:8002';
 import { IApiData } from '../services/apiDataType';
@@ -119,7 +119,11 @@ class Http {
         console.group(`request[put]:${url}`);
         console.log('params : ', params);
         console.groupEnd();
-        return this.resolveResponse(axios.put(`${baseURL}${url}`, params), url, 'put');
+        const uuid = UUID.generate().replace(/-/g, '');
+        return this.resolveResponse(axios.put(`${baseURL}${url}`, {
+          ...params,
+          ticketId: uuid,
+        }), url, 'put');
     }
     public delete(url: string, params?: any): Promise<IApiData> {
         console.group(`request[delete]:${url}`);

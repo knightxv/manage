@@ -20,4 +20,10 @@ export default {
   getTeam(id: number) {
     return http.get(`/api-liveapp/adminMatchTeam/${id}`, null);
   },
+  editMatchTeamPoints(params: {
+    id: number,
+    teamPoints: number,
+  }) {
+    return http.post(`/api-liveapp/adminMatchTeam/editMatchTeamPoints`, params);
+  },
 };

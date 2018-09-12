@@ -27,6 +27,7 @@ export enum systemType {
 /**  直播间类型 */
 export enum liveType {
   BASKETBALL = 'BASKETBALL',
+  OTHER = 'OTHER',
 
 }
 /**  直播人数显示类型 */

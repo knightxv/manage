@@ -46,6 +46,7 @@ body, html {
 .el-menu {
   border-right: 0;
 }
+
 // common
 .container {
     padding: 30px;

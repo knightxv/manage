@@ -22,14 +22,17 @@
     >
       <el-row type="flex" justify="space-between" align="middle">
         <div class="scoring-title">
-          <p>计分管理</p>
+          <p>计分管理</p> 
           <el-button type="primary" @click="showScoringToolsDiaLog">修改计分工具</el-button>
         </div>
         <div>直播人数: {{ onlineCount }}</div>
       </el-row>
-      <div class="table-group-title">主场球队:{{ homeCourtTeam.matchTeamName }}</div>
-      <el-table :data="homeCourtTeamPlayers" highlight-current-row v-loading="loading" style="width: 100%;">
-        <el-table-column type="expand">
+      <div class="table-group-title">
+        主场球队:{{ homeCourtTeam.matchTeamName }}
+        <span class="team-score">总得分：{{ homeCourtTeamScoreCount }}</span>
+      </div>
+      <el-table :data="homeCourtTeamPlayers" highlight-current-row v-loading="loading" align="center" style="width: 100%;">
+        <el-table-column type="expand" width="20px">
           <template slot-scope="props">
             <el-form label-position="left" inline class="demo-table-expand">
               <el-form-item label="球员名字">
@@ -44,23 +47,26 @@
             </el-form>
           </template>
         </el-table-column>
-        <el-table-column prop="matchScheduleTeamPlayerActions" label="分数" width="80px" :formatter="scoreFormatter">
+        <el-table-column prop="matchScheduleTeamPlayerActions" label="分数" width="50px" :formatter="scoreFormatter">
         </el-table-column>
-        <el-table-column prop="playerName" label="姓名" width="80px">
+        <el-table-column prop="playerName" label="姓名" width="70px">
         </el-table-column>
-        <el-table-column prop="playerTeamNum" label="球号" width="50px" >
+        <el-table-column prop="playerTeamNum" label="球号" width="45px" >
         </el-table-column>
-        <el-table-column v-for="tool in userScoringTools" :key="tool.toolVal" :prop="tool.toolVal" :label="tool.toolName" min-width="200px" align="center">
-          <el-row style="display: inline-block;" type="flex" slot-scope="scope">
-            <el-button v-if="tool.actions.indexOf('ADD') > -1" size="mini" type="primary" @click="addPlayerAction(scope.row.matchTeamPlayerId, tool.toolVal)">加</el-button>
-            <el-button v-if="tool.actions.indexOf('MINUS') > -1" size="mini" type="info" @click="minusPlayerAction(scope.row.matchTeamPlayerId, tool.toolVal)">减</el-button>
-            <el-button v-if="tool.actions.indexOf('MISS') > -1" size="mini" type="success" @click="missPlayerAction(scope.row.matchTeamPlayerId, tool.toolVal)">未中</el-button>
-          </el-row>
+        <el-table-column v-for="tool in userScoringTools" :key="tool.toolVal" :prop="tool.toolVal" :label="tool.toolName" align="center">
+          <el-button-group slot-scope="scope">
+            <el-button icon="el-icon-plus" :disabled="updateActionLoading" v-if="tool.actions.indexOf('ADD') > -1" size="mini" type="primary" @click="addPlayerAction(scope.row.matchTeamPlayerId, tool.toolVal)"></el-button>
+            <el-button icon="el-icon-minus" :disabled="updateActionLoading" v-if="tool.actions.indexOf('MINUS') > -1" size="mini" type="info" @click="minusPlayerAction(scope.row.matchTeamPlayerId, tool.toolVal)"></el-button>
+            <el-button icon="el-icon-close" :disabled="updateActionLoading" v-if="tool.actions.indexOf('MISS') > -1" size="mini" type="success" @click="missPlayerAction(scope.row.matchTeamPlayerId, tool.toolVal)"></el-button>
+          </el-button-group>
         </el-table-column>
       </el-table>
-      <div class="table-group-title">客场球队:{{ opponentTeam.matchTeamName }}</div>
-      <el-table :data="opponentTeamPlayers" :show-header="false" highlight-current-row v-loading="loading" style="width: 100%;">
-        <el-table-column type="expand">
+      <div class="table-group-title">
+        主场球队:{{ opponentTeam.matchTeamName }}
+        <span class="team-score">总得分：{{ opponentTeamcoreCount }}</span>
+      </div>
+      <el-table :data="opponentTeamPlayers" :show-header="false" highlight-current-row v-loading="loading" align="center" style="width: 100%;">
+        <el-table-column type="expand" width="20px">
           <template slot-scope="props">
             <el-form label-position="left" inline class="demo-table-expand">
               <el-form-item label="球员名字">
@@ -75,18 +81,18 @@
             </el-form>
           </template>
         </el-table-column>
-        <el-table-column prop="matchScheduleTeamPlayerActions" label="分数" width="80px" :formatter="scoreFormatter">
+        <el-table-column prop="matchScheduleTeamPlayerActions" label="分数" width="50px" :formatter="scoreFormatter">
         </el-table-column>
-        <el-table-column prop="playerName" label="姓名" width="80px">
+        <el-table-column prop="playerName" label="姓名" width="70px">
         </el-table-column>
-        <el-table-column prop="playerTeamNum" label="球号" width="50px" >
+        <el-table-column prop="playerTeamNum" label="球号" width="45px" >
         </el-table-column>
-        <el-table-column v-for="tool in userScoringTools" :key="tool.toolVal" :prop="tool.toolVal" :label="tool.toolName" min-width="200px" align="center">
-          <el-row style="display: inline-block;" type="flex" slot-scope="scope">
-            <el-button v-if="tool.actions.indexOf('ADD') > -1" size="mini" type="primary" @click="addPlayerAction(scope.row.matchTeamPlayerId, tool.toolVal)">加</el-button>
-            <el-button v-if="tool.actions.indexOf('MINUS') > -1" size="mini" type="info" @click="minusPlayerAction(scope.row.matchTeamPlayerId, tool.toolVal)">减</el-button>
-            <el-button v-if="tool.actions.indexOf('MISS') > -1" size="mini" type="success" @click="missPlayerAction(scope.row.matchTeamPlayerId, tool.toolVal)">未中</el-button>
-          </el-row>
+        <el-table-column v-for="tool in userScoringTools" :key="tool.toolVal" :prop="tool.toolVal" :label="tool.toolName" align="center">
+          <el-button-group slot-scope="scope">
+            <el-button icon="el-icon-plus" :disabled="updateActionLoading" v-if="tool.actions.indexOf('ADD') > -1" size="mini" type="primary" @click="addPlayerAction(scope.row.matchTeamPlayerId, tool.toolVal)"></el-button>
+            <el-button icon="el-icon-minus" :disabled="updateActionLoading" v-if="tool.actions.indexOf('MINUS') > -1" size="mini" type="info" @click="minusPlayerAction(scope.row.matchTeamPlayerId, tool.toolVal)"></el-button>
+            <el-button icon="el-icon-close" :disabled="updateActionLoading" v-if="tool.actions.indexOf('MISS') > -1" size="mini" type="success" @click="missPlayerAction(scope.row.matchTeamPlayerId, tool.toolVal)"></el-button>
+          </el-button-group>
         </el-table-column>
       </el-table>
     </el-row>
@@ -136,6 +142,18 @@ import { clearTimeout, setTimeout } from 'timers';
       return this.$data.schedulePlayers.filter((playerInfo: any) => {
         return playerInfo.matchTeamId === this.$data.opponentTeam.matchTeamId;
       });
+    },
+    homeCourtTeamScoreCount() {
+      const self = this as any;
+      return self.homeCourtTeamPlayers.reduce((before: number, cur: IScheduleTeamPlayerInfo) => {
+        return self.scoreFormatter(cur) + before;
+      }, 0);
+    },
+    opponentTeamcoreCount() {
+      const self = this as any;
+      return self.opponentTeamPlayers.reduce((before: number, cur: IScheduleTeamPlayerInfo) => {
+        return self.scoreFormatter(cur) + before;
+      }, 0);
     },
   },
 })
@@ -310,7 +328,6 @@ export default class BallScoring extends Vue {
       failTimes: 0,
       matchTeamPlayerId,
       successTimes: 1,
-      mathType: 'ADD',
       matchPlayerActionType,
     });
   }
@@ -318,8 +335,7 @@ export default class BallScoring extends Vue {
     this.pushAction({
       failTimes: 0,
       matchTeamPlayerId,
-      successTimes: 1,
-      mathType: 'MINUS',
+      successTimes: -1,
       matchPlayerActionType,
     });
   }
@@ -328,7 +344,6 @@ export default class BallScoring extends Vue {
       failTimes: 1,
       matchTeamPlayerId,
       successTimes: 0,
-      mathType: 'ADD',
       matchPlayerActionType,
     });
   }
@@ -416,6 +431,7 @@ export default class BallScoring extends Vue {
     }
     return `${successTimes}/${failTimes + successTimes}`;
   }
+  // TODO: w
   setTimeoutToUpdateLiveCount() {
     // this.clearTimeoutToUpdateLiveCount();
     // this.liveTimer = setTimeout(() => {
@@ -449,6 +465,9 @@ export default class BallScoring extends Vue {
 </script>
 
 <style scoped lang="less">
+.container {
+  margin: -20px;
+}
 .table-wrap {
   margin-top: 50px;
 }
@@ -473,5 +492,8 @@ export default class BallScoring extends Vue {
   margin-right: 0;
   margin-bottom: 0;
   width: 50%;
+}
+.team-score {
+  padding-left: 20px;
 }
 </style>

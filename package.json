@@ -12,6 +12,7 @@
     "axios": "^0.18.0",
     "element-ui": "^2.4.6",
     "lodash": "^4.17.10",
+    "uuidjs": "^4.0.3",
     "vue": "^2.5.17",
     "vue-class-component": "^6.0.0",
     "vue-property-decorator": "^7.0.0",

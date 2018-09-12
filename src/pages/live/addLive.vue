@@ -25,6 +25,7 @@
     <el-form-item label="直播类型" prop="liveType">
       <el-radio-group v-model="addForm.liveType">
         <el-radio :label="$app.typeDef.liveType.BASKETBALL">篮球</el-radio>
+        <el-radio :label="$app.typeDef.liveType.OTHER">其他</el-radio>
       </el-radio-group>
     </el-form-item>
     <el-form-item label="人数显示类型" prop="personCountType">
@@ -42,7 +43,7 @@
       </el-form-item>
     </template>
     <el-form-item label="微信分享图标" prop="wechatShareIco">
-      <el-input v-model="addForm.wechatShareIco" auto-complete="off"></el-input>
+      <app-upload :imgUrl.sync="addForm.wechatShareIco"></app-upload>
     </el-form-item>
     <el-form-item label="微信分享详情" prop="wechatShareRemark">
       <el-input v-model="addForm.wechatShareRemark" auto-complete="off"></el-input>

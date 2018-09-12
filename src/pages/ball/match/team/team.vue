@@ -16,10 +16,16 @@
     </el-table-column>
     <el-table-column prop="teamName" label="队名" sortable>
     </el-table-column>
-    <el-table-column prop="teamPoints" label="队伍积分" sortable>
-    </el-table-column>
-    <el-table-column label="操作" width="150">
+    <el-table-column prop="teamPoints" label="队伍积分">
       <template slot-scope="scope">
+        <div v-if="editScoreId == scope.row.id"><el-input v-model="teamPoints" placeholder="请输入积分"></el-input></div>
+        <div v-else>{{ scope.row.teamPoints }}</div>
+      </template>
+    </el-table-column>
+    <el-table-column label="操作">
+      <template slot-scope="scope">
+        <el-button size="mini" type="warning" v-if="!editScoreId" @click="editTeamScore(scope.row.id, scope.row.teamPoints)">修改积分</el-button>
+        <el-button size="mini" type="primary" v-if="editScoreId == scope.row.id" @click="confirmEditTeamScore(scope.row.id)">确认修改</el-button>
         <el-button size="mini" @click="goEdit(scope.row.id)">编辑</el-button>
         <el-button size="mini" type="danger" @click="removeSchedule(scope.row.id)">删除</el-button>
       </template>
@@ -49,6 +55,8 @@ export default class Team extends Vue {
       total: 0,
       page: 0,
       loading: false,
+      editScoreId: null, // 目前哪个队伍正在修改积分
+      teamPoints: null,
       teams: [],
     };
   }
@@ -57,6 +65,22 @@ export default class Team extends Vue {
     this.$router.push({
       path: `/ball/match/detail/${id}/addTeam`,
     });
+  }
+  editTeamScore(teamId: number, teamPoints: number) {
+    this.$data.editScoreId = teamId;
+    this.$data.teamPoints = teamPoints;
+  }
+  async confirmEditTeamScore() {
+    const res = await ApiTeam.editMatchTeamPoints({
+      id: this.$data.editScoreId,
+      teamPoints: this.$data.teamPoints,
+    });
+    this.getSchedules();
+    if (res.isSuccess) {
+      this.$message.success('修改积分成功');
+    }
+    this.$data.editScoreId = null;
+    this.$data.teamPoints = null;
   }
   goEdit(scheduleId: number) {
     const matchId = this.$route.params.id;

@@ -1,4 +1,4 @@
-import { formatDate } from './helps';
+import { formatDate, formatDateBySecTime } from './helps';
 import { sex } from './typeDef';
 
 export default {
@@ -8,6 +8,13 @@ export default {
         }
         const time = rowData[property];
         return formatDate(time);
+    },
+    dateSecTime(rowData: any, { property }: any): string {
+      if (!rowData) {
+          return '';
+      }
+      const time = rowData[property];
+      return formatDateBySecTime(time);
     },
     sexLab(rowData: any, { property }: any): string {
         if (!rowData) {

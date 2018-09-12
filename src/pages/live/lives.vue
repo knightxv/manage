@@ -22,8 +22,8 @@
       </el-table-column>
       <el-table-column prop="liveType" label="直播间类型" sortable>
       </el-table-column>
-      <el-table-column prop="personCountType" :formatter="personCountTypeFormatter" label="人数显示类型" sortable>
-      </el-table-column>
+      <!-- <el-table-column prop="personCountType" :formatter="personCountTypeFormatter" label="人数显示类型" sortable>
+      </el-table-column> -->
       <el-table-column label="操作" width="150">
         <template slot-scope="scope">
           <el-button size="mini" @click="showEditDialog(scope.$index,scope.row)">编辑</el-button>
