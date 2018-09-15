@@ -100,10 +100,19 @@ const router = new Router({
         {
           path: '/live/editLive/:id',
           name: 'editLive',
-          component: () => import(/* editLive: "Lives" */ './pages/live/editLive.vue'),
+          component: () => import(/* webpackChunkName: "editLive" */ './pages/live/editLive.vue'),
           meta: {
             title: '修改直播间信息',
             needAuth: true,
+          },
+        },
+        {
+          path: '/live/liveVideo',
+          name: 'liveVideo',
+          component: () => import(/* webpackChunkName: "liveVideo" */ './pages/live/liveVideo.vue'),
+          meta: {
+            title: '直播播放',
+            needAuth: false,
           },
         },
         // 赛事

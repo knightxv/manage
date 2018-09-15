@@ -36,4 +36,10 @@ export default {
   getPlayersOnTheCourtState(matchScheduleId: number) {
     return http.get(`/api-liveapp/adminMatchSchedulePlayerStatus/${matchScheduleId}`);
   },
+  // matchScheduleId: number, matchSchedulePlayerStatus: string, matchTeamPlayerId: number
+  batchChangeMatchSchedulePlayer(matchSchedulePlayerStatusQOS: any[]) {
+    return http.post(`/api-liveapp/adminMatchSchedulePlayerStatus/batchChangeMatchSchedulePlayer`, {
+      matchSchedulePlayerStatusQOS,
+    });
+  },
 };

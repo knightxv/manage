@@ -152,7 +152,7 @@ export default class SelectSchedule extends Vue {
   max-width: 75px;
   text-align: center;
   overflow: hidden;
-  text-overflow:ellipsis;
+  text-overflow: ellipsis;
   white-space: nowrap;
 }
 .empty-tip {

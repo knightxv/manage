@@ -24,6 +24,7 @@
         <div class="scoring-title">
           <p>计分管理</p> 
           <el-button type="primary" @click="showScoringToolsDiaLog">修改计分工具</el-button>
+          <el-button type="primary" @click="changeGoCourtDialogVisible = true">选择上场球员</el-button>
         </div>
         <div>直播人数: {{ onlineCount }}</div>
       </el-row>
@@ -31,7 +32,7 @@
         主场球队:{{ homeCourtTeam.matchTeamName }}
         <span class="team-score">总得分：{{ homeCourtTeamScoreCount }}</span>
       </div>
-      <el-table :data="homeCourtTeamPlayers" highlight-current-row v-loading="loading" align="center" style="width: 100%;">
+      <el-table :data="homeOnTheCourtTeamPlayers" highlight-current-row v-loading="loading" align="center" style="width: 100%;">
         <el-table-column type="expand" width="20px">
           <template slot-scope="props">
             <el-form label-position="left" inline class="demo-table-expand">
@@ -65,7 +66,7 @@
         主场球队:{{ opponentTeam.matchTeamName }}
         <span class="team-score">总得分：{{ opponentTeamcoreCount }}</span>
       </div>
-      <el-table :data="opponentTeamPlayers" :show-header="false" highlight-current-row v-loading="loading" align="center" style="width: 100%;">
+      <el-table :data="opponentOnTheCourtTeamPlayers" :show-header="false" highlight-current-row v-loading="loading" align="center" style="width: 100%;">
         <el-table-column type="expand" width="20px">
           <template slot-scope="props">
             <el-form label-position="left" inline class="demo-table-expand">
@@ -96,21 +97,36 @@
         </el-table-column>
       </el-table>
     </el-row>
-    <el-dialog title="计分工具" :visible.sync="dialogVisible" :close-on-click-modal="false">
-        <el-form label-width="120px" ref="toolForm">
-          <el-form-item label="需要的计分工具">
-            <el-checkbox-group v-model="selectTools">
-              <el-checkbox v-for="role in allTools" :label="role.toolVal" :key="role.toolVal">
-                {{role.toolName}}
-              </el-checkbox>
-            </el-checkbox-group>
-          </el-form-item>
-        </el-form>
-        <div slot="footer" class="dialog-footer">
-          <el-button @click.native="dialogVisible = false">取消</el-button>
-          <el-button type="primary" @click.native="submitTools">提交</el-button>
-        </div>
-      </el-dialog>
+    <el-dialog title="计分工具" :visible.sync="toolDialogVisible" :close-on-click-modal="false">
+      <el-form label-width="120px" ref="toolForm">
+        <el-form-item label="需要的计分工具">
+          <el-checkbox-group v-model="selectTools">
+            <el-checkbox v-for="role in allTools" :label="role.toolVal" :key="role.toolVal">
+              {{role.toolName}}
+            </el-checkbox>
+          </el-checkbox-group>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click.native="toolDialogVisible = false">取消</el-button>
+        <el-button type="primary" @click.native="submitTools">提交</el-button>
+      </div>
+    </el-dialog>
+    <el-dialog title="上场球员" :visible.sync="changeGoCourtDialogVisible" :close-on-click-modal="false">
+      <el-form label-width="120px" ref="goCourtForm">
+        <el-form-item label="上场球员选择">
+          <el-checkbox-group v-model="selectGoCourts">
+            <el-checkbox v-for="player in schedulePlayers" :label="player.matchTeamPlayerId" :key="player.matchTeamPlayerId">
+              {{player.playerName}}
+            </el-checkbox>
+          </el-checkbox-group>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click.native="changeGoCourtDialogVisible = false">取消</el-button>
+        <el-button type="primary" @click.native="submitPlayersState">提交</el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
@@ -131,6 +147,16 @@ import { clearTimeout, setTimeout } from 'timers';
     userScoringTools() {
       return this.$data.allTools.filter((toolInfo: { toolVal: string, toolName: string, actions: string[] }) => {
         return (this as BallScoring).USER_SCORING_SELECT_TOOLS.indexOf(toolInfo.toolVal) > -1;
+      });
+    },
+    homeOnTheCourtTeamPlayers() {
+      return (this as any).homeCourtTeamPlayers.filter((playerInfo: any) => {
+        return this.$data.selectGoCourts.indexOf(playerInfo.matchTeamPlayerId) > -1;
+      });
+    },
+    opponentOnTheCourtTeamPlayers() {
+      return (this as any).opponentTeamPlayers.filter((playerInfo: any) => {
+        return this.$data.selectGoCourts.indexOf(playerInfo.matchTeamPlayerId) > -1;
       });
     },
     homeCourtTeamPlayers() {
@@ -172,7 +198,7 @@ export default class BallScoring extends Vue {
       matchStepAction: ['PART_ONE', 'PART_TWO', 'PART_THREE', 'PART_FOUR', 'OVERTIME', 'END'],
       // scoring tools
       loading: false,
-      dialogVisible: false,
+      toolDialogVisible: false,
       updateActionLoading: false,
       allTools: this.$app.typeDef.playerActionTypeArr,
       selectTools: [],
@@ -187,6 +213,9 @@ export default class BallScoring extends Vue {
       },
       // live count
       onlineCount: 0,
+      // player status
+      changeGoCourtDialogVisible: false,
+      selectGoCourts: [], // 上场球员id列表
     };
   }
   mounted() {
@@ -205,14 +234,6 @@ export default class BallScoring extends Vue {
     }
     this.$data.step --;
     this.updateActionByStep();
-  }
-  /** 获取球员上场情况 */
-  async getPlayersOnTheCourtState(matchScheduleId: number) {
-    const res = await ApiSchedule.getPlayersOnTheCourtState(matchScheduleId);
-    if (!res.isSuccess) {
-      return;
-    }
-    console.log(res.data);
   }
   nextStep() {
     if (this.$data.step >= this.$data.matchSteps.length) {
@@ -323,14 +344,14 @@ export default class BallScoring extends Vue {
     this.submitTools();
   }
   showScoringToolsDiaLog() {
-    this.$data.dialogVisible = true;
+    this.$data.toolDialogVisible = true;
     this.$data.selectTools = this.USER_SCORING_SELECT_TOOLS;
   }
   /** 提交工具更改 */
   async submitTools() {
     const isSuccess = await this.getMatchScheduleInfo(this.$data.selectTools);
     this.UPDATE_USER_SELECT_TOOLS(this.$data.selectTools);
-    this.$data.dialogVisible = !isSuccess;
+    this.$data.toolDialogVisible = !isSuccess;
   }
   addPlayerAction(matchTeamPlayerId: number, matchPlayerActionType: string) {
     this.pushAction({
@@ -466,6 +487,52 @@ export default class BallScoring extends Vue {
       return;
     }
     this.$data.onlineCount = res.data.onlineCount;
+  }
+  // player status
+  async submitPlayersState() {
+    const matchScheduleId = +this.$route.params.scheduleId;
+    if (isNaN(matchScheduleId)) {
+      return;
+    }
+    const batchChangeMatchSchedulePlayer = this.$data.schedulePlayers.map((player: IScheduleTeamPlayerInfo) => {
+      let matchSchedulePlayerStatus = 'OFF';
+      if (this.$data.selectGoCourts.indexOf(player.matchTeamPlayerId) > -1) {
+        matchSchedulePlayerStatus = 'ON';
+      }
+      return {
+        matchScheduleId,
+        matchTeamPlayerId: player.matchTeamPlayerId,
+        matchSchedulePlayerStatus,
+      };
+    });
+    const res = await ApiSchedule.batchChangeMatchSchedulePlayer(batchChangeMatchSchedulePlayer);
+    this.getPlayersOnTheCourtState(matchScheduleId);
+    if (!res.isSuccess) {
+      return;
+    }
+    this.$data.changeGoCourtDialogVisible = false;
+    this.$message.success('修改成功');
+  }
+  /** 获取球员上场情况 */
+  async getPlayersOnTheCourtState(matchScheduleId: number) {
+    const res = await ApiSchedule.getPlayersOnTheCourtState(matchScheduleId);
+    if (!res.isSuccess) {
+      return;
+    }
+    const selectGoCourts: number[] = [];
+    const homePlayerStatuInfos = res.data.homeCourtTeam;
+    const opponentPlayerStatuInfos = res.data.opponentTeam;
+    homePlayerStatuInfos.forEach((player: any) => {
+      if (player.matchSchedulePlayerStatusType === 'ON') {
+        selectGoCourts.push(player.matchTeamPlayerId);
+      }
+    });
+    opponentPlayerStatuInfos.forEach((player: any) => {
+      if (player.matchSchedulePlayerStatusType === 'ON') {
+        selectGoCourts.push(player.matchTeamPlayerId);
+      }
+    });
+    this.$data.selectGoCourts = selectGoCourts;
   }
   destroyed() {
     this.clearTimeoutToUpdateLiveCount();

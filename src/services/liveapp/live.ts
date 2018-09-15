@@ -20,5 +20,10 @@ export default {
   getOnlneCount(id: number) {
     return http.get(`/api-liveapp/adminLive/getOnlneCount/${id}`);
   },
-
+  /** 获取全民直播流 */
+  getQuanMinUrl(url: string) {
+    return http.get(`/api-liveapp/adminLive/getQuanMinUrl`, {
+      url,
+    });
+  },
 };
