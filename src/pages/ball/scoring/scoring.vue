@@ -196,6 +196,7 @@ export default class BallScoring extends Vue {
     }
     this.getSchedule(matchScheduleId);
     this.setTools();
+    this.getPlayersOnTheCourtState(matchScheduleId);
     this.setTimeoutToUpdateLiveCount();
   }
   preStep() {
@@ -204,6 +205,14 @@ export default class BallScoring extends Vue {
     }
     this.$data.step --;
     this.updateActionByStep();
+  }
+  /** 获取球员上场情况 */
+  async getPlayersOnTheCourtState(matchScheduleId: number) {
+    const res = await ApiSchedule.getPlayersOnTheCourtState(matchScheduleId);
+    if (!res.isSuccess) {
+      return;
+    }
+    console.log(res.data);
   }
   nextStep() {
     if (this.$data.step >= this.$data.matchSteps.length) {

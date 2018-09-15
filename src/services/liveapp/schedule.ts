@@ -33,4 +33,7 @@ export default {
   getSchedule(id: number) {
     return http.get(`/api-liveapp/adminMatchSchedule/${id}`, null);
   },
+  getPlayersOnTheCourtState(matchScheduleId: number) {
+    return http.get(`/api-liveapp/adminMatchSchedulePlayerStatus/${matchScheduleId}`);
+  },
 };
