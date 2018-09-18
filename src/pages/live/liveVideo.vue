@@ -38,7 +38,9 @@ export default class LiveVideo extends Vue {
       return;
     }
     const urlData = JSON.parse(res.data);
-    const liveUrl = urlData.live.ws.flv[3].src;
+    console.log(urlData);
+    const flvObj = urlData.live.ws.flv;
+    const liveUrl = flvObj[Object.keys(flvObj)[0]].src;
     this.$data.liveUrl = liveUrl;
     this.initChimee(liveUrl);
   }

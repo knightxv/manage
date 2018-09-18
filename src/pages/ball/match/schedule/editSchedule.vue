@@ -9,7 +9,7 @@
       <el-input v-model="editForm.matchAddress" auto-complete="off"></el-input>
     </el-form-item>
     <el-form-item label="主场球队" prop="homeCourtTeamId">
-      <el-select v-model="editForm.homeCourtTeamId" filterable placeholder="请选择主场球队">
+      <el-select v-model="editForm.homeCourtTeam.id" filterable placeholder="请选择主场球队">
         <el-option
           v-for="item in teams"
           :key="item.id"
@@ -19,7 +19,7 @@
       </el-select>
     </el-form-item>
     <el-form-item label="客场球队" prop="opponentTeamId">
-      <el-select v-model="editForm.opponentTeamId" filterable placeholder="请选择客场球队">
+      <el-select v-model="editForm.opponentTeam.id" filterable placeholder="请选择客场球队">
         <el-option
           v-for="item in teams"
           :key="item.id"
@@ -29,7 +29,7 @@
       </el-select>
     </el-form-item>
     <el-form-item label="直播间" prop="liveId">
-      <el-select v-model="editForm.liveId" filterable placeholder="请选择绑定的直播间">
+      <el-select v-model="editForm.live.id" filterable placeholder="请选择绑定的直播间">
         <el-option
           v-for="item in lives"
           :key="item.id"
@@ -41,6 +41,7 @@
     <el-form-item label="比赛时间" prop="startTime">
       <el-date-picker
         v-model="startTime"
+        type="datetime"
         value-format="timestamp"
       ></el-date-picker>
     </el-form-item>
@@ -64,10 +65,14 @@ export default class EditSchedule extends Vue {
       editFormRules: {
         // roleName: [{required: true, message: '请输入角色名称', trigger: 'blur'}],
       },
-      editForm: {},
+      editForm: {
+        opponentTeam: {},
+        homeCourtTeam: {},
+        live: {},
+      },
       teams: [],
       lives: [],
-      startTime: new Date().getTime(),
+      startTime: null,
     };
   }
   addSubmit() {
@@ -77,6 +82,9 @@ export default class EditSchedule extends Vue {
       }
       const params = Object.assign({}, this.$data.editForm, {
         startTime: this.$data.startTime / 1000,
+        liveId: this.$data.editForm.live.id,
+        homeCourtTeamId: this.$data.editForm.homeCourtTeam.id,
+        opponentTeamId: this.$data.editForm.opponentTeam.id,
       });
       this.$data.loading = true;
       const res = await ApiSchedule.edit(params);
@@ -124,6 +132,7 @@ export default class EditSchedule extends Vue {
     this.$data.editForm = {
       ...res.data,
     };
+    this.$data.startTime = res.data.startTime * 1000;
   }
 }
 </script>

@@ -114,10 +114,19 @@
     </el-dialog>
     <el-dialog title="上场球员" :visible.sync="changeGoCourtDialogVisible" :close-on-click-modal="false">
       <el-form label-width="120px" ref="goCourtForm">
-        <el-form-item label="上场球员选择">
+        <el-form-item label="主队">
           <el-checkbox-group v-model="selectGoCourts">
-            <el-checkbox v-for="player in schedulePlayers" :label="player.matchTeamPlayerId" :key="player.matchTeamPlayerId">
-              {{player.playerName}}
+            <el-checkbox v-for="player in homeCourtTeamPlayers" :label="player.matchTeamPlayerId" :key="player.matchTeamPlayerId">
+              {{player.playerName}}[{{ player.playerTeamNum }}号]
+            </el-checkbox>
+          </el-checkbox-group>
+        </el-form-item>
+      </el-form>
+      <el-form label-width="120px" ref="goCourtForm">
+        <el-form-item label="客队">
+          <el-checkbox-group v-model="selectGoCourts">
+            <el-checkbox v-for="player in opponentTeamPlayers" :label="player.matchTeamPlayerId" :key="player.matchTeamPlayerId">
+              {{player.playerName}}[{{ player.playerTeamNum }}号]
             </el-checkbox>
           </el-checkbox-group>
         </el-form-item>
@@ -461,22 +470,21 @@ export default class BallScoring extends Vue {
     }
     return `${successTimes}/${failTimes + successTimes}`;
   }
-  // TODO: w
   setTimeoutToUpdateLiveCount() {
-    // this.clearTimeoutToUpdateLiveCount();
-    // this.liveTimer = setTimeout(() => {
-    //   this.getLiveCount();
-    //   this.setTimeoutToUpdateLiveCount();
-    // }, 2000);
+    this.clearTimeoutToUpdateLiveCount();
+    this.liveTimer = setTimeout(() => {
+      this.getLiveCount();
+      this.setTimeoutToUpdateLiveCount();
+    }, 5000);
   }
   clearTimeoutToUpdateLiveCount() {
     clearTimeout(this.liveTimer);
   }
   async getLiveCount() {
-    if (!this.$data.scheduleInfo) {
+    if (!this.$data.scheduleInfo || !this.$data.scheduleInfo.live) {
       return;
     }
-    const liveId = this.$data.scheduleInfo.liveId;
+    const liveId = this.$data.scheduleInfo.live.id;
     if (liveId == null) {
       this.clearTimeoutToUpdateLiveCount();
       return;

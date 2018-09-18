@@ -22,7 +22,7 @@ export default {
   },
   /** 获取全民直播流 */
   getQuanMinUrl(url: string) {
-    return http.get(`/api-liveapp/adminLive/getQuanMinUrl`, {
+    return http.get(`/api-liveapp/adminLive/test/getQuanMinUrl`, {
       url,
     });
   },
