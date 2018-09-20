@@ -26,4 +26,10 @@ export default {
       url,
     });
   },
+  /** 获取花椒直播流 */
+  getHuaJiaoUrl(url: string) {
+    return http.get(`/api-liveapp/adminLive/test/getHuaJiaoUrl`, {
+      url,
+    });
+  },
 };

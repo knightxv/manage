@@ -5,8 +5,8 @@ import axios from 'axios';
 import localVue from '../main';
 import Vue from 'vue';
 import * as UUID from 'uuidjs';
-// http://21b97p5647.imwork.net:32799 http://192.168.1.10:8002
-const baseURL: string = 'http://192.168.1.10:8002';
+import { REMOTE_URL } from './config';
+const baseURL: string = REMOTE_URL;
 import { IApiData } from '../services/apiDataType';
 import { globalEvent, serverCode } from './typeDef';
 

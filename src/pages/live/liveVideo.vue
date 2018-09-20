@@ -7,8 +7,10 @@
     </el-form-item>
   </el-form>
   <div>
-    <el-button type="primary" @click.native="addSubmit">提交</el-button>
+    <el-button type="primary" @click.native="addSubmit">获取全民</el-button>
+    <el-button type="primary" @click.native="getHuajiaoUrl">获取花椒</el-button>
   </div>
+  <div>地址：{{ liveUrl }}</div>
   <div id="wrapper" class="wrapper">
   </div>
 </div>
@@ -44,22 +46,31 @@ export default class LiveVideo extends Vue {
     this.$data.liveUrl = liveUrl;
     this.initChimee(liveUrl);
   }
-  // mounted() {
-  //   this.initChimee();
-  // }
   initChimee(liveUrl: string) {
-    const chimee = new Chimee({
-      wrapper: '#wrapper',
-      src: liveUrl,
-      isLive: true,
-      controls: true,
-      autoplay: true,
-      kernels: {
-        flv,
-        hls,
-      },
-    });
-    chimee.play();
+    // const chimee = new Chimee({
+    //   wrapper: '#wrapper',
+    //   src: liveUrl,
+    //   isLive: true,
+    //   controls: true,
+    //   autoplay: true,
+    //   kernels: {
+    //     flv,
+    //     hls,
+    //   },
+    // });
+    // chimee.play();
+  }
+  async getHuajiaoUrl() {
+    const url = this.$data.url;
+    if (!url) {
+      return;
+    }
+    const res = await ApiLive.getHuaJiaoUrl(url);
+    if (!res.isSuccess) {
+      return;
+    }
+    const liveUrl = res.data;
+    this.$data.liveUrl = liveUrl;
   }
 }
 </script>
