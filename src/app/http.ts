@@ -41,6 +41,7 @@ axios.interceptors.request.use(
 axios.interceptors.response.use(
     (response: any) => {
       const res: IApiRes = response.data;
+      console.log(res);
       if (!res) {
         return Promise.reject('发生未知错误');
       }
@@ -130,7 +131,7 @@ class Http {
         console.log('params : ', params);
         console.groupEnd();
         return this.resolveResponse(axios.delete(`${baseURL}${url}`, {
-            params,
+            data: params,
         }), url, 'delete');
     }
     public patch(url: string, params?: any): Promise<IApiData> {

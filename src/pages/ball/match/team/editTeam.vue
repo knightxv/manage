@@ -119,7 +119,7 @@ export default class EditTeam extends Vue {
       return;
     }
     this.$data.readyAddPlayer = '';
-    this.$data.readyAddTeamNum = '';
+    this.$data.readyAddplayerTeamNum = '';
     this.$data.editForm.matchTeamPlayerQOs.push(playerInfo);
   }
   removeSelectPlayer(playerId: string) {

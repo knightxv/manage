@@ -17,10 +17,12 @@
       <app-upload :imgUrl.sync="addForm.teamImage"></app-upload>
     </el-form-item>
     <el-card class="box-card">
-      <div slot="header" class="clearfix">
-        <span>球队成员</span>
-        <div style="float: right; padding: 3px 0" >
-          <el-select v-model="readyAddPlayer" filterable placeholder="请选择">
+      <el-row slot="header" type="flex" align="middle">
+        <el-col>
+          成员
+        </el-col>
+        <el-col>
+          <el-select v-model="readyAddPlayer" filterable placeholder="请选择球员">
             <el-option
               v-for="item in filterPlayers"
               :key="item.id"
@@ -28,9 +30,12 @@
               :value="item.id">
             </el-option>
           </el-select>
-          <el-button @click.native="addPlayer" style="margin-left: 5px;" type="primary">添加</el-button>
-        </div>
-      </div>
+        </el-col>
+        <el-col>
+          <el-input placeholder="球号" v-model="readyAddplayerTeamNum"></el-input>
+        </el-col>
+        <el-button @click.native="addPlayer" style="margin-left: 5px;" type="primary">添加</el-button>
+      </el-row>
       <div v-for="item in addForm.matchTeamPlayerQOs" :key="item.playerId" class="text item">
         <el-row type="flex" justify="space-between" align="middle" class="player-list-item">
           <div>{{ `[${item.playerTeamNum}号]:${item.playerName}` }}</div>
@@ -75,7 +80,7 @@ export default class AddTeam extends Vue {
       },
       players: [],
       readyAddPlayer: null, // 待添加球员
-
+      readyAddplayerTeamNum: '',
     };
   }
   addSubmit() {
@@ -106,7 +111,7 @@ export default class AddTeam extends Vue {
       playerInfo = {
         playerId: player.id,
         playerName: player.playerName,
-        playerTeamNum: this.$data.addForm.matchTeamPlayerQOs.length + 1,
+        playerTeamNum: this.$data.readyAddplayerTeamNum,
       };
       return true;
     });
@@ -114,6 +119,7 @@ export default class AddTeam extends Vue {
       return;
     }
     this.$data.readyAddPlayer = '';
+    this.$data.readyAddplayerTeamNum = '';
     this.$data.addForm.matchTeamPlayerQOs.push(playerInfo);
   }
   removeSelectPlayer(playerId: string) {

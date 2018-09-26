@@ -8,7 +8,7 @@ Vue.use(Router);
 
 const router = new Router({
   mode: 'history', // hash history
-  // base: process.env.BASE_URL,
+  base: 'manage',
   // routes,
   routes: [
     {
@@ -226,6 +226,30 @@ const router = new Router({
               },
             },
           ],
+        },
+        {
+          path: 'cms/slideshow/slideList',
+          component: () => import(/* webpackChunkName: "slideList" */ './pages/cms/slideShow/slideList.vue'),
+          meta: {
+            title: '幻灯片轮播',
+          },
+        },
+        {
+          path: 'cms/slideshow/createSlideShow',
+          name: 'CreateSlideShow',
+          component:
+          () => import(/* webpackChunkName: "CreateSlideShow" */ './pages/cms/slideShow/createSlideShow.vue'),
+          meta: {
+            title: '创建幻灯片',
+          },
+        },
+        {
+          path: 'cms/slideshow/editSlideShow/:slideshowId',
+          name: 'EditSlideShow',
+          component: () => import(/* webpackChunkName: "EditSlideShow" */ './pages/cms/slideShow/editSlideShow.vue'),
+          meta: {
+            title: '编辑幻灯片',
+          },
         },
       ],
     },

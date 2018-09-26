@@ -42,4 +42,13 @@ export default {
       matchSchedulePlayerStatusQOS,
     });
   },
+  addBindSlideshow(params: { matchScheduleId: number, slideshowId: number }) {
+    return http.post(`/api-liveapp/adminMatchScheduleSlideshow/add`, params);
+  },
+  unBindSlideShow(params: { matchScheduleId: number, slideshowId: number }) {
+    return http.delete(`/api-liveapp/adminMatchScheduleSlideshow/deleted`, params);
+  },
+  getScheduleBindSlideshows(matchScheduleId: string) {
+    return http.get(`/api-liveapp/adminMatchScheduleSlideshow/${matchScheduleId}`);
+  },
 };
