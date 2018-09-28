@@ -3,12 +3,12 @@ import Router from 'vue-router';
 import store from './stores/store';
 // import { camelCase, upperFirst } from 'lodash';
 import Layout from './components/Layout/Layout.vue';
-
+import { BASE_URL } from './app/config';
 Vue.use(Router);
 
 const router = new Router({
   mode: 'history', // hash history
-  base: 'manage',
+  base: BASE_URL,
   // routes,
   routes: [
     {
