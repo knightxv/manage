@@ -26,7 +26,7 @@
             <el-option
               v-for="item in filterPlayers"
               :key="item.id"
-              :label="`${item.playerName}[${item.id}]`"
+              :label="`${item.playerName}[${item.playerRemark}]`"
               :value="item.id">
             </el-option>
           </el-select>
