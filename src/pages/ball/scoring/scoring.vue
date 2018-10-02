@@ -56,9 +56,9 @@
         </el-table-column>
         <el-table-column v-for="tool in userScoringTools" :key="tool.toolVal" :prop="tool.toolVal" :label="tool.toolName" align="center">
           <el-button-group slot-scope="scope">
-            <el-button icon="el-icon-plus" :disabled="updateActionLoading" v-if="tool.actions.indexOf('ADD') > -1" size="mini" type="primary" @click="addPlayerAction(scope.row.matchTeamPlayerId, tool.toolVal)"></el-button>
-            <el-button icon="el-icon-minus" :disabled="updateActionLoading" v-if="tool.actions.indexOf('MINUS') > -1" size="mini" type="info" @click="minusPlayerAction(scope.row.matchTeamPlayerId, tool.toolVal)"></el-button>
-            <el-button icon="el-icon-close" :disabled="updateActionLoading" v-if="tool.actions.indexOf('MISS') > -1" size="mini" type="success" @click="missPlayerAction(scope.row.matchTeamPlayerId, tool.toolVal)"></el-button>
+            <el-button class="btn-small" icon="el-icon-plus" :disabled="updateActionLoading" v-if="tool.actions.indexOf('ADD') > -1" size="mini" type="primary" @click="addPlayerAction(scope.row.matchTeamPlayerId, tool.toolVal)"></el-button>
+            <el-button class="btn-small" icon="el-icon-minus" :disabled="updateActionLoading" v-if="tool.actions.indexOf('MINUS') > -1" size="mini" type="info" @click="minusPlayerAction(scope.row.matchTeamPlayerId, tool.toolVal)"></el-button>
+            <el-button class="btn-small" icon="el-icon-close" :disabled="updateActionLoading" v-if="tool.actions.indexOf('MISS') > -1" size="mini" type="success" @click="missPlayerAction(scope.row.matchTeamPlayerId, tool.toolVal)"></el-button>
           </el-button-group>
         </el-table-column>
       </el-table>
@@ -90,9 +90,9 @@
         </el-table-column>
         <el-table-column v-for="tool in userScoringTools" :key="tool.toolVal" :prop="tool.toolVal" :label="tool.toolName" align="center">
           <el-button-group slot-scope="scope">
-            <el-button icon="el-icon-plus" :disabled="updateActionLoading" v-if="tool.actions.indexOf('ADD') > -1" size="mini" type="primary" @click="addPlayerAction(scope.row.matchTeamPlayerId, tool.toolVal)"></el-button>
-            <el-button icon="el-icon-minus" :disabled="updateActionLoading" v-if="tool.actions.indexOf('MINUS') > -1" size="mini" type="info" @click="minusPlayerAction(scope.row.matchTeamPlayerId, tool.toolVal)"></el-button>
-            <el-button icon="el-icon-close" :disabled="updateActionLoading" v-if="tool.actions.indexOf('MISS') > -1" size="mini" type="success" @click="missPlayerAction(scope.row.matchTeamPlayerId, tool.toolVal)"></el-button>
+            <el-button class="btn-small" icon="el-icon-plus" :disabled="updateActionLoading" v-if="tool.actions.indexOf('ADD') > -1" size="mini" type="primary" @click="addPlayerAction(scope.row.matchTeamPlayerId, tool.toolVal)"></el-button>
+            <el-button class="btn-small" icon="el-icon-minus" :disabled="updateActionLoading" v-if="tool.actions.indexOf('MINUS') > -1" size="mini" type="info" @click="minusPlayerAction(scope.row.matchTeamPlayerId, tool.toolVal)"></el-button>
+            <el-button class="btn-small" icon="el-icon-close" :disabled="updateActionLoading" v-if="tool.actions.indexOf('MISS') > -1" size="mini" type="success" @click="missPlayerAction(scope.row.matchTeamPlayerId, tool.toolVal)"></el-button>
           </el-button-group>
         </el-table-column>
       </el-table>
@@ -346,7 +346,7 @@ export default class BallScoring extends Vue {
   // ----工具类计分
   setTools() {
     let selectTools = ['THREE_POINT_SHOT', 'TWO_POINT_SHOT', 'FREE_THROW'];
-    if (this.USER_SCORING_SELECT_TOOLS.length >= 0) {
+    if (this.USER_SCORING_SELECT_TOOLS.length > 0) {
       selectTools = this.USER_SCORING_SELECT_TOOLS;
     }
     this.$data.selectTools = selectTools;
@@ -579,5 +579,8 @@ export default class BallScoring extends Vue {
 }
 .team-score {
   padding-left: 20px;
+}
+.btn-small {
+  padding: 5px;
 }
 </style>

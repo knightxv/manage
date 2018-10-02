@@ -40,7 +40,8 @@ export enum playerActionTypeMap {
   ASSIST = '助攻',
   BLOCK_SHOT = '盖帽',
   DEFENSIVE_REBOUND = '防守篮板球',
-  REBOUND = '进攻篮板球',
+  OFFENSIVE_REBOUND = '进攻篮板球',
+  REBOUND = '篮板球',
   THREE_POINT_SHOT = '三分投篮',
   TWO_POINT_SHOT = '两分投篮',
   FREE_THROW = '罚球',
@@ -80,6 +81,11 @@ export const playerActionTypeArr = [
   {
     toolVal: 'DEFENSIVE_REBOUND',
     toolName: playerActionTypeMap.DEFENSIVE_REBOUND,
+    actions: ['ADD', 'MINUS'],
+  },
+  {
+    toolVal: 'OFFENSIVE_REBOUND',
+    toolName: playerActionTypeMap.OFFENSIVE_REBOUND,
     actions: ['ADD', 'MINUS'],
   },
   {

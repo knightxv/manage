@@ -33,9 +33,7 @@
           </div>
         </el-row>
         <el-row type="flex" justify="center">
-          <router-link :to="`/ball/scoring/scoring/${scheduleInfo.id}`">
-            <el-button type="info" plain>进入计分</el-button>
-          </router-link>
+          <el-button @click="goScoringPage(scheduleInfo.id)" type="info" plain>进入计分</el-button>
         </el-row>
       </el-card>
     </el-col>
@@ -82,6 +80,9 @@ export default class SelectSchedule extends Vue {
   }
   mounted() {
     this.getMatchs();
+  }
+  goScoringPage(scheduleId: string) {
+    this.$router.push({ name: 'scoring', params: { scheduleId } });
   }
   async getMatchs() {
     const res = await ApiMatch.matchs({
