@@ -60,13 +60,13 @@ export default class Lives extends Vue {
       lives: [],
       loading: true,
       total: 0,
-      page: 0,
+      page: 1,
       limit: 10,
     };
   }
   async getLives() {
     const params = {
-      pageNum: this.$data.page,
+      pageNum: this.$data.page - 1,
       pageSize: 10,
     };
     this.$data.loading = true;
@@ -75,6 +75,7 @@ export default class Lives extends Vue {
     if (!res.isSuccess) {
       return;
     }
+    this.$data.total = res.data.total;
     this.$data.lives = res.data.data;
   }
   async showEditDialog(index: number, row: any) {

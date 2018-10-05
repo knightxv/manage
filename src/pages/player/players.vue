@@ -124,7 +124,7 @@ export default class Players extends Vue {
       players: [],
       loading: true,
       total: 0,
-      page: 0,
+      page: 1,
       limit: 10,
       // 新增表单数据
       addFormVisible: false,
@@ -144,7 +144,7 @@ export default class Players extends Vue {
   }
   async getPlayer() {
     const params = {
-      pageNum: this.$data.page,
+      pageNum: this.$data.page - 1,
       pageSize: 10,
       playerName: this.$data.filters.name,
     };
@@ -154,6 +154,7 @@ export default class Players extends Vue {
     if (!res.isSuccess) {
       return;
     }
+    this.$data.total = res.data.total;
     this.$data.players = res.data.data;
   }
   addSubmit() {
