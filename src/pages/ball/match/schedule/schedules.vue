@@ -10,9 +10,9 @@
     </el-table-column>
     <el-table-column prop="matchScheduleName" label="赛程名称" >
     </el-table-column>
-    <el-table-column prop="liveId" label="直播间id" >
+    <el-table-column prop="live.id" label="直播间id" >
     </el-table-column>
-    <el-table-column prop="homeCourtTeamName" label="直播间名称" >
+    <el-table-column prop="live.liveTitle" label="直播间名称" >
     </el-table-column>
     <el-table-column prop="matchStageType" label="赛程阶段" sortable>
     </el-table-column>

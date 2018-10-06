@@ -63,7 +63,7 @@
         </el-table-column>
       </el-table>
       <div class="table-group-title">
-        主场球队:{{ opponentTeam.matchTeamName }}
+        客场球队:{{ opponentTeam.matchTeamName }}
         <span class="team-score">总得分：{{ opponentTeamcoreCount }}</span>
       </div>
       <el-table :data="opponentOnTheCourtTeamPlayers" :show-header="false" highlight-current-row v-loading="loading" align="center" style="width: 100%;">
