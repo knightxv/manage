@@ -41,6 +41,7 @@
     <el-form-item label="比赛时间" prop="startTime">
       <el-date-picker
         v-model="startTime"
+        type="datetime"
         value-format="timestamp"
       ></el-date-picker>
     </el-form-item>

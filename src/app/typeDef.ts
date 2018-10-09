@@ -37,30 +37,30 @@ export enum personCountType {
 }
 
 export enum playerActionTypeMap {
+  TWO_POINT_SHOT = '两分球',
+  THREE_POINT_SHOT = '三分球',
+  FREE_THROW = '罚球',
   ASSIST = '助攻',
   BLOCK_SHOT = '盖帽',
   DEFENSIVE_REBOUND = '防守篮板球',
   OFFENSIVE_REBOUND = '进攻篮板球',
   REBOUND = '篮板球',
-  THREE_POINT_SHOT = '三分投篮',
-  TWO_POINT_SHOT = '两分投篮',
-  FREE_THROW = '罚球',
   STEAL = '抢断',
   TURNOVER = '失误',
   FOUL = '犯规',
 }
 export const playerActionTypeArr = [
   {
-    toolVal: 'THREE_POINT_SHOT',
-    toolName: playerActionTypeMap.THREE_POINT_SHOT,
-    actions: ['ADD', 'MINUS', 'MISS'],
-    score: 3,
-  },
-  {
     toolVal: 'TWO_POINT_SHOT',
     toolName: playerActionTypeMap.TWO_POINT_SHOT,
     actions: ['ADD', 'MINUS', 'MISS'],
     score: 2,
+  },
+  {
+    toolVal: 'THREE_POINT_SHOT',
+    toolName: playerActionTypeMap.THREE_POINT_SHOT,
+    actions: ['ADD', 'MINUS', 'MISS'],
+    score: 3,
   },
   {
     toolVal: 'FREE_THROW',
@@ -69,28 +69,13 @@ export const playerActionTypeArr = [
     score: 1,
   },
   {
-    toolVal: 'ASSIST',
-    toolName: playerActionTypeMap.ASSIST,
-    actions: ['ADD', 'MINUS'],
-  },
-  {
-    toolVal: 'BLOCK_SHOT',
-    toolName: playerActionTypeMap.BLOCK_SHOT,
-    actions: ['ADD', 'MINUS'],
-  },
-  {
-    toolVal: 'DEFENSIVE_REBOUND',
-    toolName: playerActionTypeMap.DEFENSIVE_REBOUND,
-    actions: ['ADD', 'MINUS'],
-  },
-  {
-    toolVal: 'OFFENSIVE_REBOUND',
-    toolName: playerActionTypeMap.OFFENSIVE_REBOUND,
-    actions: ['ADD', 'MINUS'],
-  },
-  {
     toolVal: 'REBOUND',
     toolName: playerActionTypeMap.REBOUND,
+    actions: ['ADD', 'MINUS'],
+  },
+  {
+    toolVal: 'ASSIST',
+    toolName: playerActionTypeMap.ASSIST,
     actions: ['ADD', 'MINUS'],
   },
   {
@@ -104,8 +89,23 @@ export const playerActionTypeArr = [
     actions: ['ADD', 'MINUS'],
   },
   {
+    toolVal: 'BLOCK_SHOT',
+    toolName: playerActionTypeMap.BLOCK_SHOT,
+    actions: ['ADD', 'MINUS'],
+  },
+  {
     toolVal: 'FOUL',
     toolName: playerActionTypeMap.FOUL,
+    actions: ['ADD', 'MINUS'],
+  },
+  {
+    toolVal: 'DEFENSIVE_REBOUND',
+    toolName: playerActionTypeMap.DEFENSIVE_REBOUND,
+    actions: ['ADD', 'MINUS'],
+  },
+  {
+    toolVal: 'OFFENSIVE_REBOUND',
+    toolName: playerActionTypeMap.OFFENSIVE_REBOUND,
     actions: ['ADD', 'MINUS'],
   },
 ];
