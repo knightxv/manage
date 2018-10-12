@@ -12,7 +12,7 @@
           <el-input v-model="form.confirmPwd"></el-input>
         </el-form-item>
         <el-form-item>
-          <el-button type="default" @click="handleChangepwd">提交</el-button>
+          <el-button :disabled="!form.oldPwd || !form.newPwd || !form.confirmPwd" type="primary" @click="handleChangepwd">提交</el-button>
         </el-form-item>
       </el-form>
     </el-col>
@@ -21,7 +21,7 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
-
+import ApiUser from '@/services/admin/user';
 @Component
 export default class UserChangePwd extends Vue {
     data() {
@@ -33,8 +33,22 @@ export default class UserChangePwd extends Vue {
         },
       };
     }
-    handleChangepwd() {
-        this.$message('此功能只是让你看看，不会开发！');
+    async handleChangepwd() {
+      const { oldPwd, newPwd, confirmPwd } = this.$data.form;
+      if (newPwd !== confirmPwd) {
+        this.$message.error('两次密码不一致');
+        return;
+      }
+      const params = {
+        newPassword: newPwd,
+        oldPassword: oldPwd,
+      };
+      const res = await ApiUser.editUserPassword(params);
+      if (!res.isSuccess) {
+        return;
+      }
+      this.$data.form = {};
+      this.$message.success('修改成功');
     }
 }
 </script>

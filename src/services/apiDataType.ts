@@ -182,12 +182,13 @@ export interface IMatchInfoItem {
 
 export interface IMatchScheduleInfoItem {
   createUser?: number;
-  homeCourtTeamId: number;
-  liveId: number;
+  homeCourtTeam: IHomeCourtTeam;
+  live: ILiveInfoItem;
   matchAddress: string;
   matchScheduleName: string;
   matchId: number;
-  opponentTeamId: number;
+  matchType: string;
+  opponentTeam: IHomeCourtTeam;
   startTime: number;
 }
 

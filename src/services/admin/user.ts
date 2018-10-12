@@ -26,4 +26,7 @@ export default {
   removeUser: (userId: number) => {
     return http.delete(`/api-admin/user/${userId}`);
   },
+  editUserPassword(params: { newPassword: string, oldPassword: string }) {
+    return http.put(`/api-admin/user/editUserPassword`, params);
+  },
 };

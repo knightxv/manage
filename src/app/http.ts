@@ -41,7 +41,6 @@ axios.interceptors.request.use(
 axios.interceptors.response.use(
     (response: any) => {
       const res: IApiRes = response.data;
-      console.log(res);
       if (!res) {
         return Promise.reject('发生未知错误');
       }
@@ -83,13 +82,18 @@ class Http {
                 data: res.data,
             };
         })
-        .catch((err: Error) => {
-            console.log(err);
-            return {
-                isSuccess: false,
-                errMsg: '服务器请求异常',
-                data: null,
-            };
+        .catch((err: any) => {
+          let errMsg = '服务器请求异常';
+          try {
+            errMsg = err.response.data.message;
+          } catch (e) {
+            console.log(e);
+          }
+          return {
+              isSuccess: false,
+              errMsg,
+              data: null,
+          };
         })
         .then((res: IApiData) => {
             if (!res.isSuccess) {

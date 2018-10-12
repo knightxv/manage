@@ -33,6 +33,10 @@ export default class MatchDetail extends Vue {
           label: '球队管理',
           name: 'team',
         },
+        {
+          label: '赛事视频',
+          name: 'video',
+        },
       ],
     };
   }

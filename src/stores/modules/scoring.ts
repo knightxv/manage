@@ -1,9 +1,10 @@
 // import { Commit } from 'vuex';
 import { UPDATE_USER_SELECT_TOOLS } from '../mutation-types';
-import { USER_SCORING_SELECT_TOOLS } from '../getters-types';
+import { USER_SCORING_SELECT_TOOLS_MAP } from '../getters-types';
+import Vue from 'vue';
 
 export interface IState {
-    selectTools: string[];
+  selectToolsMap: {[key: string]: string[]};
 }
 // interface IStore {
 //     commit: Commit;
@@ -11,25 +12,28 @@ export interface IState {
 // }
 
 export default {
-    state: {
-      selectTools: [],
-    } as IState,
-    mutations: {
-        [UPDATE_USER_SELECT_TOOLS](state: IState, newTools: string[]) {
-            state.selectTools = newTools;
-        },
+  state: {
+    selectToolsMap: {},
+    // selectTools: [],
+  } as IState,
+  mutations: {
+    [UPDATE_USER_SELECT_TOOLS](state: IState, params: { matchType: string, tools: string[] }) {
+      if (typeof params !== 'object') {
+        return;
+      }
+      const { matchType, tools } = params;
+      if (typeof matchType !== 'string') {
+        return;
+      }
+      Vue.set(state.selectToolsMap, matchType, tools);
     },
-    // actions: {
-        // [TOGGLE_MENU_COLLAPSE]({ commit, state }: IStore) {
-        //     console.log(state);
-        //     setTimeout(() => {
-        //         commit(UPDATE_USER_NAME, 'heihei');
-        //     }, 1000);
-        // },
+  },
+  getters: {
+    // [USER_SCORING_SELECT_TOOLS](state: IState) {
+    //     return state.selectTools;
     // },
-    getters: {
-        [USER_SCORING_SELECT_TOOLS](state: IState) {
-            return state.selectTools;
-        },
+    [USER_SCORING_SELECT_TOOLS_MAP](state: IState) {
+      return state.selectToolsMap || {};
     },
+  },
 };

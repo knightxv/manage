@@ -26,4 +26,19 @@ export default {
   }) {
     return http.post(`/api-liveapp/adminMatchTeam/editMatchTeamPoints`, params);
   },
+  getTeamInfo(matchTeamId: number | string) {
+    return http.get(`/api-liveapp/adminMatchTeam/${matchTeamId}`, null);
+  },
+  addTeamPlayer(params: any) {
+    return http.post(`/api-liveapp/adminMatchTeam/createMatchTeamPlayer`, params);
+  },
+  batchAddTeamPlayer(params: any) {
+    return http.post(`/api-liveapp/adminMatchTeam/batchCreateMatchTeamPlayer`, params);
+  },
+  editTeamPlayer(params: any) {
+    return http.put(`/api-liveapp/adminMatchTeam/edit/MatchTeamPlayers`, params);
+  },
+  deleteTeamPlayer(teamPlayerId: string | number) {
+    return http.delete(`/api-liveapp/adminMatchTeam/deleted/MatchTeamPlayers/${teamPlayerId}`);
+  },
 };

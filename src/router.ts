@@ -204,7 +204,7 @@ const router = new Router({
             {
               path: 'team',
               component: () =>
-              import(/* webpackChunkName: "matchTeamInfo" */ './pages/ball/match//team/team.vue'),
+              import(/* webpackChunkName: "matchTeamInfo" */ './pages/ball/match/team/team.vue'),
               meta: {
                 tabName: 'team',
               },
@@ -225,17 +225,53 @@ const router = new Router({
                 tabName: 'team',
               },
             },
+            {
+              path: 'editTeamPlayer/:matchTeamId',
+              name: 'EditScheduleTeamPlayer',
+              component: () =>
+              import(/* webpackChunkName: "EditScheduleTeamPlayer" */ './pages/ball/match/team/editTeamPlayer.vue'),
+              meta: {
+                tabName: 'team',
+              },
+            },
+            {
+              path: 'video',
+              component: () =>
+              import(/* webpackChunkName: "videoList" */ './pages/ball/match/video/videoList.vue'),
+              meta: {
+                tabName: 'video',
+              },
+            },
+            {
+              path: 'video/videoCreate',
+              name: 'CreateMatchVideo',
+              component: () =>
+              import(/* webpackChunkName: "videoCreate" */ './pages/ball/match/video/videoCreate.vue'),
+              meta: {
+                tabName: 'video',
+              },
+            },
+            {
+              path: 'video/videoEdit/:videoId',
+              name: 'EditMatchVideo',
+              component: () =>
+              import(/* webpackChunkName: "videoEdit" */ './pages/ball/match/video/videoEdit.vue'),
+              meta: {
+                tabName: 'video',
+              },
+            },
           ],
         },
+        // 内容管理
         {
-          path: 'cms/slideshow/slideList',
+          path: '/cms/slideshow/slideList',
           component: () => import(/* webpackChunkName: "slideList" */ './pages/cms/slideShow/slideList.vue'),
           meta: {
             title: '幻灯片轮播',
           },
         },
         {
-          path: 'cms/slideshow/createSlideShow',
+          path: '/cms/slideshow/createSlideShow',
           name: 'CreateSlideShow',
           component:
           () => import(/* webpackChunkName: "CreateSlideShow" */ './pages/cms/slideShow/createSlideShow.vue'),
@@ -244,7 +280,7 @@ const router = new Router({
           },
         },
         {
-          path: 'cms/slideshow/editSlideShow/:slideshowId',
+          path: '/cms/slideshow/editSlideShow/:slideshowId',
           name: 'EditSlideShow',
           component: () => import(/* webpackChunkName: "EditSlideShow" */ './pages/cms/slideShow/editSlideShow.vue'),
           meta: {

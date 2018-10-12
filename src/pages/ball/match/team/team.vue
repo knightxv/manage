@@ -26,6 +26,7 @@
       <template slot-scope="scope">
         <el-button size="mini" type="warning" v-if="!editScoreId" @click="editTeamScore(scope.row.id, scope.row.teamPoints)">修改积分</el-button>
         <el-button size="mini" type="primary" v-if="editScoreId == scope.row.id" @click="confirmEditTeamScore(scope.row.id)">确认修改</el-button>
+        <el-button size="mini" type="primary" @click="jumpToEditPlayers(scope.row.id)">编辑球员</el-button>
         <el-button size="mini" @click="goEdit(scope.row.id)">编辑</el-button>
         <el-button size="mini" type="danger" @click="removeSchedule(scope.row.id)">删除</el-button>
       </template>
@@ -87,6 +88,14 @@ export default class Team extends Vue {
     this.$router.push({
       path: `/ball/match/detail/${matchId}/editTeam/${scheduleId}`,
     });
+  }
+  jumpToEditPlayers(id: number) {
+    const matchId = this.$route.params.id;
+    const params = {
+      id: matchId,
+      matchTeamId: String(id),
+    };
+    this.$router.push({ name: 'EditScheduleTeamPlayer', params });
   }
   async removeSchedule(id: number) {
     const res = await ApiTeam.delete(id);

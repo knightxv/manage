@@ -16,6 +16,8 @@
     </el-table-column>
     <el-table-column prop="matchStageType" label="赛程阶段" sortable>
     </el-table-column>
+    <el-table-column prop="matchType" label="赛程类型" :formatter="matchTypeFormatter" sortable>
+    </el-table-column>
     <el-table-column prop="startTime" label="比赛时间" sortable :formatter="$app.formatter.dateSecTime">
     </el-table-column>
     <!-- <el-table-column prop="homeCourtTeamId" label="主场" sortable>
@@ -60,6 +62,8 @@
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
 import ApiSchedule from '@/services/liveapp/schedule';
+import { IMatchScheduleInfoItem } from '@/services/apiDataType';
+import { matchTypeLabMap } from '@/app/typeDef';
 @Component
 export default class Schedules extends Vue {
   data() {
@@ -128,6 +132,14 @@ export default class Schedules extends Vue {
     }
     this.$data.schedules = res.data.data;
     this.$data.total = res.data.total;
+  }
+  matchTypeFormatter(row: IMatchScheduleInfoItem) {
+    const matchType = row.matchType;
+    console.log(matchTypeLabMap);
+    if (matchType == null) {
+      return '';
+    }
+    return matchTypeLabMap[matchType];
   }
 }
 </script>

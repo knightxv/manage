@@ -1,6 +1,10 @@
 TODO: 角色删除的接口权限添加
+
+按钮添加loading
+
+录播功能。
+
 计分管理中，结束比赛后显示分数
-test hah
 
 ** TODO: icon font
 

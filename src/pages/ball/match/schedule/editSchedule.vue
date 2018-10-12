@@ -38,6 +38,16 @@
         </el-option>
       </el-select>
     </el-form-item>
+    <el-form-item label="赛事类型" prop="liveType">
+      <el-radio-group v-model="editForm.matchType">
+        <el-radio
+          v-for="item in $app.typeDef.matchType"
+          :label="item"
+          :key="item"
+        >{{ $app.typeDef.matchTypeLabMap[item] }}
+        </el-radio>
+      </el-radio-group>
+    </el-form-item>
     <el-form-item label="比赛时间" prop="startTime">
       <el-date-picker
         v-model="startTime"

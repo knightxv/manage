@@ -17,7 +17,7 @@ export default {
         return http.post('/api-admin/menu', params);
     },
     remove(id: number) {
-        return http.delete('/api-admin/menu', { id });
+        return http.delete(`/api-admin/menu/${id}`);
     },
     /**
      * 清空当前用户权限缓存

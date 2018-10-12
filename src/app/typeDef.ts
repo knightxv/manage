@@ -28,15 +28,45 @@ export enum systemType {
 export enum liveType {
   BASKETBALL = 'BASKETBALL',
   OTHER = 'OTHER',
-
 }
+
 /**  直播人数显示类型 */
 export enum personCountType {
   REAL = 'REAL',
   VIRTUAL = 'VIRTUAL',
 }
 
+
+/** 赛事类型 */
+export const matchType = {
+  BASKETBALL: 'BASKETBALL',
+  FOOTBALL: 'FOOTBALL',
+};
+export const matchTypeLabMap: {[key: string]: string} = {
+  BASKETBALL: '篮球',
+  FOOTBALL: '足球',
+};
+export const playActionType = {
+  // 篮球
+  TWO_POINT_SHOT: 'TWO_POINT_SHOT',
+  THREE_POINT_SHOT: 'THREE_POINT_SHOT',
+  FREE_THROW: 'FREE_THROW',
+  ASSIST: 'ASSIST',
+  BLOCK_SHOT: 'BLOCK_SHOT',
+  DEFENSIVE_REBOUND: 'DEFENSIVE_REBOUND',
+  OFFENSIVE_REBOUND: 'OFFENSIVE_REBOUND',
+  REBOUND: 'REBOUND',
+  STEAL: 'STEAL',
+  TURNOVER: 'TURNOVER',
+  FOUL: 'FOUL',
+  // 足球
+  TO_SHOOT: 'TO_SHOOT',
+  PENALTY_KICK: 'PENALTY_KICK',
+  YELLOW_CARD: 'YELLOW_CARD',
+  RED_CARD: 'RED_CARD',
+};
 export enum playerActionTypeMap {
+  // 篮球
   TWO_POINT_SHOT = '两分球',
   THREE_POINT_SHOT = '三分球',
   FREE_THROW = '罚球',
@@ -48,8 +78,14 @@ export enum playerActionTypeMap {
   STEAL = '抢断',
   TURNOVER = '失误',
   FOUL = '犯规',
+  // 足球
+  TO_SHOOT = '射门',
+  PENALTY_KICK = '点球',
+  YELLOW_CARD = '黄牌',
+  RED_CARD = '红牌',
 }
 export const playerActionTypeArr = [
+  // 篮球
   {
     toolVal: 'TWO_POINT_SHOT',
     toolName: playerActionTypeMap.TWO_POINT_SHOT,
@@ -108,16 +144,72 @@ export const playerActionTypeArr = [
     toolName: playerActionTypeMap.OFFENSIVE_REBOUND,
     actions: ['ADD', 'MINUS'],
   },
+  // 足球
+  {
+    toolVal: 'TO_SHOOT',
+    toolName: playerActionTypeMap.TO_SHOOT,
+    actions: ['ADD', 'MINUS', 'MISS'],
+    score: 1,
+  },
+  {
+    toolVal: 'PENALTY_KICK',
+    toolName: playerActionTypeMap.PENALTY_KICK,
+    actions: ['ADD', 'MINUS', 'MISS'],
+    score: 1,
+  },
+  {
+    toolVal: 'YELLOW_CARD',
+    toolName: playerActionTypeMap.YELLOW_CARD,
+    actions: ['ADD', 'MINUS'],
+  },
+  {
+    toolVal: 'RED_CARD',
+    toolName: playerActionTypeMap.RED_CARD,
+    actions: ['ADD', 'MINUS'],
+  },
 ];
+export const matchStageType = {
+  UN_START: 'UN_START',
+  PART_ONE: 'PART_ONE',
+  PART_TWO: 'PART_TWO',
+  PART_THREE: 'PART_THREE',
+  PART_FOUR: 'PART_FOUR',
+  OVERTIME: 'OVERTIME',
+  FIRST_HALF: 'FIRST_HALF',
+  SECOND_HALF: 'SECOND_HALF',
+  END: 'END',
+};
+export const matchStageTypeLab: {[key: string]: string } = {
+  UN_START: '未开始',
+  PART_ONE: '第一节',
+  PART_TWO: '第二节',
+  PART_THREE: '第三节',
+  PART_FOUR: '第四节',
+  OVERTIME: '加时',
+  FIRST_HALF: '上半场',
+  SECOND_HALF: '下半场',
+  END: '结束',
+};
 
-export enum matchStageTypeLab {
-  UN_START = '未开始',
-  PART_ONE = '第一节',
-  PART_TWO = '第二节',
-  PART_THREE = '第三节',
-  PART_FOUR = '第四节',
-  OVERTIME = '加时',
-  // FIRST_HALF = '',
-  // SECOND_HALF = '',
-  END = '结束',
-}
+// 赛事类型球员行为表
+export const matchTypeActionsMap: {[key: string]: string[]} = {
+  [matchType.BASKETBALL]: [
+    playActionType.TWO_POINT_SHOT, playActionType.THREE_POINT_SHOT, playActionType.FREE_THROW,
+    playActionType.ASSIST, playActionType.BLOCK_SHOT, playActionType.DEFENSIVE_REBOUND,
+    playActionType.OFFENSIVE_REBOUND, playActionType.REBOUND, playActionType.STEAL,
+    playActionType.TURNOVER, playActionType.FOUL,
+  ],
+  [matchType.FOOTBALL]: [
+    playActionType.TO_SHOOT, playActionType.PENALTY_KICK, playActionType.YELLOW_CARD, playActionType.RED_CARD,
+    playActionType.FOUL,
+  ],
+};
+export const matchTypeStageMap: {[key: string]: string[]} = {
+  [matchType.BASKETBALL]: [
+    matchStageType.PART_ONE, matchStageType.PART_TWO,
+    matchStageType.PART_THREE, matchStageType.PART_FOUR,
+  ],
+  [matchType.FOOTBALL]: [
+    matchStageType.FIRST_HALF, matchStageType.SECOND_HALF,
+  ],
+};
