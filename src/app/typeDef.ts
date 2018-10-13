@@ -18,6 +18,10 @@ export enum serverCode {
   SUCCESS = 0,
   NO_LOGIN_ERROR_CODE = 401,
 }
+/** socket注册类型 */
+export enum SocketRegisterType {
+  MATCH_SCHEDULE = 'MATCH_SCHEDULE_ID',
+}
 /**  图片上传的空间类型 */
 export enum systemType {
   ADMIN = 'ADMIN',

@@ -1,5 +1,6 @@
 import http from '../../app/http';
 import { ILiveInfoData } from '../apiDataType';
+import { SocketRegisterType } from '@/app/typeDef';
 
 export default {
   lives(params: { pageNum: number, pageSize: number }): Promise<ILiveInfoData> {
@@ -17,8 +18,8 @@ export default {
   getLive(id: number) {
     return http.get(`/api-liveapp/adminLive/${id}`);
   },
-  getOnlneCount(id: number) {
-    return http.get(`/api-liveapp/adminLive/getOnlneCount/${id}`);
+  getOnlneCount(scheduleId: number | string) {
+    return http.get(`/api-liveapp/adminLive/getOnlneCount/${SocketRegisterType.MATCH_SCHEDULE}_${scheduleId}`, null);
   },
   /** 获取全民直播流 */
   getQuanMinUrl(url: string) {

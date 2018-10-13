@@ -574,12 +574,12 @@ export default class BallScoring extends Vue {
     if (!this.$data.scheduleInfo || !this.$data.scheduleInfo.live) {
       return;
     }
-    const liveId = this.$data.scheduleInfo.live.id;
-    if (liveId == null) {
+    const scheduleId = this.$route.params.scheduleId;
+    if (scheduleId == null) {
       this.clearTimeoutToUpdateLiveCount();
       return;
     }
-    const res = await ApiLive.getOnlneCount(liveId);
+    const res = await ApiLive.getOnlneCount(scheduleId);
     if (!res.isSuccess) {
       this.clearTimeoutToUpdateLiveCount();
       return;

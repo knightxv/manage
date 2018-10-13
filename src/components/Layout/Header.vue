@@ -3,7 +3,7 @@
         <!-- 折叠按钮 -->
         <el-row type="flex" align="middle">
             <i @click="TOGGLE_MENU_COLLAPSE" class="el-icon-menu collapse-btn"></i>
-            <span>后台管理系统</span>
+            <span class="title" @click="goHomePage">后台管理系统</span>
             <!-- <div class="logo">后台管理系统</div> -->
         </el-row>
         <div class="header-right">
@@ -73,6 +73,9 @@ export default class Header extends Vue {
             this.LOGOUT();
             this.$router.push('/login');
         }
+    }
+    goHomePage() {
+      this.$router.push({ name: 'home' });
     }
     // 全屏事件
     handleFullScreen() {
@@ -170,5 +173,8 @@ export default class Header extends Vue {
 }
 .el-dropdown-menu__item{
     text-align: center;
+}
+.title {
+  cursor: pointer;
 }
 </style>

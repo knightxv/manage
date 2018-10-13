@@ -1,34 +1,51 @@
 <template>
   <div class="home">
-    首页可以放一些直播数据表格
+    实时在线观看人数：{{ onlineCount }}
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-// import HelloWorld from '@/components/HelloWorld.vue'; // @ is an alias to /src
-// import { mapState, mapActions } from 'vuex';
-// import { IUserInfoState } from '../../stores/modules/userInfo';
-// import { Getter, Action, State } from 'vuex-class';
-// import { MY_USER_NAME } from '../../stores/getters-types';
+import { UPDATE_LIVE_COUNT_TIME_INTERVAL } from '@/app/config';
+import ApiSocket from '@/services/common/socket';
 
-@Component({
-  name: '',
-  components: {
-    // HelloWorld,
-  },
-})
+@Component
 export default class Home extends Vue {
   // @Getter(MY_USER_NAME) userName!: string;
   // @State userInfo!: IUserInfoState;
+  liveCountTimer!: any;
   public data() {
     return {
-      a: '344',
+      onlineCount: 0,
     };
   }
-  public created() {
-    // console.log(this.userInfo.userName);
-    // console.log(this.$store.state.userInfo);
+  mounted() {
+    this.updateCountUser();
+    this.setTimerToShowLiveUserCount();
+  }
+  /** 更新在线直播人数 */
+  async updateCountUser() {
+    const res = await ApiSocket.getAllOnlineCount();
+    if (!res.isSuccess) {
+      return;
+    }
+    this.$data.onlineCount = res.data;
+  }
+  setTimerToShowLiveUserCount() {
+    this.clearTimerToShowLiveUserCount();
+    this.liveCountTimer = setTimeout(() => {
+      this.updateCountUser();
+      this.setTimerToShowLiveUserCount();
+    }, UPDATE_LIVE_COUNT_TIME_INTERVAL * 1000);
+  }
+  clearTimerToShowLiveUserCount() {
+    if (this.liveCountTimer == null) {
+      return;
+    }
+    clearTimeout(this.liveCountTimer);
+  }
+  destroyed() {
+    this.clearTimerToShowLiveUserCount();
   }
 }
 </script>
