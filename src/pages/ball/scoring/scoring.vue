@@ -37,7 +37,7 @@
           <el-button type="primary" @click="changeGoCourtDialogVisible = true">选择上场球员</el-button>
           <el-button type="primary" @click="refreshPlayerActionCache">更新球员缓存</el-button>
         </div>
-        <div>直播人数: {{ onlineCount }}</div>
+        <!-- <div>直播人数: {{ onlineCount }}</div> -->
       </el-row>
       <div class="table-group-title">
         主场球队:{{ homeCourtTeam.matchTeamName }}
@@ -215,7 +215,6 @@ export default class BallScoring extends Vue {
   @Mutation(UPDATE_USER_SELECT_TOOLS) updateMatchTool !: (params: { matchType: string, tools: string[] }) => {};
   // 是否有加时赛
   hasOverTime!: boolean;
-  public liveTimer!: any;
   data() {
     // const matchSteps
     return {
@@ -242,7 +241,7 @@ export default class BallScoring extends Vue {
         matchTeamId: '',
       },
       // live count
-      onlineCount: 0,
+      // onlineCount: 0,
       // player status
       changeGoCourtDialogVisible: false,
       selectGoCourts: [], // 上场球员id列表
@@ -256,7 +255,7 @@ export default class BallScoring extends Vue {
     await this.getSchedule(matchScheduleId);
     this.setTools();
     this.getPlayersOnTheCourtState(matchScheduleId);
-    this.setTimeoutToUpdateLiveCount();
+    // this.setTimeoutToUpdateLiveCount();
   }
   preStep() {
     if (this.$data.step <= 0) {
@@ -560,32 +559,22 @@ export default class BallScoring extends Vue {
     }
     return `${successTimes}/${failTimes + successTimes}`;
   }
-  setTimeoutToUpdateLiveCount() {
-    this.clearTimeoutToUpdateLiveCount();
-    this.liveTimer = setTimeout(() => {
-      this.getLiveCount();
-      this.setTimeoutToUpdateLiveCount();
-    }, 5000);
-  }
-  clearTimeoutToUpdateLiveCount() {
-    clearTimeout(this.liveTimer);
-  }
-  async getLiveCount() {
-    if (!this.$data.scheduleInfo || !this.$data.scheduleInfo.live) {
-      return;
-    }
-    const scheduleId = this.$route.params.scheduleId;
-    if (scheduleId == null) {
-      this.clearTimeoutToUpdateLiveCount();
-      return;
-    }
-    const res = await ApiLive.getOnlneCount(scheduleId);
-    if (!res.isSuccess) {
-      this.clearTimeoutToUpdateLiveCount();
-      return;
-    }
-    this.$data.onlineCount = res.data.onlineCount;
-  }
+  // async getLiveCount() {
+  //   if (!this.$data.scheduleInfo || !this.$data.scheduleInfo.live) {
+  //     return;
+  //   }
+  //   const scheduleId = this.$route.params.scheduleId;
+  //   if (scheduleId == null) {
+  //     this.clearTimeoutToUpdateLiveCount();
+  //     return;
+  //   }
+  //   const res = await ApiLive.getOnlneCount(scheduleId);
+  //   if (!res.isSuccess) {
+  //     this.clearTimeoutToUpdateLiveCount();
+  //     return;
+  //   }
+  //   this.$data.onlineCount = res.data.onlineCount;
+  // }
   // player status
   async submitPlayersState() {
     const matchScheduleId = +this.$route.params.scheduleId;
@@ -642,9 +631,6 @@ export default class BallScoring extends Vue {
       return;
     }
     this.$message.success('更新成功');
-  }
-  destroyed() {
-    this.clearTimeoutToUpdateLiveCount();
   }
 }
 </script>

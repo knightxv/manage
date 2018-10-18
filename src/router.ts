@@ -126,6 +126,14 @@ const router = new Router({
           },
         },
         {
+          path: '/ball/onlineCount/allCount',
+          component: () => import(/* webpackChunkName: "onlineCount" */ './pages/ball/onlineCount/AllCount.vue'),
+          meta: {
+            title: '直播人数',
+            needAuth: true,
+          },
+        },
+        {
           path: '/ball/scoring/scoring/:scheduleId',
           name: 'scoring',
           component: () => import(/* webpackChunkName: "scoring" */ './pages/ball/scoring/scoring.vue'),

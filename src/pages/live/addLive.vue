@@ -30,9 +30,17 @@
     </el-form-item>
     <el-form-item label="人数显示类型" prop="personCountType">
       <el-radio-group v-model="addForm.personCountType">
-        <el-radio :label="$app.typeDef.personCountType.VIRTUAL">虚假</el-radio>
-        <el-radio :label="$app.typeDef.personCountType.REAL">真实</el-radio>
+        <el-radio
+          v-for="type in $app.typeDef.personCountType"
+          :label="type"
+          :key="type"
+        >
+          {{ $app.typeDef.personCountTypeLabMap[type] }}
+        </el-radio>
       </el-radio-group>
+    </el-form-item>
+    <el-form-item v-if="addForm.personCountType == $app.typeDef.personCountType.CLICK" label="点击倍数" prop="clickMultiply">
+      <el-input v-model="addForm.clickMultiply" auto-complete="off"></el-input>
     </el-form-item>
     <template v-if="addForm.personCountType === $app.typeDef.personCountType.VIRTUAL">
       <el-form-item label="最高人数" prop="personCountMax">

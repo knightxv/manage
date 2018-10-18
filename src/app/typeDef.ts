@@ -38,7 +38,13 @@ export enum liveType {
 export enum personCountType {
   REAL = 'REAL',
   VIRTUAL = 'VIRTUAL',
+  CLICK = 'CLICK',
 }
+export const personCountTypeLabMap = {
+  REAL: '虚假',
+  VIRTUAL: '真实',
+  CLICK: '点击',
+};
 
 
 /** 赛事类型 */
