@@ -41,8 +41,8 @@ export enum personCountType {
   CLICK = 'CLICK',
 }
 export const personCountTypeLabMap = {
-  REAL: '虚假',
-  VIRTUAL: '真实',
+  REAL: '真实',
+  VIRTUAL: '虚假',
   CLICK: '点击',
 };
 
