@@ -12,18 +12,20 @@
     </el-col>
 
     <el-table :data="videoList" highlight-current-row v-loading="loading" style="width: 100%;">
-      <el-table-column prop="id" label="id" >
+      <el-table-column prop="videoId" label="id" >
       </el-table-column>
-      <el-table-column prop="matchVideoType" label="录播类型" :formatter="matchVideoTypeFormatter" >
+      <el-table-column prop="videoGroupId" label="视频组id" >
       </el-table-column>
       <el-table-column prop="videoTitle" label="视频标题" sortable>
       </el-table-column>
       <el-table-column prop="videoIntroduction" label="视频介绍" sortable>
       </el-table-column>
+      <el-table-column prop="recordTime" label="记录时间" :formatter="$app.formatter.dateSecTime" sortable>
+      </el-table-column>
       <el-table-column label="操作" width="150">
         <template slot-scope="scope">
-          <el-button size="mini" type="primary" @click="goEditPage(scope.row.id)">编辑</el-button>
-          <el-button size="mini" type="danger" @click="deleteVideo(scope.$index,scope.row)">删除</el-button>
+          <el-button size="mini" type="primary" @click="goEditPage(scope.row.videoId)">编辑</el-button>
+          <el-button size="mini" type="danger" @click="deleteVideo(scope.row.videoId)">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -74,18 +76,21 @@ export default class MatchVideoList extends Vue {
     if (!res.isSuccess) {
       return;
     }
+    if (res.data == null) {
+      return;
+    }
     this.$data.total = res.data.total;
     this.$data.videoList = res.data.data;
   }
   async goEditPage(videoId: number) {
     this.$router.push({ name: 'EditMatchVideo', params: { videoId: String(videoId) } });
   }
-  async deleteVideo(index: number, row: any) {
+  async deleteVideo(videoId: number) {
     const isConfirm = await this.$confirm('确认删除该记录吗?', '提示', {type: 'warning'});
     if (!isConfirm) {
       return;
     }
-    const res = await ApiMatchVideo.deleteVideo(row.id);
+    const res = await ApiMatchVideo.deleteVideo(videoId);
     if (!res.isSuccess) {
       return;
     }
@@ -98,7 +103,7 @@ export default class MatchVideoList extends Vue {
       return '比赛录像';
     }
     if (matchVideoType === 'MATCH_MOMENTS') {
-      return '精彩集锦';
+      return '直播录像';
     }
   }
   mounted() {

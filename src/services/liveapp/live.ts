@@ -15,8 +15,11 @@ export default {
   delete(id: number) {
     return http.delete(`/api-liveapp/adminLive/deleted/${id}`);
   },
-  getLive(id: number) {
-    return http.get(`/api-liveapp/adminLive/${id}`);
+  getLive(liveId: number | string) {
+    return http.get(`/api-liveapp/adminLive/${liveId}`);
+  },
+  clearLiveUserClickTimes(liveId: number | string) {
+    return http.put(`/api-liveapp/adminLive/clearLiveUserClickTimes/${liveId}`);
   },
   getOnlneCount(scheduleId: number | string) {
     return http.get(`/api-liveapp/adminLive/getOnlneCount/${SocketRegisterType.MATCH_SCHEDULE}_${scheduleId}`, null);
@@ -31,6 +34,21 @@ export default {
   getHuaJiaoUrl(url: string) {
     return http.get(`/api-liveapp/adminLive/test/getHuaJiaoUrl`, {
       url,
+    });
+  },
+  getLiveSlideShowList(liveId: number | string) {
+    return http.get(`/api-liveapp/adminLiveSlideshow/${liveId}`, null);
+  },
+  addBindSlideshow(params: { liveId: number | string, slideshowId: number }) {
+    return http.post(`/api-liveapp/adminLiveSlideshow/add`, params);
+  },
+  unBindSlideShow(params: { liveId: number | string, slideshowId: number }) {
+    return http.delete(`/api-liveapp/adminLiveSlideshow/deleted`, params);
+  },
+  editHomePageShow(liveId: number | string, homePageShow: boolean) {
+    return http.put(`/api-liveapp/adminLive/editHomePageShow`, {
+      id: liveId,
+      homePageShow,
     });
   },
 };

@@ -10,12 +10,6 @@
     <el-form-item label="视频介绍" prop="videoIntroduction">
       <el-input v-model="addForm.videoIntroduction" auto-complete="off"></el-input>
     </el-form-item>
-    <el-form-item label="直播类型" prop="liveType">
-      <el-radio-group v-model="addForm.matchVideoType">
-        <el-radio label="MATCH_RECORD">录像</el-radio>
-        <el-radio label="MATCH_MOMENTS">高光时刻</el-radio>
-      </el-radio-group>
-    </el-form-item>
     <el-form-item label="赛程关联" prop="videoIntroduction">
       <el-select v-model="addForm.matchScheduleId" filterable placeholder="选择要关联赛程">
         <el-option
@@ -28,6 +22,13 @@
     </el-form-item>
     <el-form-item label="视频封面" prop="videoImage">
       <app-upload :imgUrl.sync="addForm.videoImage"></app-upload>
+    </el-form-item>
+    <el-form-item label="记录时间" prop="recordTime">
+      <el-date-picker
+        v-model="addForm.recordTime"
+        type="datetime"
+        value-format="timestamp"
+      ></el-date-picker>
     </el-form-item>
   </el-form>
   <div style="margin-left: 60px;margin-top: 30px;">
@@ -48,11 +49,11 @@ export default class MatchVideoCreate extends Vue {
       addForm: {
         // matchId: null,
         matchScheduleId: null,
-        matchVideoType: 'MATCH_RECORD',
         videoImage: '',
         videoIntroduction: '',
         videoTitle: '',
         videoUrl: '',
+        recordTime: new Date().getTime(),
       },
       addFormRules: {},
       schedules: [],
@@ -81,6 +82,7 @@ export default class MatchVideoCreate extends Vue {
     const params = {
       ...this.$data.addForm,
       matchId,
+      recordTime: Math.floor(this.$data.addForm.recordTime / 1000),
     };
     const res = await ApiMatchVideo.createVideo(params);
     if (!res.isSuccess) {

@@ -88,7 +88,7 @@ export default class AddSchedule extends Vue {
         return;
       }
       const params = Object.assign({}, this.$data.addForm, {
-        startTime: this.$data.startTime / 1000,
+        startTime: Math.floor(this.$data.startTime / 1000),
       });
       this.$data.loading = true;
       const res = await ApiSchedule.create(params);

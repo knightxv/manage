@@ -24,9 +24,10 @@
       </el-table-column>
       <!-- <el-table-column prop="personCountType" :formatter="personCountTypeFormatter" label="人数显示类型" sortable>
       </el-table-column> -->
-      <el-table-column label="操作" width="150">
+      <el-table-column label="操作" width="400">
         <template slot-scope="scope">
           <el-button size="mini" @click="showEditDialog(scope.$index,scope.row)">编辑</el-button>
+          <el-button size="mini" type="primary" @click="goLiveDetailPage(scope.row.id)">操作</el-button>
           <el-button size="mini" type="danger" @click="removeLive(scope.$index,scope.row)">删除</el-button>
         </template>
       </el-table-column>
@@ -99,6 +100,14 @@ export default class Lives extends Vue {
     }
     this.$message.success('删除成功');
     this.reLoadInfo();
+  }
+  goLiveDetailPage(liveId: string) {
+    this.$router.push({
+      name: 'LiveDetail',
+      params: {
+        liveId,
+      },
+    });
   }
   mounted() {
     this.reLoadInfo();

@@ -42,6 +42,9 @@
      <el-form-item v-if="editForm.personCountType == $app.typeDef.personCountType.CLICK" label="点击倍数" prop="clickMultiply">
       <el-input v-model="editForm.clickMultiply" auto-complete="off"></el-input>
     </el-form-item>
+    <el-form-item v-if="editForm.personCountType == $app.typeDef.personCountType.REAL" label="在线人数倍数" prop="clickMultiply">
+      <el-input v-model="editForm.onlineMultiply" auto-complete="off"></el-input>
+    </el-form-item>
     <template v-if="editForm.personCountType === $app.typeDef.personCountType.VIRTUAL">
       <el-form-item label="最高人数" prop="personCountMax">
         <el-input v-model="editForm.personCountMax" auto-complete="off"></el-input>

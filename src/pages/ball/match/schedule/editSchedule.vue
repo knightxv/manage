@@ -55,40 +55,6 @@
         value-format="timestamp"
       ></el-date-picker>
     </el-form-item>
-    <el-card class="box-card">
-      <el-row slot="header" type="flex" align="middle">
-        <el-col>
-          幻灯片列表
-        </el-col>
-        <el-select v-model="selectSlideshowId" filterable placeholder="要绑定的幻灯片">
-          <el-option
-            v-for="item in allSlideshow"
-            :key="item.id"
-            :label="`${item.slideshowName}`"
-            :value="item.id">
-          </el-option>
-        </el-select>
-        <el-button @click="addSlideshow" type="primary">添加</el-button>
-      </el-row>
-      <el-row
-        v-for="(item, index) in bindSlideshows"
-        :key="index"
-        type="flex"
-        justify="space-between"
-        align="middle"
-        class="slide-content-item"
-      >
-        <el-row type="flex">
-          <div class="link-url">名称：{{ item.slideshowVO.slideshowName }}</div>
-        </el-row>
-        <el-row type="flex">
-          <el-button
-          type="danger"
-          @click="deleteSlideshow(item.slideshowVO.id, item.matchScheduleId)"
-          >删除</el-button>
-        </el-row>
-      </el-row>
-    </el-card>
   </el-form>
   <div style="margin-left: 60px;margin-top: 30px;">
     <el-button type="primary" @click.native="addSubmit" :loading="loading">提交</el-button>
@@ -118,10 +84,6 @@ export default class EditSchedule extends Vue {
       teams: [],
       lives: [],
       startTime: null,
-      // slide show
-      selectSlideshowId: '',
-      bindSlideshows: [],
-      allSlideshow: [],
     };
   }
   addSubmit() {
@@ -130,7 +92,7 @@ export default class EditSchedule extends Vue {
         return;
       }
       const params = Object.assign({}, this.$data.editForm, {
-        startTime: this.$data.startTime / 1000,
+        startTime: Math.floor(this.$data.startTime / 1000),
         liveId: this.$data.editForm.live.id,
         homeCourtTeamId: this.$data.editForm.homeCourtTeam.id,
         opponentTeamId: this.$data.editForm.opponentTeam.id,
@@ -149,8 +111,6 @@ export default class EditSchedule extends Vue {
     this.reSeteditForm();
     this.getLives();
     this.getTeams();
-    this.getScheduleSlideshows();
-    this.getAllSlideshows();
   }
   async getLives() {
     const res = await ApiLive.lives({
@@ -184,52 +144,6 @@ export default class EditSchedule extends Vue {
       ...res.data,
     };
     this.$data.startTime = res.data.startTime * 1000;
-  }
-  // 幻灯片
-  async getScheduleSlideshows() {
-    const { scheduleId } = this.$route.params;
-    const res = await ApiSchedule.getScheduleBindSlideshows(scheduleId);
-    if (!res.isSuccess) {
-      return;
-    }
-    this.$data.bindSlideshows = res.data;
-  }
-  async getAllSlideshows() {
-    const params = {
-      pageNum: 0,
-      pageSize: 999,
-    };
-    const res = await ApiSlideshow.slideShowList(params);
-    if (!res.isSuccess) {
-      return;
-    }
-    this.$data.allSlideshow = res.data.data;
-  }
-  async addSlideshow() {
-    const slideshowId = this.$data.selectSlideshowId;
-    const { scheduleId } = this.$route.params;
-    const params = {
-      matchScheduleId: +scheduleId,
-      slideshowId,
-    };
-    const res = await ApiSchedule.addBindSlideshow(params);
-    if (!res.isSuccess) {
-      return;
-    }
-    this.$message.success('添加成功');
-    this.getScheduleSlideshows();
-  }
-  async deleteSlideshow(slideshowId: number, matchScheduleId: number) {
-    const params = {
-      matchScheduleId,
-      slideshowId,
-    };
-    const res = await ApiSchedule.unBindSlideShow(params);
-    if (!res.isSuccess) {
-      return;
-    }
-    this.$message.success('删除成功');
-    this.getScheduleSlideshows();
   }
 }
 </script>

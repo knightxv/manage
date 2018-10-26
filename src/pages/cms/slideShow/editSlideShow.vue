@@ -226,7 +226,11 @@ export default class EditSlideShow extends Vue {
 <style scoped lang="less">
 .slide-content-img {
   width: 150px;
+  height: 100px;
   padding-right: 10px;
+}
+.link-url {
+  max-width: 266px;
 }
 .slide-content-item {
   margin-top: 10px;

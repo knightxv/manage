@@ -82,7 +82,7 @@ const router = new Router({
         {
           path: '/live/lives',
           name: 'lives',
-          component: () => import(/* webpackChunkName: "lives" */ './pages/live/lives.vue'),
+          component: () => import(/* webpackChunkName: "liveList" */ './pages/live/lives.vue'),
           meta: {
             title: '直播间管理',
             needAuth: true,
@@ -91,7 +91,7 @@ const router = new Router({
         {
           path: '/live/addLive',
           name: 'addLive',
-          component: () => import(/* webpackChunkName: "Lives" */ './pages/live/addLive.vue'),
+          component: () => import(/* webpackChunkName: "AddLive" */ './pages/live/addLive.vue'),
           meta: {
             title: '添加直播间',
             needAuth: true,
@@ -100,7 +100,7 @@ const router = new Router({
         {
           path: '/live/editLive/:id',
           name: 'editLive',
-          component: () => import(/* webpackChunkName: "editLive" */ './pages/live/editLive.vue'),
+          component: () => import(/* webpackChunkName: "EditLive" */ './pages/live/editLive.vue'),
           meta: {
             title: '修改直播间信息',
             needAuth: true,
@@ -112,6 +112,15 @@ const router = new Router({
           component: () => import(/* webpackChunkName: "liveVideo" */ './pages/live/liveVideo.vue'),
           meta: {
             title: '直播播放',
+            needAuth: false,
+          },
+        },
+        {
+          path: '/live/liveDetail/:liveId',
+          name: 'LiveDetail',
+          component: () => import(/* webpackChunkName: "LiveDetail" */ './pages/live/liveDetail.vue'),
+          meta: {
+            title: '直播详情',
             needAuth: false,
           },
         },
@@ -293,6 +302,59 @@ const router = new Router({
           component: () => import(/* webpackChunkName: "EditSlideShow" */ './pages/cms/slideShow/editSlideShow.vue'),
           meta: {
             title: '编辑幻灯片',
+          },
+        },
+        {
+          path: '/cms/videoGroup/groupList',
+          name: 'VideoGroupList',
+          component: () => import(/* webpackChunkName: "VideoGroupList" */ './pages/cms/videoGroup/VideoGroupList.vue'),
+          meta: {
+            title: '视频组列表',
+          },
+        },
+        {
+          path: '/cms/videoGroup/createVideoGroup',
+          name: 'CreateVideoGroup',
+          component: () =>
+          import(/* webpackChunkName: "CreateVideoGroup" */ './pages/cms/videoGroup/CreateVideoGroup.vue'),
+          meta: {
+            title: '创建视频组',
+          },
+        },
+        {
+          path: '/cms/videoGroup/editVideoGroup/:videoGroupId',
+          name: 'EditVideoGroup',
+          component: () =>
+          import(/* webpackChunkName: "EditVideoGroup" */ './pages/cms/videoGroup/EditVideoGroup.vue'),
+          meta: {
+            title: '修改视频组',
+          },
+        },
+        {
+          path: '/cms/videoGroup/:videoGroupId/createVideo',
+          name: 'CreateVideo',
+          component: () =>
+          import(/* webpackChunkName: "CreateVideo" */ './pages/cms/videoGroup/CreateVideo.vue'),
+          meta: {
+            title: '创建视频',
+          },
+        },
+        {
+          path: '/cms/videoGroup/:videoGroupId/editVideo/:videoId',
+          name: 'EditVideo',
+          component: () =>
+          import(/* webpackChunkName: "EditVideo" */ './pages/cms/videoGroup/EditVideo.vue'),
+          meta: {
+            title: '修改视频',
+          },
+        },
+        {
+          path: '/cms/videoGroup/:videoGroupId/videoList',
+          name: 'VideoList',
+          component: () =>
+          import(/* webpackChunkName: "VideoList" */ './pages/cms/videoGroup/VideoList.vue'),
+          meta: {
+            title: '创建视频',
           },
         },
       ],

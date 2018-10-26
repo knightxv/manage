@@ -26,7 +26,7 @@ export enum SocketRegisterType {
 export enum systemType {
   ADMIN = 'ADMIN',
   ACCOUNT = 'ACCOUNT',
-  LIVEAPP = 'LIVEAPP',
+  APP = 'LIVEAPP',
 }
 /**  直播间类型 */
 export enum liveType {

@@ -1,17 +1,11 @@
 <template>
 <div class="container">
   <el-form :model="addForm" label-width="130px" class="form-box" :rules="addFormRules" ref="addForm">
-    <el-form-item label="幻灯片名称" prop="slideshowName">
-      <el-input v-model="addForm.slideshowName" auto-complete="off"></el-input>
+    <el-form-item label="视频组名" prop="groupName">
+      <el-input v-model="addForm.groupName" auto-complete="off"></el-input>
     </el-form-item>
-    <el-form-item label="前端页面标注" prop="webTag">
-      <el-input v-model="addForm.webTag" auto-complete="off"></el-input>
-    </el-form-item>
-    <!-- <el-form-item label="系统类型" prop="systemType">
-      <app-upload :imgUrl.sync="addForm.mainImage"></app-upload>
-    </el-form-item> -->
-    <el-form-item label="备注" prop="remark">
-      <el-input v-model="addForm.remark" auto-complete="off"></el-input>
+    <el-form-item label="视屏组封面" prop="groupImg">
+      <app-upload :imgUrl.sync="addForm.groupImg"></app-upload>
     </el-form-item>
   </el-form>
   <div style="margin-left: 300px;margin-top: 30px;">
@@ -22,10 +16,9 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
-import ApiSlide from '@/services/cms/slideShow';
-import { systemType } from '@/app/typeDef';
+import ApiVideoGroup from '@/services/cms/videoGroup';
 @Component
-export default class CreateSlideShow extends Vue {
+export default class CreateVideoGroup extends Vue {
   data() {
     return {
       loading: false,
@@ -40,10 +33,8 @@ export default class CreateSlideShow extends Vue {
       if (!valid) {
         return;
       }
-      const params = Object.assign({}, this.$data.addForm, {
-        systemType: systemType.APP,
-      });
-      const res = await ApiSlide.createSlide(params);
+      const params = Object.assign(this.$data.addForm);
+      const res = await ApiVideoGroup.createVideoGroup(params);
       if (!res.isSuccess) {
         return;
       }
