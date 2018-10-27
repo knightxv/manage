@@ -60,7 +60,7 @@ export default class EditVideo extends Vue {
       const { videoGroupId } = this.$route.params;
       const { recordTime } = this.$data.editForm;
       const params = Object.assign({}, this.$data.editForm, {
-        recordTime: Math.floor(this.$data.addForm.recordTime / 1000),
+        recordTime: Math.floor(this.$data.editForm.recordTime / 1000),
         videoGroupId,
       });
       const res = await ApiVideoGroup.editVideo(params);

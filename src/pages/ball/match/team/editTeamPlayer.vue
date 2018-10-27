@@ -109,7 +109,10 @@ export default class EditScheduleTeamPlayer extends Vue {
       selectPlayers: [],
       selectPlayerMap: {},
       playerTeamNum: undefined,
-      filterMethod(query: any, item: any) {
+      filterMethod(query: string, item: any) {
+        if (item.playerName == null) {
+          return false;
+        }
         return item.playerName.indexOf(query) > -1;
       },
 

@@ -54,4 +54,7 @@ export default {
   getScheduleBindSlideshows(matchScheduleId: string) {
     return http.get(`/api-liveapp/adminMatchScheduleSlideshow/${matchScheduleId}`);
   },
+  addPlayerAndAddMatchTeamRel(params: string) {
+    return http.post(`/api-liveapp/adminMatchSchedulePlayerAction/addPlayerAndAddMatchTeamRel`, params);
+  },
 };

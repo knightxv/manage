@@ -18,6 +18,12 @@ export enum serverCode {
   SUCCESS = 0,
   NO_LOGIN_ERROR_CODE = 401,
 }
+export const slideWebTagMap = {
+  CHAT_SWIPER: 'CHAT_SWIPER',
+};
+export const slideWebTagLabMap = {
+  CHAT_SWIPER: '聊天轮播',
+};
 /** socket注册类型 */
 export enum SocketRegisterType {
   MATCH_SCHEDULE = 'MATCH_SCHEDULE_ID',

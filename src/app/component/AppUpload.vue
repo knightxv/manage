@@ -6,8 +6,10 @@
     :on-success="handleAvatarSuccess"
     :headers="{Authorization: TOKEN}"
     :before-upload="beforeAvatarUpload">
-    <img v-if="imgUrl" :src="`http://${imgUrl}`" class="avatar">
-    <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+    <slot>
+      <img v-if="imgUrl" :src="`http://${imgUrl}`" class="avatar">
+      <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+    </slot>
   </el-upload>
 </template>
 
@@ -35,8 +37,9 @@ export default class AppUpload extends Vue {
       this.$message.error(res.msg || '上传失败');
       return;
     }
-    const imrUrl = res.data.resourceUrl;
-    this.$emit('update:imgUrl', imrUrl);
+    const imgUrl = res.data.resourceUrl;
+    this.$emit('update:imgUrl', imgUrl);
+    this.$emit('uploadSuccess', imgUrl);
   }
   beforeAvatarUpload(file: any) {
     const isJPG = file.type === 'image/jpeg' || file.type === 'image/png';

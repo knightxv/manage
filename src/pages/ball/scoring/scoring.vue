@@ -36,6 +36,7 @@
           <el-button type="primary" @click="showScoringToolsDiaLog">修改计分工具</el-button>
           <el-button type="primary" @click="changeGoCourtDialogVisible = true">选择上场球员</el-button>
           <el-button type="primary" @click="refreshPlayerActionCache">更新球员缓存</el-button>
+          <el-button type="primary" @click="addPlayerDialogVisible = true">添加球员</el-button>
         </div>
         <!-- <div>直播人数: {{ onlineCount }}</div> -->
       </el-row>
@@ -147,6 +148,35 @@
         <el-button type="primary" @click.native="submitPlayersState">提交</el-button>
       </div>
     </el-dialog>
+    <el-dialog title="添加球员" :visible.sync="addPlayerDialogVisible" :close-on-click-modal="false">
+      <el-form label-width="120px" ref="addPlayerForm">
+        <el-form-item label="球员名字" prop="playerName">
+          <el-input v-model="addPlayerForm.playerName" auto-complete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="球员备注" prop="playerRemark">
+          <el-input v-model="addPlayerForm.playerRemark" auto-complete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="球号" prop="playerTeamNum">
+          <el-input v-model="addPlayerForm.playerTeamNum" auto-complete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="性别" prop="sexType">
+          <el-radio-group v-model="selectSexType">
+            <el-radio :label="$app.typeDef.sex.BOY">男</el-radio>
+            <el-radio :label="$app.typeDef.sex.GIRL">女</el-radio>
+          </el-radio-group>
+        </el-form-item>
+        <el-form-item label="球队" prop="matchTeamId">
+          <el-radio-group v-model="selectMatchTeamId">
+            <el-radio :label="homeCourtTeam.matchTeamId">主队[{{ homeCourtTeam.matchTeamName }}]</el-radio>
+            <el-radio :label="opponentTeam.matchTeamId">客队[{{ opponentTeam.matchTeamName }}]</el-radio>
+          </el-radio-group>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click.native="addPlayerDialogVisible = false">取消</el-button>
+        <el-button type="primary" v-loading="addPlayerLoading" @click.native="submitAddPlayerForm">提交</el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
@@ -164,6 +194,7 @@ import {
   matchStageTypeLab, matchTypeActionsMap, playerActionTypeArr,
 } from '@/app/typeDef';
 import { USER_SCORING_SELECT_TOOLS_MAP } from '@/stores/getters-types';
+import schedule from '@/services/liveapp/schedule';
 @Component({
   computed: {
     hasOverTime() {
@@ -245,6 +276,12 @@ export default class BallScoring extends Vue {
       // player status
       changeGoCourtDialogVisible: false,
       selectGoCourts: [], // 上场球员id列表
+      // 添加球员
+      addPlayerDialogVisible: false,
+      selectSexType: this.$app.typeDef.sex.BOY,
+      selectMatchTeamId: null,
+      addPlayerForm: {},
+      addPlayerLoading: false,
     };
   }
   async mounted() {
@@ -340,6 +377,7 @@ export default class BallScoring extends Vue {
     this.$data.scheduleInfo = {
       ...scheduleInfo,
     };
+    this.$data.selectMatchTeamId = scheduleInfo.homeCourtTeam.id;
     this.setMatchSteps();
   }
   setMatchSteps() {
@@ -559,23 +597,6 @@ export default class BallScoring extends Vue {
     }
     return `${successTimes}/${failTimes + successTimes}`;
   }
-  // async getLiveCount() {
-  //   if (!this.$data.scheduleInfo || !this.$data.scheduleInfo.live) {
-  //     return;
-  //   }
-  //   const scheduleId = this.$route.params.scheduleId;
-  //   if (scheduleId == null) {
-  //     this.clearTimeoutToUpdateLiveCount();
-  //     return;
-  //   }
-  //   const res = await ApiLive.getOnlneCount(scheduleId);
-  //   if (!res.isSuccess) {
-  //     this.clearTimeoutToUpdateLiveCount();
-  //     return;
-  //   }
-  //   this.$data.onlineCount = res.data.onlineCount;
-  // }
-  // player status
   async submitPlayersState() {
     const matchScheduleId = +this.$route.params.scheduleId;
     if (isNaN(matchScheduleId)) {
@@ -631,6 +652,20 @@ export default class BallScoring extends Vue {
       return;
     }
     this.$message.success('更新成功');
+  }
+  async submitAddPlayerForm() {
+    this.$data.addPlayerLoading = true;
+    const res = await ApiSchedule.addPlayerAndAddMatchTeamRel({
+      ...this.$data.addPlayerForm,
+      sexType: this.$data.selectSexType,
+      matchTeamId: this.$data.selectMatchTeamId,
+    });
+    this.$data.addPlayerLoading = false;
+    if (!res.isSuccess) {
+      return;
+    }
+    this.$message.success('添加成功');
+    this.$data.addPlayerDialogVisible = false;
   }
 }
 </script>

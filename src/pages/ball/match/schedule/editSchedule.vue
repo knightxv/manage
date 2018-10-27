@@ -75,6 +75,7 @@ export default class EditSchedule extends Vue {
       loading: false,
       editFormRules: {
         // roleName: [{required: true, message: '请输入角色名称', trigger: 'blur'}],
+        liveId: [{required: true, message: '直播间必须选', trigger: 'blur'}],
       },
       editForm: {
         opponentTeam: {},

@@ -13,7 +13,7 @@
         <el-option
           v-for="item in teams"
           :key="item.id"
-          :label="`${item.teamName}[${item.matchGroup}]`"
+          :label="`${item.teamName}`"
           :value="item.id">
         </el-option>
       </el-select>
@@ -23,7 +23,7 @@
         <el-option
           v-for="item in teams"
           :key="item.id"
-          :label="`${item.teamName}[${item.matchGroup}]`"
+          :label="`${item.teamName}`"
           :value="item.id">
         </el-option>
       </el-select>
@@ -75,6 +75,7 @@ export default class AddSchedule extends Vue {
       loading: false,
       addFormRules: {
         // roleName: [{required: true, message: '请输入角色名称', trigger: 'blur'}],
+        liveId: [{required: true, message: '直播间必须选', trigger: 'blur'}],
       },
       addForm: {},
       teams: [],

@@ -8,3 +8,4 @@ declare module '*.vue' {
 declare module 'chimee';
 declare module 'chimee-kernel-flv';
 declare module 'chimee-kernel-hls';
+declare module 'vue-quill-editor';

@@ -5,7 +5,13 @@
       <el-input v-model="addForm.slideshowName" auto-complete="off"></el-input>
     </el-form-item>
     <el-form-item label="前端页面标注" prop="webTag">
-      <el-input v-model="addForm.webTag" auto-complete="off"></el-input>
+      <el-radio-group v-model="addForm.webTag">
+        <el-radio
+          v-for="webtag in $app.typeDef.slideWebTagMap"
+          :label="webtag"
+          :key="webtag"
+        >{{ $app.typeDef.slideWebTagLabMap[webtag] }}</el-radio>
+      </el-radio-group>
     </el-form-item>
     <!-- <el-form-item label="系统类型" prop="systemType">
       <app-upload :imgUrl.sync="addForm.mainImage"></app-upload>

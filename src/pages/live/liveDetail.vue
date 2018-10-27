@@ -44,6 +44,13 @@
       </el-row>
     </el-row>
   </el-card>
+  <div>
+    <div class="live-detail-title">直播详情</div>
+    <app-quill-editor
+      :content.sync="content"
+    ></app-quill-editor>
+    <el-button class="edit-detail-btn" @click="editLiveDetail" type="primary">修改详情</el-button>
+  </div>
 </div>
 </template>
 
@@ -52,6 +59,7 @@ import { Component, Prop, Vue } from 'vue-property-decorator';
 import ApiLive from '@/services/liveapp/live';
 import ApiSlideShow from '@/services/cms/slideShow';
 import { systemType } from '@/app/typeDef';
+
 @Component
 export default class LiveDetail extends Vue {
   data() {
@@ -62,12 +70,14 @@ export default class LiveDetail extends Vue {
       selectSlideshowId: '',
       bindSlideshows: [],
       allSlideshow: [],
+      content: '',
     };
   }
   mounted() {
     this.getDetail();
     this.getScheduleSlideshows();
     this.getAllSlideshows();
+    this.getLiveIntroduce();
   }
   async getDetail() {
     const { liveId } = this.$route.params;
@@ -76,6 +86,14 @@ export default class LiveDetail extends Vue {
       return;
     }
     this.$data.homePageShow = res.data.homePageShow;
+  }
+  async getLiveIntroduce() {
+    const { liveId } = this.$route.params;
+    const res = await ApiLive.getLiveIntroduce(liveId);
+    if (!res.isSuccess) {
+      return;
+    }
+    this.$data.content = res.data;
   }
   async changeHotLiveHandler(val: boolean) {
     const { liveId } = this.$route.params;
@@ -109,6 +127,24 @@ export default class LiveDetail extends Vue {
   async addSlideshow() {
     const slideshowId = this.$data.selectSlideshowId;
     const { liveId } = this.$route.params;
+    const bindSlideshows = this.$data.bindSlideshows;
+    if (bindSlideshows) {
+      // 后续可以做扩展用
+      if (bindSlideshows.length > 0) {
+        this.$message.error('只能添加一个');
+        return;
+      }
+      const hasSlide = bindSlideshows.some((slideShow: any) => {
+        if (!slideShow.slideshowVO) {
+          return false;
+        }
+        return slideshowId === slideShow.slideshowVO.id;
+      });
+      if (hasSlide) {
+        this.$message.error('不能重复添加同一个');
+        return;
+      }
+    }
     const params = {
       liveId,
       slideshowId,
@@ -141,11 +177,26 @@ export default class LiveDetail extends Vue {
     }
     this.$message.success('清空完毕');
   }
+  async editLiveDetail() {
+    const { liveId } = this.$route.params;
+    const intro = this.$data.content;
+    const res = await ApiLive.editLiveIntroduce(liveId, intro);
+    if (!res.isSuccess) {
+      return;
+    }
+    this.$message.success('修改成功');
+  }
 }
 </script>
 
 <style scoped lang="less">
 .box-card {
   max-width: 600px;
+}
+.live-detail-title {
+  padding: 20px 0;
+}
+.edit-detail-btn {
+  margin: 20px 0;
 }
 </style>
