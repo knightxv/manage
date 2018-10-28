@@ -20,7 +20,7 @@
         value-format="timestamp"
       ></el-date-picker>
     </el-form-item>
-    <el-form-item label="所属视频组" prop="videoGroupId">
+    <!-- <el-form-item label="所属视频组" prop="videoGroupId">
       <el-select v-model="editForm.videoGroupId" filterable placeholder="所属视频组">
         <el-option
           v-for="item in videoGroupList"
@@ -29,7 +29,7 @@
           :value="item.id">
         </el-option>
       </el-select>
-    </el-form-item>
+    </el-form-item> -->
   </el-form>
   <div style="margin-left: 300px;margin-top: 30px;">
     <el-button type="primary" @click.native="addSubmit" :loading="loading">提交</el-button>
