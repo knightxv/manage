@@ -28,7 +28,7 @@
     </el-row>
     <el-row
       class="table-wrap"
-      v-if="scheduleInfo && scheduleInfo.matchStageType !== 'UN_START' && scheduleInfo.matchStageType !== 'END'"
+      v-if="scheduleInfo && scheduleInfo.matchStageType !== 'END'"
     >
       <el-row type="flex" justify="space-between" align="middle">
         <div class="scoring-title">
@@ -68,9 +68,9 @@
         </el-table-column>
         <el-table-column v-for="tool in userScoringTools" :key="tool.toolVal" :prop="tool.toolVal" :label="tool.toolName" align="center">
           <el-button-group slot-scope="scope">
-            <el-button class="btn-small" icon="el-icon-plus" :disabled="updateActionLoading" v-if="tool.actions.indexOf('ADD') > -1" size="mini" type="primary" @click="addPlayerAction(scope.row.matchTeamPlayerId, tool.toolVal)"></el-button>
-            <el-button class="btn-small" icon="el-icon-minus" :disabled="updateActionLoading" v-if="tool.actions.indexOf('MINUS') > -1" size="mini" type="info" @click="minusPlayerAction(scope.row.matchTeamPlayerId, tool.toolVal)"></el-button>
-            <el-button class="btn-small" icon="el-icon-close" :disabled="updateActionLoading" v-if="tool.actions.indexOf('MISS') > -1" size="mini" type="success" @click="missPlayerAction(scope.row.matchTeamPlayerId, tool.toolVal)"></el-button>
+            <el-button class="btn-small" icon="el-icon-plus" :disabled="scheduleInfo.matchStageType === 'UN_START' || updateActionLoading" v-if="tool.actions.indexOf('ADD') > -1" size="mini" type="primary" @click="addPlayerAction(scope.row.matchTeamPlayerId, tool.toolVal)"></el-button>
+            <el-button class="btn-small" icon="el-icon-minus" :disabled="scheduleInfo.matchStageType === 'UN_START' || updateActionLoading" v-if="tool.actions.indexOf('MINUS') > -1" size="mini" type="info" @click="minusPlayerAction(scope.row.matchTeamPlayerId, tool.toolVal)"></el-button>
+            <el-button class="btn-small" icon="el-icon-close" :disabled="scheduleInfo.matchStageType === 'UN_START' || updateActionLoading" v-if="tool.actions.indexOf('MISS') > -1" size="mini" type="success" @click="missPlayerAction(scope.row.matchTeamPlayerId, tool.toolVal)"></el-button>
           </el-button-group>
         </el-table-column>
       </el-table>
@@ -102,9 +102,9 @@
         </el-table-column>
         <el-table-column v-for="tool in userScoringTools" :key="tool.toolVal" :prop="tool.toolVal" :label="tool.toolName" align="center">
           <el-button-group slot-scope="scope">
-            <el-button class="btn-small" icon="el-icon-plus" :disabled="updateActionLoading" v-if="tool.actions.indexOf('ADD') > -1" size="mini" type="primary" @click="addPlayerAction(scope.row.matchTeamPlayerId, tool.toolVal)"></el-button>
-            <el-button class="btn-small" icon="el-icon-minus" :disabled="updateActionLoading" v-if="tool.actions.indexOf('MINUS') > -1" size="mini" type="info" @click="minusPlayerAction(scope.row.matchTeamPlayerId, tool.toolVal)"></el-button>
-            <el-button class="btn-small" icon="el-icon-close" :disabled="updateActionLoading" v-if="tool.actions.indexOf('MISS') > -1" size="mini" type="success" @click="missPlayerAction(scope.row.matchTeamPlayerId, tool.toolVal)"></el-button>
+            <el-button class="btn-small" icon="el-icon-plus" :disabled="scheduleInfo.matchStageType === 'UN_START' || updateActionLoading" v-if="tool.actions.indexOf('ADD') > -1" size="mini" type="primary" @click="addPlayerAction(scope.row.matchTeamPlayerId, tool.toolVal)"></el-button>
+            <el-button class="btn-small" icon="el-icon-minus" :disabled="scheduleInfo.matchStageType === 'UN_START' || updateActionLoading" v-if="tool.actions.indexOf('MINUS') > -1" size="mini" type="info" @click="minusPlayerAction(scope.row.matchTeamPlayerId, tool.toolVal)"></el-button>
+            <el-button class="btn-small" icon="el-icon-close" :disabled="scheduleInfo.matchStageType === 'UN_START' || updateActionLoading" v-if="tool.actions.indexOf('MISS') > -1" size="mini" type="success" @click="missPlayerAction(scope.row.matchTeamPlayerId, tool.toolVal)"></el-button>
           </el-button-group>
         </el-table-column>
       </el-table>

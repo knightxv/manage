@@ -357,6 +357,60 @@ const router = new Router({
             title: '创建视频',
           },
         },
+        {
+          path: '/cms/category/categoryList',
+          name: 'CategoryList',
+          component: () =>
+          import(/* webpackChunkName: "CategoryList" */ './pages/cms/category/CategoryList.vue'),
+          meta: {
+            title: '类目列表',
+          },
+        },
+        {
+          path: '/cms/category/createCategory',
+          name: 'CreateCategory',
+          component: () =>
+          import(/* webpackChunkName: "CreateCategory" */ './pages/cms/category/CreateCategory.vue'),
+          meta: {
+            title: '添加类目',
+          },
+        },
+        {
+          path: '/cms/category/editCategory/:categoryId',
+          name: 'EditCategory',
+          component: () =>
+          import(/* webpackChunkName: "EditCategory" */ './pages/cms/category/EditCategory.vue'),
+          meta: {
+            title: '修改类目',
+          },
+        },
+        {
+          path: '/cms/category/:categoryId/articleList',
+          name: 'ArticleList',
+          component: () =>
+          import(/* webpackChunkName: "ArticleList" */ './pages/cms/category/ArticleList.vue'),
+          meta: {
+            title: '类目文章',
+          },
+        },
+        {
+          path: '/cms/category/:categoryId/CreateArticle',
+          name: 'CreateArticle',
+          component: () =>
+          import(/* webpackChunkName: "CreateArticle" */ './pages/cms/category/CreateArticle.vue'),
+          meta: {
+            title: '创建文章',
+          },
+        },
+        {
+          path: '/cms/category/:categoryId/CreateArticle/:articleId',
+          name: 'EditArticle',
+          component: () =>
+          import(/* webpackChunkName: "EditArticle" */ './pages/cms/category/EditArticle.vue'),
+          meta: {
+            title: '修改文章',
+          },
+        },
       ],
     },
     {

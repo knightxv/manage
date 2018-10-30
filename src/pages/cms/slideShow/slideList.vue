@@ -56,13 +56,13 @@ export default class SlideShowList extends Vue {
       slideShows: [],
       loading: true,
       total: 0,
-      page: 0,
+      page: 1,
       limit: 10,
     };
   }
   async getList() {
     const params = {
-      pageNum: this.$data.page,
+      pageNum: this.$data.page - 1,
       pageSize: 10,
     };
     this.$data.loading = true;

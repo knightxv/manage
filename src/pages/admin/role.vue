@@ -106,7 +106,7 @@ export default class UserManage extends Vue {
         },
         roles: [],
         total: 0,
-        page: 0,
+        page: 1,
         limit: 10,
         loading: false,
         sels: [], // 列表选中列
@@ -141,12 +141,12 @@ export default class UserManage extends Vue {
   }
   reLoadInfo() {
     this.$data.total = 0;
-    this.$data.page = 0;
+    this.$data.page = 1;
     this.getList();
   }
   async getList() {
     const params = {
-        pageNum: this.$data.page,
+        pageNum: this.$data.page - 1,
         pageSize: 10,
         name: this.$data.filters.name,
     };

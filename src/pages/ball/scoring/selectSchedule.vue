@@ -62,7 +62,7 @@ import ApiMatch from '@/services/liveapp/match';
 export default class SelectSchedule extends Vue {
   data() {
     return {
-      pageNum: 0,
+      page: 1,
       size: 12,
       total: 0,
       selectMatchId: '',
@@ -75,7 +75,7 @@ export default class SelectSchedule extends Vue {
     this.getSchedules();
   }
   handleCurrentChange(val: number) {
-    this.$data.pageNum = val;
+    this.$data.page = val;
     this.getSchedules();
   }
   mounted() {
@@ -102,7 +102,7 @@ export default class SelectSchedule extends Vue {
   async getSchedules() {
     const matchId = this.$data.selectMatchId;
     const params = {
-      pageNum: this.$data.pageNum,
+      pageNum: this.$data.page - 1,
       pageSize: this.$data.size,
       matchId,
     };

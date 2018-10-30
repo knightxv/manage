@@ -69,7 +69,7 @@ export default class Schedules extends Vue {
   data() {
     return {
       total: 0,
-      page: 0,
+      page: 1,
       loading: false,
       schedules: [],
     };
@@ -120,7 +120,7 @@ export default class Schedules extends Vue {
   async getSchedules() {
     const matchId = +this.$route.params.id;
     const params = {
-      pageNum: this.$data.page,
+      pageNum: this.$data.page - 1,
       pageSize: 10,
       matchId,
     };

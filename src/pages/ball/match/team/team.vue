@@ -54,7 +54,7 @@ export default class Team extends Vue {
   data() {
     return {
       total: 0,
-      page: 0,
+      page: 1,
       loading: false,
       editScoreId: null, // 目前哪个队伍正在修改积分
       teamPoints: null,
@@ -115,7 +115,7 @@ export default class Team extends Vue {
   async getSchedules() {
     const matchId = +this.$route.params.id;
     const params = {
-      pageNum: this.$data.page,
+      pageNum: this.$data.page - 1,
       pageSize: 10,
       matchId,
     };
