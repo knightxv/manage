@@ -47,6 +47,7 @@ body, html {
   border-right: 0;
 }
 
+
 // common
 .container {
     padding: 30px;
