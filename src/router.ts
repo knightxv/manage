@@ -403,7 +403,7 @@ const router = new Router({
           },
         },
         {
-          path: '/cms/category/:categoryId/CreateArticle/:articleId',
+          path: '/cms/category/:categoryId/editArticle/:articleId',
           name: 'EditArticle',
           component: () =>
           import(/* webpackChunkName: "EditArticle" */ './pages/cms/category/EditArticle.vue'),

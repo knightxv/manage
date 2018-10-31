@@ -17,9 +17,11 @@
       <app-upload :imgUrl.sync="addForm.coverImage"></app-upload>
     </el-form-item>
     <el-form-item label="内容" prop="content">
-      <app-quill-editor
-        :content.sync="addForm.content"
-      ></app-quill-editor>
+      <div style="width: 800px;">
+        <app-quill-editor
+          :content.sync="addForm.content"
+        ></app-quill-editor>
+      </div>
     </el-form-item>
     
   </el-form>

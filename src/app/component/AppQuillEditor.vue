@@ -1,6 +1,7 @@
 <template>
-<div>
+<div class="editor-container">
   <quill-editor
+    class="editor-wrap"
     v-bind="$attrs"
     ref="myQuillEditor"
     :options="editorOption"
@@ -67,4 +68,10 @@ export default class AppQuillEditor extends Vue {
 </script>
 
 <style scoped lang="less">
+.editor-container {
+  min-height: 200px;
+}
+.editor-wrap /deep/ .ql-container {
+  min-height: 140px;
+}
 </style>
