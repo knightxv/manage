@@ -411,6 +411,15 @@ const router = new Router({
             title: '修改文章',
           },
         },
+        {
+          path: '/cms/global/properties',
+          name: 'GlobalProperties',
+          component: () =>
+          import(/* webpackChunkName: "GlobalProperties" */ './pages/cms/global/GlobalProperties.vue'),
+          meta: {
+            title: '修改文章',
+          },
+        },
       ],
     },
     {

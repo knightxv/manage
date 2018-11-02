@@ -1,8 +1,6 @@
 import http from '@/app/http';
 import { IRoleListData } from '@/services/apiDataType';
 
-
-
 export default {
     findList(params: { pageSize: number,  pageNum: number, name: string } | null): Promise<IRoleListData> {
         return http.post('/api-admin/role/list', params);

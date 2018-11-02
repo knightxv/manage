@@ -13,7 +13,7 @@
           </el-input>
         </el-form-item>
         <el-form-item>
-          <el-button type="primary">查询</el-button>
+          <el-button @click="getPlayer" type="primary">查询</el-button>
         </el-form-item>
         <el-form-item>
           <el-button type="primary" @click="addFormVisible = true">添加</el-button>

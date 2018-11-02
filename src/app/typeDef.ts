@@ -24,6 +24,10 @@ export const slideWebTagMap = {
 export const slideWebTagLabMap = {
   CHAT_SWIPER: '聊天轮播',
 };
+export const globalPropertiesType = {
+  HOME_PAGE_SLIDESHOW: 'HOME_PAGE_SLIDESHOW',
+  VIDEO_PAGE_SLIDESHOW: 'VIDEO_PAGE_SLIDESHOW',
+};
 /** socket注册类型 */
 export enum SocketRegisterType {
   MATCH_SCHEDULE = 'MATCH_SCHEDULE_ID',
