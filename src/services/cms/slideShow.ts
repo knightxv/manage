@@ -31,4 +31,7 @@ export default {
   slideContentList(slideShowId: string) {
     return http.get(`/api-cms/adminSlideshowContent/list/${slideShowId}`);
   },
+  clearCache(slideShowId: string) {
+    return http.get(`/api-cms/adminSlideshow/clearCache/${slideShowId}`);
+  },
 };

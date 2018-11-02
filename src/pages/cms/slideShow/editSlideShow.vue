@@ -1,5 +1,8 @@
 <template>
 <div class="container">
+  <div>
+    <el-button @click.native="clearCache" type="primary">清空缓存</el-button>
+  </div>
   <el-form :model="addForm" label-width="130px" class="form-box" :rules="addFormRules" ref="addForm">
     <el-form-item label="幻灯片名称" prop="slideshowName">
       <el-input v-model="addForm.slideshowName" auto-complete="off"></el-input>
@@ -137,6 +140,7 @@ export default class EditSlideShow extends Vue {
       if (!res.isSuccess) {
         return;
       }
+      this.clearCache();
       this.$message.success('修改成功');
       this.$router.back();
     });
@@ -225,6 +229,14 @@ export default class EditSlideShow extends Vue {
       return;
     }
     this.$data.slideshowContentVOS = res.data;
+  }
+  async clearCache() {
+    const { slideshowId } = this.$route.params;
+    const res = await ApiSlide.clearCache(slideshowId);
+    if (!res.isSuccess) {
+      return;
+    }
+    this.$message.success('清空成功');
   }
 }
 </script>
