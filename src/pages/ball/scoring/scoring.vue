@@ -44,7 +44,7 @@
         主场球队:{{ homeCourtTeam.matchTeamName }}
         <span class="team-score">总得分：{{ homeCourtTeamScoreCount }}</span>
       </div>
-      <el-table :data="homeOnTheCourtTeamPlayers" highlight-current-row v-loading="tableLoading" align="center" style="width: 100%;">
+      <el-table :default-sort="{prop: 'playerTeamNum', order: 'ascending'}" :data="homeOnTheCourtTeamPlayers" highlight-current-row v-loading="tableLoading" align="center" style="width: 100%;">
         <el-table-column type="expand" width="20px">
           <template slot-scope="props">
             <el-form label-position="left" inline class="demo-table-expand">
@@ -60,7 +60,7 @@
             </el-form>
           </template>
         </el-table-column>
-        <el-table-column prop="playerTeamNum" label="球号" width="45px" >
+        <el-table-column prop="playerTeamNum" label="球号" width="45px">
         </el-table-column>
         <el-table-column prop="playerName" label="姓名" width="70px">
         </el-table-column>
@@ -78,7 +78,7 @@
         客场球队:{{ opponentTeam.matchTeamName }}
         <span class="team-score">总得分：{{ opponentTeamcoreCount }}</span>
       </div>
-      <el-table :data="opponentOnTheCourtTeamPlayers" :show-header="false" highlight-current-row v-loading="tableLoading" align="center" style="width: 100%;">
+      <el-table :default-sort ="{prop: 'playerTeamNum', order: 'ascending'}" :data="opponentOnTheCourtTeamPlayers" highlight-current-row v-loading="tableLoading" align="center" style="width: 100%;">
         <el-table-column type="expand" width="20px">
           <template slot-scope="props">
             <el-form label-position="left" inline class="demo-table-expand">

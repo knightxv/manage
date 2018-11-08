@@ -4,6 +4,9 @@
     <el-form-item label="视频组名" prop="groupName">
       <el-input v-model="addForm.groupName" auto-complete="off"></el-input>
     </el-form-item>
+    <el-form-item label="视屏组排序" prop="orderNum">
+      <el-input v-model="addForm.orderNum" auto-complete="off"></el-input>
+    </el-form-item>
     <el-form-item label="视屏组封面" prop="groupImg">
       <app-upload :imgUrl.sync="addForm.groupImg"></app-upload>
     </el-form-item>

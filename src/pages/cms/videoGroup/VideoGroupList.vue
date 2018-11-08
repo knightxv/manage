@@ -18,6 +18,8 @@
       </el-table-column>
       <el-table-column prop="systemType" label="系统类型" sortable>
       </el-table-column>
+      <el-table-column prop="orderNum" label="排序" sortable>
+      </el-table-column>
       <el-table-column label="操作" width="250">
         <template slot-scope="scope">
           <el-button size="mini" @click="goEditVideoList(scope.row.id)">视频管理</el-button>

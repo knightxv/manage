@@ -19,6 +19,9 @@
     <el-form-item label="冠名商" prop="namingQuotient">
       <el-input v-model="addForm.namingQuotient" auto-complete="off"></el-input>
     </el-form-item>
+    <el-form-item label="指导方" prop="guidance">
+      <el-input v-model="addForm.guidance" auto-complete="off"></el-input>
+    </el-form-item>
     <el-form-item label="面板排序" prop="tabOrder">
       <el-input v-model="addForm.tabOrder" auto-complete="off"></el-input>
     </el-form-item>

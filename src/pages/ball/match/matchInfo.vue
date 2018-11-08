@@ -3,6 +3,7 @@
     <p>赛事名称: {{ matchInfo.matchName }}</p>
     <p>承包商: {{ matchInfo.matchUndertake }}</p>
     <p>冠名商: {{ matchInfo.namingQuotient }}</p>
+    <p>指导方: {{ matchInfo.guidance }}</p>
     <p>主办方: {{ matchInfo.matchHost }}</p>
     <p>赛事地点: {{ matchInfo.matchAddress }}</p>
     <p>状态: {{ matchInfo.enabled ? '已上架' : '未上架' }}</p>
