@@ -211,7 +211,6 @@ export default class UserManage extends Vue {
       this.reLoadInfo();
     });
   }
-  // NOTE: no user now
   batchDeleteRole() {
     const ids = this.$data.sels.map((item: IUserRoleInfoItem) => item.roleId);
     this.$confirm('确认删除选中记录吗？', '提示', {

@@ -420,6 +420,107 @@ const router = new Router({
             title: '修改文章',
           },
         },
+        // gift
+        {
+          path: '/ball/gift/giftList',
+          name: 'BallGiftList',
+          component: () =>
+          import(/* webpackChunkName: "BallGiftList" */ './pages/gift/GiftList.vue'),
+          meta: {
+            title: '礼物列表',
+          },
+        },
+        {
+          path: '/ball/gift/createGift',
+          name: 'CreateGift',
+          component: () =>
+          import(/* webpackChunkName: "CreateGift" */ './pages/gift/CreateGift.vue'),
+          meta: {
+            title: '礼物列表',
+          },
+        },
+        {
+          path: '/ball/gift/editGift/:giftId',
+          name: 'EditGift',
+          component: () =>
+          import(/* webpackChunkName: "CreateGift" */ './pages/gift/EditGift.vue'),
+          meta: {
+            title: '礼物列表',
+          },
+        },
+        // 支付
+        {
+          path: '/pay/:tenantId/payClientList',
+          name: 'PayClientList',
+          component: () =>
+          import(/* webpackChunkName: "PayClientList" */ './pages/pay/PayClientList.vue'),
+          meta: {
+            title: '支付客户端列表',
+          },
+        },
+        {
+          path: '/pay/:tenantId/createPayClient',
+          name: 'CreatePayClient',
+          component: () =>
+          import(/* webpackChunkName: "CreatePayClient" */ './pages/pay/CreatePayClient.vue'),
+          meta: {
+            title: '创建客户端',
+          },
+        },
+        {
+          path: '/pay/editPayClient/:payClientId',
+          name: 'EditPayClient',
+          component: () =>
+          import(/* webpackChunkName: "EditPayClient" */ './pages/pay/EditPayClient.vue'),
+          meta: {
+            title: '修改客户端',
+          },
+        },
+        {
+          path: '/pay/:payClientId/PayClientPhoneList',
+          name: 'PayClientPhoneList',
+          component: () =>
+          import(/* webpackChunkName: "PayClientPhoneList" */ './pages/pay/PayClientPhoneList.vue'),
+          meta: {
+            title: '客户端手机列表',
+          },
+        },
+        {
+          path: '/pay/:payClientId/createPayClientPhone',
+          name: 'CreatePayClientPhone',
+          component: () =>
+          import(/* webpackChunkName: "CreatePayClientPhone" */ './pages/pay/CreatePayClientPhone.vue'),
+          meta: {
+            title: '创建手机',
+          },
+        },
+        {
+          path: '/pay/editPayClientPhone/:payClientPhoneId',
+          name: 'EditPayClientPhone',
+          component: () =>
+          import(/* webpackChunkName: "EditPayClientPhone" */ './pages/pay/EditPayClientPhone.vue'),
+          meta: {
+            title: '修改手机信息',
+          },
+        },
+        {
+          path: '/pay/:payClientPhoneId/payClientPhoneAmountList',
+          name: 'PayClientPhoneAmountList',
+          component: () =>
+          import(/* webpackChunkName: "PayClientPhoneAmountList" */ './pages/pay/PayClientPhoneAmountList.vue'),
+          meta: {
+            title: '手机金额列表',
+          },
+        },
+        {
+          path: '/pay/:payClientPhoneAmountId/payClientPhoneQrcodeList',
+          name: 'PayClientPhoneQrcodeList',
+          component: () =>
+          import(/* webpackChunkName: "PayClientPhoneQrcodeList" */ './pages/pay/PayClientPhoneQrcodeList.vue'),
+          meta: {
+            title: '二维码列表',
+          },
+        },
       ],
     },
     {

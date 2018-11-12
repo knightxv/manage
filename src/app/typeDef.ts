@@ -55,7 +55,23 @@ export const personCountTypeLabMap = {
   VIRTUAL: '虚假',
   CLICK: '点击',
 };
-
+// 礼物类型
+export const giftPriceType = {
+  BONUS_POINT: 'BONUS_POINT',
+  BALANCE: 'BALANCE',
+};
+export const giftPriceTypeLabMap: {[key: string]: string} = {
+  BONUS_POINT: '积分礼物',
+  BALANCE: '余额礼物',
+};
+export const payType = {
+  WECHAT: 'WECHAT',
+  ALIPAY: 'ALIPAY',
+};
+export const payTypeLabMap: {[key: string]: string} = {
+  WECHAT: '微信',
+  ALIPAY: '支付包',
+};
 
 /** 赛事类型 */
 export const matchType = {
