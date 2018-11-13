@@ -10,7 +10,6 @@
           </el-form-item>
         </el-form>
       </el-col>
-
       <!--列表-->
       <el-table :data="list" highlight-current-row
                 style="width: 100%;">
@@ -33,7 +32,7 @@
             <el-input v-model="editForm.payTag" auto-complete="off"></el-input>
           </el-form-item>
           <el-form-item label="二维码解析地址" prop="qrCodeUrl">
-            <el-input v-model="editForm.qrCodeUrl" auto-complete="off"></el-input>
+            <el-input disabled v-model="editForm.qrCodeUrl" auto-complete="off"></el-input>
           </el-form-item>
           <el-form-item label="支付类型" prop="payType">
             <el-radio-group v-model="editForm.payType">
@@ -47,7 +46,8 @@
             </el-radio-group>
           </el-form-item>
           <el-form-item label="二维码图片" prop="qrCodeImg">
-            <app-upload :imgUrl.sync="editForm.qrCodeImg"></app-upload>
+            <qrcode-capture @detect="onEditFormDetect" />
+            <!-- <app-upload :imgUrl.sync="addForm.qrCodeImg"></app-upload> -->
           </el-form-item>
         </el-form>
         <div slot="footer" class="dialog-footer">
@@ -63,7 +63,7 @@
             <el-input v-model="addForm.payTag" auto-complete="off"></el-input>
           </el-form-item>
           <el-form-item label="二维码解析地址" prop="qrCodeUrl">
-            <el-input v-model="addForm.qrCodeUrl" auto-complete="off"></el-input>
+            <el-input disabled v-model="addForm.qrCodeUrl" auto-complete="off"></el-input>
           </el-form-item>
           <el-form-item label="支付类型" prop="payType">
             <el-radio-group v-model="addForm.payType">
@@ -77,7 +77,8 @@
             </el-radio-group>
           </el-form-item>
           <el-form-item label="二维码图片" prop="qrCodeImg">
-            <app-upload :imgUrl.sync="addForm.qrCodeImg"></app-upload>
+            <qrcode-capture ref="capture" @detect="onAddDetect" />
+            <!-- <app-upload :imgUrl.sync="addForm.qrCodeImg"></app-upload> -->
           </el-form-item>
         </el-form>
         <div slot="footer" class="dialog-footer">
@@ -93,8 +94,15 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
+import ApiUpload from '@/services/common/upload';
 import ApiPayClient from '@/services/pay/payClient';
-@Component
+import { QrcodeCapture } from 'vue-qrcode-reader';
+import { setTimeout } from 'timers';
+@Component({
+  components: {
+    'qrcode-capture': QrcodeCapture,
+  },
+})
 export default class PayClientPhoneQrcodeList extends Vue {
   data() {
     return {
@@ -118,6 +126,48 @@ export default class PayClientPhoneQrcodeList extends Vue {
   }
   mounted() {
     this.getList();
+  }
+  onchange(file: any) {
+    console.log('onchange', file);
+  }
+  async onAddDetect(promise: any) {
+    this.$data.addLoading = true;
+    const { qrCodeUrl, qrCodeImg } = await this.onDetect(promise);
+    this.$data.addForm.qrCodeUrl = qrCodeUrl;
+    this.$data.addForm.qrCodeImg = qrCodeImg;
+    this.$data.addLoading = false;
+  }
+  async onEditFormDetect(promise: any) {
+    this.$data.editLoading = true;
+    const { qrCodeUrl, qrCodeImg } = await this.onDetect(promise);
+    this.$data.editForm.qrCodeUrl = qrCodeUrl;
+    this.$data.editForm.qrCodeImg = qrCodeImg;
+    this.$data.editLoading = false;
+  }
+  async onDetect(promise: any) {
+    let qrCodeUrl = '';
+    let qrCodeImg = '';
+    try {
+      const info = await promise;
+      const { imageData, content, location } = info;
+      if (content == null) {
+        throw new Error('解析失败');
+      }
+      qrCodeUrl = content;
+      const file = new File(imageData.data, 'qrcode.jpg');
+      const res = await ApiUpload.uploadImage(file);
+      if (!res.isSuccess) {
+        throw new Error('上传图片失败');
+      }
+      qrCodeImg = res.data.resourceUrl;
+    } catch (err) {
+      this.$message.error('解析失败');
+      console.log(err);
+    }
+    return {
+      qrCodeUrl,
+      qrCodeImg,
+    };
   }
   async editSubmit() {
     const { payClientPhoneAmountId } = this.$route.params;

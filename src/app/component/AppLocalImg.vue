@@ -8,7 +8,7 @@ import { Component, Prop, Vue } from 'vue-property-decorator';
 const requireComponent = require.context(
   '../assets/img',
   true,
-  /\w+\.(jpg|png)$/,
+  /\w+\.(jpg|png|gif)$/,
 );
 const resource: {[propName: string]: any } = {};
 requireComponent.keys().forEach((fileName: string) => {

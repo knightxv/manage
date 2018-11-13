@@ -42,7 +42,7 @@ export default class AppUpload extends Vue {
     this.$emit('uploadSuccess', imgUrl);
   }
   beforeAvatarUpload(file: any) {
-    const isJPG = file.type === 'image/jpeg' || file.type === 'image/png';
+    const isJPG = file.type === 'image/jpeg' || file.type === 'image/png' || file.type === 'image/gif';
     const isLt2M = file.size / 1024 / 1024 < 2;
     if (!isJPG) {
       this.$message.error('上传头像图片只能是JPG|PNG格式!');

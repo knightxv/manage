@@ -34,6 +34,9 @@
     <el-form-item label="礼物图标" prop="giftIco">
       <app-upload :imgUrl.sync="editForm.giftIco"></app-upload>
     </el-form-item>
+    <el-form-item label="礼物特效图标" prop="dynamicGiftIco">
+      <app-upload :imgUrl.sync="editForm.dynamicGiftIco"></app-upload>
+    </el-form-item>
     <el-form-item label="礼物价格类型" prop="giftPriceType">
       <el-radio-group v-model="editForm.giftPriceType">
         <el-radio
