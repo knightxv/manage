@@ -70,7 +70,7 @@ export const payType = {
 };
 export const payTypeLabMap: {[key: string]: string} = {
   WECHAT: '微信',
-  ALIPAY: '支付包',
+  ALIPAY: '支付宝',
 };
 
 /** 赛事类型 */
