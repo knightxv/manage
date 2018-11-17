@@ -56,4 +56,13 @@ export default {
   deletePayClientPhoneQrCode(phoneQrCodeId: number | string) {
     return http.delete(`/api-shiropay/adminPayClientPhoneQrCode/deleted/${phoneQrCodeId}`, null);
   },
+  getQrcodeTaskList(payClientPhoneId: number | string) {
+    return http.get(`/api-shiropay/adminPayClientBuildQrCodeTask/getList/${payClientPhoneId}`, null);
+  },
+  deletePayClientPhoneQrCodeTask(qrCodeTaskId: number | string) {
+    return http.delete(`/api-shiropay/adminPayClientBuildQrCodeTask/deleted/${qrCodeTaskId}`, null);
+  },
+  createPayClientPhoneQrCodeTask(params: any) {
+    return http.post(`/api-shiropay/adminPayClientBuildQrCodeTask/payClientBuildQrCodeTaskCreate`, params);
+  },
 };

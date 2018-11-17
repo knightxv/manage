@@ -521,6 +521,25 @@ const router = new Router({
             title: '二维码列表',
           },
         },
+        {
+          path: '/pay/:payClientPhoneId/payClientPhoneQrCodeTaskList',
+          name: 'PayClientPhoneQrCodeTaskList',
+          component: () =>
+          import(/* webpackChunkName: "PayClientPhoneQrCodeTaskList" */ './pages/pay/PayClientPhoneQrCodeTaskList.vue'),
+          meta: {
+            title: '二维码任务',
+          },
+        },
+        {
+          path: '/pay/:payClientPhoneId/CreatePayClientPhoneQrCodeTask',
+          name: 'CreatePayClientPhoneQrCodeTask',
+          component: () =>
+          import(/* webpackChunkName: "CreatePayClientPhoneQrCodeTask" */
+          './pages/pay/CreatePayClientPhoneQrCodeTask.vue'),
+          meta: {
+            title: '二维码任务',
+          },
+        },
       ],
     },
     {
