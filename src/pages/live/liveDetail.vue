@@ -8,6 +8,9 @@
       <el-form-item label="上热播">
         <el-switch v-model="homePageShow" @change="changeHotLiveHandler"></el-switch>
       </el-form-item>
+      <el-form-item label="开启聊天功能">
+        <el-switch v-model="liveCanChat" @change="changeLiveChatEnableHandler"></el-switch>
+      </el-form-item>
     </el-form>
   </el-col>
   <el-card class="box-card">
@@ -71,6 +74,7 @@ export default class LiveDetail extends Vue {
       bindSlideshows: [],
       allSlideshow: [],
       content: '',
+      liveCanChat: true,
     };
   }
   mounted() {
@@ -86,6 +90,7 @@ export default class LiveDetail extends Vue {
       return;
     }
     this.$data.homePageShow = res.data.homePageShow;
+    this.$data.liveCanChat = res.data.openChat;
   }
   async getLiveIntroduce() {
     const { liveId } = this.$route.params;
@@ -100,6 +105,17 @@ export default class LiveDetail extends Vue {
     const res = await ApiLive.editHomePageShow(liveId, val);
     if (!res.isSuccess) {
       this.$data.homePageShow = !val;
+      return;
+    }
+  }
+  async changeLiveChatEnableHandler(val: boolean) {
+    const { liveId } = this.$route.params;
+    const res = await ApiLive.editOpenChat({
+      id: liveId,
+      openChat: val,
+    });
+    if (!res.isSuccess) {
+      this.$data.liveCanChat = !val;
       return;
     }
   }

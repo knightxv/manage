@@ -54,6 +54,9 @@ export default {
   getLiveIntroduce(liveId: number | string) {
     return http.get(`/api-liveapp/adminLive/getLiveIntroduce/${liveId}`, null);
   },
+  editOpenChat(params: any) {
+    return http.put(`/api-liveapp/adminLive/editOpenChat`, params);
+  },
   editLiveIntroduce(liveId: number | string, introduce: string) {
     return http.put(`/api-liveapp/adminLive/editLiveIntroduce`, {
       id: liveId,
