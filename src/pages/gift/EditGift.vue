@@ -7,8 +7,16 @@
     <el-form-item label="礼物排序" prop="giftOrder">
       <el-input v-model="editForm.giftOrder" auto-complete="off"></el-input>
     </el-form-item>
-    <el-form-item label="前端标记" prop="webMark">
-      <el-input v-model="editForm.webMark" auto-complete="off"></el-input>
+    <el-form-item label="特效类型" prop="selectEffectType">
+      <el-radio-group v-model="editForm.webMark">
+        <el-radio
+          v-for="item in $app.typeDef.giftEffectType"
+          :label="item"
+          :key="item"
+        >
+          {{ $app.typeDef.giftEffectTypeMap[item] }}
+        </el-radio>
+      </el-radio-group>
     </el-form-item>
     <el-form-item label="礼物价格(分)" prop="giftPrice">
       <el-input type="number" v-model="editForm.giftPrice" auto-complete="off"></el-input>
@@ -37,6 +45,9 @@
     <el-form-item label="礼物特效图标" prop="dynamicGiftIco">
       <app-upload :imgUrl.sync="editForm.dynamicGiftIco"></app-upload>
     </el-form-item>
+    <el-form-item label="全屏特效图" prop="dynamicGift">
+      <app-upload :imgUrl.sync="editForm.dynamicGift"></app-upload>
+    </el-form-item>
     <el-form-item label="礼物价格类型" prop="giftPriceType">
       <el-radio-group v-model="editForm.giftPriceType">
         <el-radio
@@ -58,7 +69,7 @@
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
 import ApiGift from '@/services/liveapp/gift';
-import { giftPriceType } from '@/app/typeDef';
+import { giftPriceType, giftEffectType, giftEffectTypeMap } from '@/app/typeDef';
 @Component
 export default class EditGift extends Vue {
   data() {
@@ -79,7 +90,7 @@ export default class EditGift extends Vue {
         return;
       }
       const { giveLimit } = this.$data;
-      const params = Object.assign(this.$data.editForm);
+      const params = Object.assign({}, this.$data.editForm);
       if (!giveLimit) {
         params.useLimit = -1;
       }

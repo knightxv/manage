@@ -7,8 +7,16 @@
     <el-form-item label="礼物排序" prop="giftOrder">
       <el-input v-model="addForm.giftOrder" auto-complete="off"></el-input>
     </el-form-item>
-    <el-form-item label="前端标记" prop="webMark">
-      <el-input v-model="addForm.webMark" auto-complete="off"></el-input>
+    <el-form-item label="特效类型" prop="selectEffectType">
+      <el-radio-group v-model="addForm.webMark">
+        <el-radio
+          v-for="item in $app.typeDef.giftEffectType"
+          :label="item"
+          :key="item"
+        >
+          {{ $app.typeDef.giftEffectTypeMap[item] }}
+        </el-radio>
+      </el-radio-group>
     </el-form-item>
     <el-form-item label="礼物价格(分)" prop="giftPrice">
       <el-input type="number" v-model="addForm.giftPrice" auto-complete="off"></el-input>
@@ -58,7 +66,7 @@
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
 import ApiGift from '@/services/liveapp/gift';
-import { giftPriceType } from '@/app/typeDef';
+import { giftPriceType, giftEffectType } from '@/app/typeDef';
 @Component
 export default class CreateGift extends Vue {
   data() {
@@ -71,6 +79,7 @@ export default class CreateGift extends Vue {
       addForm: {
         giftPriceType: giftPriceType.BONUS_POINT,
         useLimit: -1,
+        webMark: giftEffectType.NORMAL_EFFECT,
       },
     };
   }
@@ -80,7 +89,7 @@ export default class CreateGift extends Vue {
         return;
       }
       const { giveLimit } = this.$data;
-      const params = Object.assign(this.$data.addForm);
+      const params = Object.assign({}, this.$data.addForm);
       if (!giveLimit) {
         params.useLimit = -1;
       }

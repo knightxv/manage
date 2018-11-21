@@ -64,6 +64,14 @@ export const giftPriceTypeLabMap: {[key: string]: string} = {
   BONUS_POINT: '积分礼物',
   BALANCE: '余额礼物',
 };
+export const giftEffectType = {
+  NORMAL_EFFECT: 'NORMAL_EFFECT',
+  SENIOR_EFFECT: 'SENIOR_EFFECT',
+};
+export const giftEffectTypeMap: {[key: string]: string} = {
+  NORMAL_EFFECT: '普通特效',
+  SENIOR_EFFECT: '全屏特效',
+};
 export const payType = {
   WECHAT: 'WECHAT',
   ALIPAY: 'ALIPAY',
