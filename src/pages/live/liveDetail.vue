@@ -47,6 +47,26 @@
       </el-row>
     </el-row>
   </el-card>
+  <div class="bind-gift-group-item">
+    <el-row type="flex" align="middle">
+      <el-col>
+        绑定礼物组
+      </el-col>
+      <el-select v-model="selectBindGroupId" filterable placeholder="要绑定的礼物组">
+        <el-option
+          label="无"
+          :value="null">
+        </el-option>
+        <el-option
+          v-for="item in allGiftGroupList"
+          :key="item.id"
+          :label="`${item.supportGiftGroupName}`"
+          :value="item.id">
+        </el-option>
+      </el-select>
+      <el-button @click="bindGiftGroup" type="primary">绑定</el-button>
+    </el-row>
+  </div>
   <div>
     <div class="live-detail-title">直播详情</div>
     <app-quill-editor
@@ -60,6 +80,7 @@
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
 import ApiLive from '@/services/liveapp/live';
+import ApiGift from '@/services/liveapp/gift';
 import ApiSlideShow from '@/services/cms/slideShow';
 import { systemType } from '@/app/typeDef';
 
@@ -75,6 +96,8 @@ export default class LiveDetail extends Vue {
       allSlideshow: [],
       content: '',
       liveCanChat: true,
+      selectBindGroupId: null,
+      allGiftGroupList: [],
     };
   }
   mounted() {
@@ -82,6 +105,27 @@ export default class LiveDetail extends Vue {
     this.getScheduleSlideshows();
     this.getAllSlideshows();
     this.getLiveIntroduce();
+    this.getGiftGroupList();
+  }
+  async getGiftGroupList() {
+    const res = await ApiGift.getGiftGroupList();
+    if (!res.isSuccess) {
+      return;
+    }
+    this.$data.allGiftGroupList = res.data;
+  }
+  async bindGiftGroup() {
+    const { liveId } = this.$route.params;
+    const { selectBindGroupId } = this.$data;
+    const params = {
+      id: liveId,
+      supportGiftGroupId: selectBindGroupId,
+    };
+    const res = await ApiLive.editSupportGiftGroup(params);
+    if (!res.isSuccess) {
+      return;
+    }
+    this.$message.success('绑定礼物组成功');
   }
   async getDetail() {
     const { liveId } = this.$route.params;
@@ -214,5 +258,9 @@ export default class LiveDetail extends Vue {
 }
 .edit-detail-btn {
   margin: 20px 0;
+}
+.bind-gift-group-item {
+  margin: 20px 0 0;
+  width: 300px;
 }
 </style>

@@ -63,4 +63,7 @@ export default {
       introduce,
     });
   },
+  editSupportGiftGroup(params: { id: number | string, supportGiftGroupId: number }) {
+    return http.put(`/api-liveapp/adminLive/editSupportGiftGroup`, params);
+  },
 };

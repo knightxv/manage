@@ -20,4 +20,22 @@ export default {
   getGiftDetail(giftId: number | string) {
     return http.get(`/api-liveapp/adminSupportGift/${giftId}`, null);
   },
+  getGiftGroupList() {
+    return http.get(`/api-liveapp/adminSupportGiftGroup/supportGiftGroupList`, null);
+  },
+  getGiftGroupDetail(giftGroupId: number | string) {
+    return http.get(`/api-liveapp/adminSupportGiftGroup/supportGiftGroupDetail/${giftGroupId}`, null);
+  },
+  editGiftGroup(params: any) {
+    return http.put(`/api-liveapp/adminSupportGiftGroup/supportGiftGroupEdit`, params);
+  },
+  createGiftGroup(supportGiftGroupName: string) {
+    return http.post(`/api-liveapp/adminSupportGiftGroup/supportGiftGroupCreate/${supportGiftGroupName}`, null);
+  },
+  deleteGiftGroup(giftGroupId: number | string) {
+    return http.delete(`/api-liveapp/adminSupportGiftGroup/supportGiftGroupDeleted/${giftGroupId}`, null);
+  },
+  editSupportGiftToGroup(params: { supportGiftToGroupId: number | string, supportGiftIds: number[] } ) {
+    return http.put(`/api-liveapp/adminSupportGiftGroup/addSupportGiftToGroup`, params);
+  },
 };

@@ -103,34 +103,6 @@
           <el-form-item label="用户名" prop="roleName">
             <el-input v-model="editForm.username" auto-complete="off"></el-input>
           </el-form-item>
-          <el-form-item label="姓名" prop="name">
-            <el-input v-model="editForm.name" auto-complete="off"></el-input>
-          </el-form-item>
-          <el-form-item label="性别" prop="sex">
-            <el-radio-group v-model="editForm.sex">
-              <el-radio :label="1">男</el-radio>
-              <el-radio :label="0">女</el-radio>
-            </el-radio-group>
-          </el-form-item>
-          <el-form-item label="电话" prop="mobile">
-            <el-input v-model="editForm.mobile" auto-complete="off"></el-input>
-          </el-form-item>
-          <el-form-item label="出生日期" prop="birth">
-            <el-date-picker type="date" placeholder="创建日期" v-model="editForm.birth"></el-date-picker>
-          </el-form-item>
-          <el-form-item label="邮箱" prop="email">
-            <el-input type="email" v-model="editForm.email"></el-input>
-          </el-form-item>
-          <el-form-item label="地址" prop="liveAddress">
-            <el-input v-model="editForm.liveAddress" auto-complete="off"></el-input>
-          </el-form-item>
-          <el-form-item label="角色">
-            <el-checkbox-group v-model="editForm.roleIds">
-              <el-checkbox v-for="role in roles" :label="+role.roleId" :key="role.roleId">
-                {{role.roleName}}
-              </el-checkbox>
-            </el-checkbox-group>
-          </el-form-item>
         </el-form>
         <div slot="footer" class="dialog-footer">
           <el-button @click.native="editFormVisible = false">取消</el-button>

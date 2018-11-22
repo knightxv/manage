@@ -540,6 +540,26 @@ const router = new Router({
             title: '二维码任务',
           },
         },
+        {
+          path: '/ball/giftGroupList',
+          name: 'GiftGroupList',
+          component: () =>
+          import(/* webpackChunkName: "GiftGroupList" */
+          './pages/gift/GiftGroupList.vue'),
+          meta: {
+            title: '礼物组列表',
+          },
+        },
+        {
+          path: '/ball/:giftGroupId/editGiftGroupList',
+          name: 'EditGiftGroupGift',
+          component: () =>
+          import(/* webpackChunkName: "EditGiftGroupGift" */
+          './pages/gift/EditGiftGroupGift.vue'),
+          meta: {
+            title: '礼物组列表',
+          },
+        },
       ],
     },
     {
