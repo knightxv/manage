@@ -67,10 +67,12 @@ export const giftPriceTypeLabMap: {[key: string]: string} = {
 export const giftEffectType = {
   NORMAL_EFFECT: 'NORMAL_EFFECT',
   SENIOR_EFFECT: 'SENIOR_EFFECT',
+  SPECIAL_EFFECT: 'SPECIAL_EFFECT',
 };
 export const giftEffectTypeMap: {[key: string]: string} = {
   NORMAL_EFFECT: '普通特效',
   SENIOR_EFFECT: '全屏特效',
+  SPECIAL_EFFECT: '特殊特效',
 };
 export const payType = {
   WECHAT: 'WECHAT',

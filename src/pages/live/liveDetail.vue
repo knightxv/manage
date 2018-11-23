@@ -135,6 +135,7 @@ export default class LiveDetail extends Vue {
     }
     this.$data.homePageShow = res.data.homePageShow;
     this.$data.liveCanChat = res.data.openChat;
+    this.$data.selectBindGroupId = res.data.supportGiftGroupId;
   }
   async getLiveIntroduce() {
     const { liveId } = this.$route.params;
@@ -261,6 +262,6 @@ export default class LiveDetail extends Vue {
 }
 .bind-gift-group-item {
   margin: 20px 0 0;
-  width: 300px;
+  width: 360px;
 }
 </style>
