@@ -20,9 +20,11 @@ export enum serverCode {
 }
 export const slideWebTagMap = {
   CHAT_SWIPER: 'CHAT_SWIPER',
+  AD_VIDEO_SWIPER: 'AD_VIDEO_SWIPER',
 };
 export const slideWebTagLabMap = {
   CHAT_SWIPER: '聊天轮播',
+  AD_VIDEO_SWIPER: '视频广告轮播',
 };
 export const globalPropertiesType = {
   HOME_PAGE_SLIDESHOW: 'HOME_PAGE_SLIDESHOW',

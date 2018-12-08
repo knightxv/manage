@@ -53,9 +53,11 @@ export default class Login extends Vue {
     }
     async login() {
         this.$data.loading = true;
+        const { tenantId } = this.$route.params;
         const loginParams = {
             username: this.$data.ruleForm.username,
             pwd: this.$data.ruleForm.password,
+            tenantId: tenantId || 0,
         };
         const res = await ApiLogin.login(loginParams);
         this.$data.loading = false;

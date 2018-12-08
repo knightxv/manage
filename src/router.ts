@@ -68,6 +68,11 @@ const router = new Router({
             title: '修改密码',
           },
         },
+        {
+          path: '/tenant/tenantList',
+          name: 'TenantList',
+          component: () => import(/* webpackChunkName: "TenantList" */ './pages/admin/tenant/TenantList.vue'),
+        },
         // 球员管理
         {
           path: '/player/players',
@@ -561,6 +566,11 @@ const router = new Router({
           },
         },
       ],
+    },
+    {
+      path: '/:tenantId/login',
+      name: 'Login',
+      component: () => import(/* webpackChunkName: "Login" */ './pages/common/Login.vue'),
     },
     {
       path: '/login',

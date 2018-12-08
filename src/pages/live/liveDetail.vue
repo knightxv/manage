@@ -190,11 +190,6 @@ export default class LiveDetail extends Vue {
     const { liveId } = this.$route.params;
     const bindSlideshows = this.$data.bindSlideshows;
     if (bindSlideshows) {
-      // 后续可以做扩展用
-      if (bindSlideshows.length > 0) {
-        this.$message.error('只能添加一个');
-        return;
-      }
       const hasSlide = bindSlideshows.some((slideShow: any) => {
         if (!slideShow.slideshowVO) {
           return false;

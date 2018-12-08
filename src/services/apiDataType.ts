@@ -79,6 +79,7 @@ export interface IUserListItem {
     status: number;
     userId: number;
     userIdCreate: number;
+    tenantId: number;
     username: string;
 }
 

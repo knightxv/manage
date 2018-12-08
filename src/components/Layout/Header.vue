@@ -70,8 +70,13 @@ export default class Header extends Vue {
      // 用户名下拉菜单选择事件
     handleCommand(command: string) {
         if (command === 'loginout') {
-            this.LOGOUT();
+          if (this.myUserInfo == null || this.myUserInfo.tenantId == null) {
             this.$router.push('/login');
+            return;
+          }
+          const { tenantId } = this.myUserInfo;
+          this.$router.push({ name: 'Login',  params: { tenantId: String(tenantId) } });
+          this.LOGOUT();
         }
     }
     goHomePage() {
