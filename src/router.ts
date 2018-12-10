@@ -224,6 +224,36 @@ const router = new Router({
               },
             },
             {
+              path: 'sheduleGuessList/:scheduleId',
+              name: 'MatchScheduleGuessList',
+              component: () =>
+              import(/* webpackChunkName: "MatchScheduleGuessList" */
+              './pages/ball/match/schedule/MatchScheduleGuessList.vue'),
+              meta: {
+                tabName: 'schedule',
+              },
+            },
+            {
+              path: ':scheduleId/createMatchScheduleGuess',
+              name: 'CreateMatchScheduleGuess',
+              component: () =>
+              import(/* webpackChunkName: "CreateMatchScheduleGuess" */
+              './pages/ball/match/schedule/CreateMatchScheduleGuess.vue'),
+              meta: {
+                tabName: 'schedule',
+              },
+            },
+            {
+              path: '/editMatchScheduleGuess/:matchScheduleGuessGameId',
+              name: 'EditMatchScheduleGuess',
+              component: () =>
+              import(/* webpackChunkName: "EditMatchScheduleGuess" */
+              './pages/ball/match/schedule/EditMatchScheduleGuess.vue'),
+              meta: {
+                tabName: 'schedule',
+              },
+            },
+            {
               path: 'team',
               component: () =>
               import(/* webpackChunkName: "matchTeamInfo" */ './pages/ball/match/team/team.vue'),
@@ -423,6 +453,33 @@ const router = new Router({
           import(/* webpackChunkName: "GlobalProperties" */ './pages/cms/global/GlobalProperties.vue'),
           meta: {
             title: '修改文章',
+          },
+        },
+        {
+          path: '/cms/guess/guessList',
+          name: 'GuessList',
+          component: () =>
+          import(/* webpackChunkName: "GuessList" */ './pages/cms/guess/GuessList.vue'),
+          meta: {
+            title: '竞猜管理',
+          },
+        },
+        {
+          path: '/cms/guess/createGuess',
+          name: 'CreateGuess',
+          component: () =>
+          import(/* webpackChunkName: "CreateGuess" */ './pages/cms/guess/CreateGuess.vue'),
+          meta: {
+            title: '创建竞猜',
+          },
+        },
+        {
+          path: '/cms/guess/:guessId/editGuess',
+          name: 'EditGuess',
+          component: () =>
+          import(/* webpackChunkName: "EditGuess" */ './pages/cms/guess/EditGuess.vue'),
+          meta: {
+            title: '修改竞猜',
           },
         },
         // gift

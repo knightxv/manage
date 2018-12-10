@@ -57,4 +57,32 @@ export default {
   addPlayerAndAddMatchTeamRel(params: string) {
     return http.post(`/api-liveapp/adminMatchSchedulePlayerAction/addPlayerAndAddMatchTeamRel`, params);
   },
+  // 竞猜
+  getMatchScheduleGuessGameList(scheduleId: string | number) {
+    return http.get(`/api-liveapp/adminGuessGame/getMatchScheduleGuessGameList/${scheduleId}`, null);
+  },
+  getMatchGuessGameDetail(matchScheduleGuessGameId: string | number) {
+    return http.get(`/api-liveapp/adminGuessGame/getMatchGuessGameDetail/${matchScheduleGuessGameId}`, null);
+  },
+  createMatchScheduleGuessGame(params: any) {
+    return http.post(`/api-liveapp/adminGuessGame/matchScheduleGuessGameCreate`, params);
+  },
+  deleteMatchScheduleGuessGame(matchScheduleGuessGameId: string | number) {
+    return http.delete(`/api-liveapp/adminGuessGame/matchScheduleGuessGameDeleted/${matchScheduleGuessGameId}`, null);
+  },
+  editMatchScheduleGuessGame(params: any) {
+    return http.put(`/api-liveapp/adminGuessGame/matchScheduleGuessGameEdit`, params);
+  },
+  startMatchScheduleGuessGame(matchScheduleGuessGameId: string | number) {
+    return http.put(`/api-liveapp/adminGuessGame/startMatchScheduleGuessGame/${matchScheduleGuessGameId}`, null);
+  },
+  stopMatchScheduleGuessGame(matchScheduleGuessGameId: string | number) {
+    return http.put(`/api-liveapp/adminGuessGame/stopMatchScheduleGuessGame/${matchScheduleGuessGameId}`, null);
+  },
+  endMatchScheduleGuessGame(params: any) {
+    return http.put(`/api-liveapp/adminGuessGame/endMatchScheduleGuessGame`, params);
+  },
+  cancelMatchScheduleGuessGame(matchScheduleGuessGameId: string | number) {
+    return http.put(`/api-liveapp/adminGuessGame/cancelMatchScheduleGuessGame/${matchScheduleGuessGameId}`, null);
+  },
 };

@@ -2,6 +2,30 @@ export enum sex {
     GIRL = 'GIRL',
     BOY = 'BOY',
 }
+export enum guessBankerType {
+  SYSTEM_BANKER = 'SYSTEM_BANKER',
+  USER_BANKER = 'USER_BANKER',
+}
+export enum guessBankerTypeLabelMap {
+  SYSTEM_BANKER = '系统竞猜',
+  USER_BANKER = '用户竞猜',
+}
+export enum guessGameValueType {
+  BALANCE = 'BALANCE',
+  BONUS_POINT = 'BONUS_POINT',
+}
+export enum guessGameValueTypeLabelMap {
+  BALANCE = '余额',
+  BONUS_POINT = '积分',
+}
+export enum gameWinner {
+  HEAD = 'HEAD',
+  TAIL = 'TAIL',
+}
+export enum gameWinnerLabelMap {
+  HEAD = '正方',
+  TAIL = '反正',
+}
 /** 全局事件 */
 export enum globalEvent {
     NO_LOGIN = 'NO_LOGIN',
