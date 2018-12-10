@@ -9,18 +9,30 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
 import { globalEvent } from './app/typeDef';
+import { Getter } from 'vuex-class';
+import { MY_USER_INFO } from '@/stores/getters-types';
+import { IUserListItem } from '@/services/apiDataType';
 @Component({
 })
 export default class App extends Vue {
+  @Getter(MY_USER_INFO) myUserInfo!: IUserListItem;
   public routerTimer!: any;
   public created() {
     this.$root.$on(globalEvent.NO_LOGIN, () => {
       clearTimeout(this.routerTimer);
       this.routerTimer = setTimeout(() => {
         clearTimeout(this.routerTimer);
-        this.$router.push('/login');
+        this.goLoginPage();
       }, 300);
     });
+  }
+  goLoginPage() {
+    if (this.myUserInfo == null || this.myUserInfo.tenantId == null) {
+      this.$router.push('/login');
+      return;
+    }
+    const { tenantId } = this.myUserInfo;
+    this.$router.push({ name: 'Login',  params: { tenantId: String(tenantId) } });
   }
   destroyed() {
     console.log('app destroy');
