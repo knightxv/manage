@@ -26,7 +26,7 @@
     </el-table-column> -->
     <!-- <el-table-column prop="viewType" label="是否隐藏" sortable>
     </el-table-column> -->
-    <el-table-column label="操作">
+    <el-table-column width="300px" label="操作">
       <template slot-scope="scope">
         <el-button
           v-if="scope.row.viewType === 'HIDDEN'"
@@ -40,7 +40,8 @@
           @click="hideSchedule(scope.row.id)"
           type="primary"
         >隐藏</el-button>
-        <el-button size="mini" type="infor" @click="goEditSchedule(scope.row.id)">编辑</el-button>
+        <el-button size="mini" type="infor" @click="guessManage(scope.row.id)">竞猜管理</el-button>
+        <el-button size="mini" type="warning" @click="goEditSchedule(scope.row.id)">编辑</el-button>
         <el-button size="mini" type="danger" @click="removeSchedule(scope.row.id)">删除</el-button>
       </template>
     </el-table-column>
@@ -117,6 +118,9 @@ export default class Schedules extends Vue {
   mounted() {
     this.getSchedules();
   }
+  guessManage(scheduleId: string) {
+    this.$router.push({ name: 'MatchScheduleGuessList', params: { scheduleId } });
+  }
   async getSchedules() {
     const matchId = +this.$route.params.id;
     const params = {
@@ -135,7 +139,6 @@ export default class Schedules extends Vue {
   }
   matchTypeFormatter(row: IMatchScheduleInfoItem) {
     const matchType = row.matchType;
-    console.log(matchTypeLabMap);
     if (matchType == null) {
       return '';
     }
