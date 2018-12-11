@@ -154,6 +154,7 @@ import { Component, Prop, Vue } from 'vue-property-decorator';
 import ApiTenant from '@/services/admin/tenant';
 import ApiMenu from '@/services/admin/menu';
 import ApiRole from '@/services/admin/role';
+import { setTimeout } from 'timers';
 @Component
 export default class TenantList extends Vue {
   data() {
@@ -224,7 +225,7 @@ export default class TenantList extends Vue {
       if (!treeRed) {
         return;
       }
-      treeRed.setChecked(row.menuIds || [], true);
+      treeRed.setCheckedKeys(row.menuIds, false);
     });
   }
   async editTenantMenu() {
@@ -233,7 +234,7 @@ export default class TenantList extends Vue {
     if (!treeRed) {
       return [];
     }
-    const menuIds = treeRed.getCheckedKeys().concat(treeRed.getHalfCheckedKeys());
+    const menuIds = treeRed.getCheckedKeys(); //  treeRed.getHalfCheckedKeys().concat();
     const params = {
       menuIds,
       tenantId: +editTenantId,
