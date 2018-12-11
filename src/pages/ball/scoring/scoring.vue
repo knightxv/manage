@@ -32,7 +32,7 @@
     >
       <el-row v-if="scheduleInfo.matchStageType !== 'END'" type="flex" justify="space-between" align="middle">
         <div class="scoring-title">
-          <p>计分管理</p> 
+          <!-- <p>计分管理</p>  -->
           <el-button class="scoring-help-button" type="primary" @click="showScoringToolsDiaLog">修改计分工具</el-button>
           <el-button class="scoring-help-button" type="primary" @click="changeGoCourtDialogVisible = true">选择上场球员</el-button>
           <el-button class="scoring-help-button" type="primary" @click="refreshPlayerActionCache">更新球员缓存</el-button>
@@ -788,6 +788,8 @@ export default class BallScoring extends Vue {
   justify-content: space-between;
   .player-item-wrap {
     width: 60px;
+    height: 330px;
+    overflow-y: auto;
     .player-item {
       border: 1px solid #ccc;
       padding: 6px 0;
