@@ -625,6 +625,16 @@ const router = new Router({
       ],
     },
     {
+      path: '/phone/scoring/selectSchedule',
+      name: 'PhoneScoringSelectSchedule',
+      component: () => import(/* webpackChunkName: "selectSchedule" */ './pages/ball/scoring/selectSchedule.vue'),
+    },
+    {
+      path: '/phone/scoring/scoring/:scheduleId',
+      name: 'PhoneScoring',
+      component: () => import(/* webpackChunkName: "scoring" */ './pages/ball/scoring/scoring.vue'),
+    },
+    {
       path: '/:tenantId/login',
       name: 'Login',
       component: () => import(/* webpackChunkName: "Login" */ './pages/common/Login.vue'),

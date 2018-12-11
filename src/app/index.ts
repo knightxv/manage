@@ -3,6 +3,7 @@ import formatter from './formatter';
 import * as typeDef from './typeDef';
 import * as helps from './helps';
 import * as config from './config';
+import * as system from './system';
 import AppUpload from './component/AppUpload.vue';
 import AppNetImg from './component/AppNetImg.vue';
 import AppLocalImg from './component/AppLocalImg.vue';
@@ -17,6 +18,7 @@ class App {
             typeDef,
             config,
             helps,
+            system,
         };
         Vue.component('app-upload', AppUpload);
         Vue.component('app-net-img', AppNetImg);

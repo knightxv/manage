@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div :class="{container: true, 'phone': $app.system.inPhone}">
     <el-row v-if="scheduleInfo">
       <el-button
         v-if="scheduleInfo.matchStageType === 'UN_START'"
@@ -33,85 +33,133 @@
       <el-row v-if="scheduleInfo.matchStageType !== 'END'" type="flex" justify="space-between" align="middle">
         <div class="scoring-title">
           <p>计分管理</p> 
-          <el-button type="primary" @click="showScoringToolsDiaLog">修改计分工具</el-button>
-          <el-button type="primary" @click="changeGoCourtDialogVisible = true">选择上场球员</el-button>
-          <el-button type="primary" @click="refreshPlayerActionCache">更新球员缓存</el-button>
-          <el-button type="primary" @click="addPlayerDialogVisible = true">添加球员</el-button>
+          <el-button class="scoring-help-button" type="primary" @click="showScoringToolsDiaLog">修改计分工具</el-button>
+          <el-button class="scoring-help-button" type="primary" @click="changeGoCourtDialogVisible = true">选择上场球员</el-button>
+          <el-button class="scoring-help-button" type="primary" @click="refreshPlayerActionCache">更新球员缓存</el-button>
+          <el-button class="scoring-help-button" type="primary" @click="addPlayerDialogVisible = true">添加球员</el-button>
         </div>
         <!-- <div>直播人数: {{ onlineCount }}</div> -->
       </el-row>
-      <div class="table-group-title">
-        主场球队:{{ homeCourtTeam.matchTeamName }}
-        <span class="team-score">总得分：{{ homeCourtTeamScoreCount }}</span>
-      </div>
-      <el-table :default-sort="{prop: 'playerTeamNum', order: 'ascending'}" :data="homeOnTheCourtTeamPlayers" highlight-current-row v-loading="tableLoading" align="center" style="width: 100%;">
-        <el-table-column type="expand" width="20px">
-          <template slot-scope="props">
-            <el-form label-position="left" inline class="demo-table-expand">
-              <el-form-item label="球员名字">
-                <span>{{ props.row.playerName }}</span>
-              </el-form-item>
-              <el-form-item label="球号">
-                <span>{{ props.row.playerTeamNum }}</span>
-              </el-form-item>
-              <el-form-item v-for="tool in userScoringTools" :key="tool.toolVal" :label="tool.toolName">
-                <span>{{ getToolInfoByActions(props.row.matchScheduleTeamPlayerActions, tool.toolVal) }}</span>
-              </el-form-item>
-            </el-form>
-          </template>
-        </el-table-column>
-        <el-table-column prop="playerTeamNum" label="球号" width="45px">
-        </el-table-column>
-        <el-table-column prop="playerName" label="姓名" width="70px">
-        </el-table-column>
-        <el-table-column prop="matchScheduleTeamPlayerActions" label="分数" width="50px" :formatter="scoreFormatter">
-        </el-table-column>
-        <el-table-column v-for="tool in userScoringTools" :key="tool.toolVal" :prop="tool.toolVal" :label="tool.toolName" align="center">
-          <el-button-group slot-scope="scope">
-            <el-button class="btn-small" icon="el-icon-plus" :disabled="scheduleInfo.matchStageType === 'UN_START' || scheduleInfo.matchStageType === 'END' || updateActionLoading" v-if="tool.actions.indexOf('ADD') > -1" size="mini" type="primary" @click="addPlayerAction(scope.row.matchTeamPlayerId, tool.toolVal)"></el-button>
-            <el-button class="btn-small" icon="el-icon-minus" :disabled="scheduleInfo.matchStageType === 'UN_START' || scheduleInfo.matchStageType === 'END' || updateActionLoading" v-if="tool.actions.indexOf('MINUS') > -1" size="mini" type="info" @click="minusPlayerAction(scope.row.matchTeamPlayerId, tool.toolVal)"></el-button>
-            <el-button class="btn-small" icon="el-icon-close" :disabled="scheduleInfo.matchStageType === 'UN_START' || scheduleInfo.matchStageType === 'END' || updateActionLoading" v-if="tool.actions.indexOf('MISS') > -1" size="mini" type="success" @click="missPlayerAction(scope.row.matchTeamPlayerId, tool.toolVal)"></el-button>
-          </el-button-group>
-        </el-table-column>
-      </el-table>
-      <div class="table-group-title">
-        客场球队:{{ opponentTeam.matchTeamName }}
-        <span class="team-score">总得分：{{ opponentTeamcoreCount }}</span>
-      </div>
-      <el-table :default-sort ="{prop: 'playerTeamNum', order: 'ascending'}" :data="opponentOnTheCourtTeamPlayers" highlight-current-row v-loading="tableLoading" align="center" style="width: 100%;">
-        <el-table-column type="expand" width="20px">
-          <template slot-scope="props">
-            <el-form label-position="left" inline class="demo-table-expand">
-              <el-form-item label="球员名字">
-                <span>{{ props.row.playerName }}</span>
-              </el-form-item>
-              <el-form-item label="球号">
-                <span>{{ props.row.playerTeamNum }}</span>
-              </el-form-item>
-              <el-form-item v-for="tool in userScoringTools" :key="tool.toolVal" :label="tool.toolName">
-                <span>{{ getToolInfoByActions(props.row.matchScheduleTeamPlayerActions, tool.toolVal) }}</span>
-              </el-form-item>
-            </el-form>
-          </template>
-        </el-table-column>
-        <el-table-column prop="playerTeamNum" label="球号" width="45px" >
-        </el-table-column>
-        <el-table-column prop="playerName" label="姓名" width="70px">
-        </el-table-column>
-        <el-table-column prop="matchScheduleTeamPlayerActions" label="分数" width="50px" :formatter="scoreFormatter">
-        </el-table-column>
-        <el-table-column v-for="tool in userScoringTools" :key="tool.toolVal" :prop="tool.toolVal" :label="tool.toolName" align="center">
-          <el-button-group slot-scope="scope">
-            <el-button class="btn-small" icon="el-icon-plus" :disabled="scheduleInfo.matchStageType === 'UN_START' || scheduleInfo.matchStageType === 'END' || updateActionLoading" v-if="tool.actions.indexOf('ADD') > -1" size="mini" type="primary" @click="addPlayerAction(scope.row.matchTeamPlayerId, tool.toolVal)"></el-button>
-            <el-button class="btn-small" icon="el-icon-minus" :disabled="scheduleInfo.matchStageType === 'UN_START' || scheduleInfo.matchStageType === 'END' || updateActionLoading" v-if="tool.actions.indexOf('MINUS') > -1" size="mini" type="info" @click="minusPlayerAction(scope.row.matchTeamPlayerId, tool.toolVal)"></el-button>
-            <el-button class="btn-small" icon="el-icon-close" :disabled="scheduleInfo.matchStageType === 'UN_START' || scheduleInfo.matchStageType === 'END' || updateActionLoading" v-if="tool.actions.indexOf('MISS') > -1" size="mini" type="success" @click="missPlayerAction(scope.row.matchTeamPlayerId, tool.toolVal)"></el-button>
-          </el-button-group>
-        </el-table-column>
-      </el-table>
+      <template v-if="!$app.system.inPhone">
+        <div class="table-group-title">
+          主场球队:{{ homeCourtTeam.matchTeamName }}
+          <span class="team-score">总得分：{{ homeCourtTeamScoreCount }}</span>
+        </div>
+        <el-table :default-sort="{prop: 'playerTeamNum', order: 'ascending'}" :data="homeOnTheCourtTeamPlayers" highlight-current-row v-loading="tableLoading" align="center" style="width: 100%;">
+          <el-table-column type="expand" width="20px">
+            <template slot-scope="props">
+              <el-form label-position="left" inline class="demo-table-expand">
+                <el-form-item label="球员名字">
+                  <span>{{ props.row.playerName }}</span>
+                </el-form-item>
+                <el-form-item label="球号">
+                  <span>{{ props.row.playerTeamNum }}</span>
+                </el-form-item>
+                <el-form-item v-for="tool in userScoringTools" :key="tool.toolVal" :label="tool.toolName">
+                  <span>{{ getToolInfoByActions(props.row.matchScheduleTeamPlayerActions, tool.toolVal) }}</span>
+                </el-form-item>
+              </el-form>
+            </template>
+          </el-table-column>
+          <el-table-column prop="playerTeamNum" label="球号" width="45px">
+          </el-table-column>
+          <el-table-column prop="playerName" label="姓名" width="70px">
+          </el-table-column>
+          <el-table-column prop="matchScheduleTeamPlayerActions" label="分数" width="50px" :formatter="scoreFormatter">
+          </el-table-column>
+          <el-table-column v-for="tool in userScoringTools" :key="tool.toolVal" :prop="tool.toolVal" :label="tool.toolName" align="center">
+            <el-button-group slot-scope="scope">
+              <el-button class="btn-small" icon="el-icon-plus" :disabled="scheduleInfo.matchStageType === 'UN_START' || scheduleInfo.matchStageType === 'END' || updateActionLoading" v-if="tool.actions.indexOf('ADD') > -1" size="mini" type="primary" @click="addPlayerAction(scope.row.matchTeamPlayerId, tool.toolVal)"></el-button>
+              <el-button class="btn-small" icon="el-icon-minus" :disabled="scheduleInfo.matchStageType === 'UN_START' || scheduleInfo.matchStageType === 'END' || updateActionLoading" v-if="tool.actions.indexOf('MINUS') > -1" size="mini" type="info" @click="minusPlayerAction(scope.row.matchTeamPlayerId, tool.toolVal)"></el-button>
+              <el-button class="btn-small" icon="el-icon-close" :disabled="scheduleInfo.matchStageType === 'UN_START' || scheduleInfo.matchStageType === 'END' || updateActionLoading" v-if="tool.actions.indexOf('MISS') > -1" size="mini" type="success" @click="missPlayerAction(scope.row.matchTeamPlayerId, tool.toolVal)"></el-button>
+            </el-button-group>
+          </el-table-column>
+        </el-table>
+        <div class="table-group-title">
+          客场球队:{{ opponentTeam.matchTeamName }}
+          <span class="team-score">总得分：{{ opponentTeamcoreCount }}</span>
+        </div>
+        <el-table :default-sort ="{prop: 'playerTeamNum', order: 'ascending'}" :data="opponentOnTheCourtTeamPlayers" highlight-current-row v-loading="tableLoading" align="center" style="width: 100%;">
+          <el-table-column type="expand" width="20px">
+            <template slot-scope="props">
+              <el-form label-position="left" inline class="demo-table-expand">
+                <el-form-item label="球员名字">
+                  <span>{{ props.row.playerName }}</span>
+                </el-form-item>
+                <el-form-item label="球号">
+                  <span>{{ props.row.playerTeamNum }}</span>
+                </el-form-item>
+                <el-form-item v-for="tool in userScoringTools" :key="tool.toolVal" :label="tool.toolName">
+                  <span>{{ getToolInfoByActions(props.row.matchScheduleTeamPlayerActions, tool.toolVal) }}</span>
+                </el-form-item>
+              </el-form>
+            </template>
+          </el-table-column>
+          <el-table-column prop="playerTeamNum" label="球号" width="45px" >
+          </el-table-column>
+          <el-table-column prop="playerName" label="姓名" width="70px">
+          </el-table-column>
+          <el-table-column prop="matchScheduleTeamPlayerActions" label="分数" width="50px" :formatter="scoreFormatter">
+          </el-table-column>
+          <el-table-column v-for="tool in userScoringTools" :key="tool.toolVal" :prop="tool.toolVal" :label="tool.toolName" align="center">
+            <el-button-group slot-scope="scope">
+              <el-button class="btn-small" icon="el-icon-plus" :disabled="scheduleInfo.matchStageType === 'UN_START' || scheduleInfo.matchStageType === 'END' || updateActionLoading" v-if="tool.actions.indexOf('ADD') > -1" size="mini" type="primary" @click="addPlayerAction(scope.row.matchTeamPlayerId, tool.toolVal)"></el-button>
+              <el-button class="btn-small" icon="el-icon-minus" :disabled="scheduleInfo.matchStageType === 'UN_START' || scheduleInfo.matchStageType === 'END' || updateActionLoading" v-if="tool.actions.indexOf('MINUS') > -1" size="mini" type="info" @click="minusPlayerAction(scope.row.matchTeamPlayerId, tool.toolVal)"></el-button>
+              <el-button class="btn-small" icon="el-icon-close" :disabled="scheduleInfo.matchStageType === 'UN_START' || scheduleInfo.matchStageType === 'END' || updateActionLoading" v-if="tool.actions.indexOf('MISS') > -1" size="mini" type="success" @click="missPlayerAction(scope.row.matchTeamPlayerId, tool.toolVal)"></el-button>
+            </el-button-group>
+          </el-table-column>
+        </el-table>
+      </template>
+      <template v-else>
+        <div class="match-info-item">
+          <div class="team-inf-item">
+            主队({{ homeCourtTeam.matchTeamName }})
+            <div class="score">{{ homeCourtTeamScoreCount }}</div>
+          </div>
+          <div class="team-inf-item">
+            ({{ opponentTeam.matchTeamName }})客队
+            <div class="score">{{ opponentTeamcoreCount }}</div>
+          </div>
+        </div>
+        <div class="phone-score">
+          <div class="player-item-wrap">
+            <div
+              v-for="(player, index) in homeOnTheCourtTeamPlayers"
+              :key="index"
+              :class="{'player-item': true, 'select': player.matchTeamPlayerId === selectScoringMatchTeamPlayerId}"
+              @click="selectScoringMatchTeamPlayerId = player.matchTeamPlayerId"
+            >
+              <div>{{ scoreFormatter(player) }}</div>
+              <div>{{ player.playerName }}</div>
+            </div>
+          </div>
+          <div class="score-container">
+            <div class="score-item" v-for="tool in userScoringTools" :key="tool.toolVal">
+              <div class="tool-name">{{ tool.toolName }}</div>
+              <div>
+                <el-button icon="el-icon-plus" :disabled="scheduleInfo.matchStageType === 'UN_START' || scheduleInfo.matchStageType === 'END' || updateActionLoading" v-if="tool.actions.indexOf('ADD') > -1" type="primary" @click="addPlayerAction(selectScoringMatchTeamPlayerId, tool.toolVal)"></el-button>
+                <el-button icon="el-icon-minus" :disabled="scheduleInfo.matchStageType === 'UN_START' || scheduleInfo.matchStageType === 'END' || updateActionLoading" v-if="tool.actions.indexOf('MINUS') > -1" type="info" @click="minusPlayerAction(selectScoringMatchTeamPlayerId, tool.toolVal)"></el-button>
+                <el-button icon="el-icon-close" :disabled="scheduleInfo.matchStageType === 'UN_START' || scheduleInfo.matchStageType === 'END' || updateActionLoading" v-if="tool.actions.indexOf('MISS') > -1" type="success" @click="missPlayerAction(selectScoringMatchTeamPlayerId, tool.toolVal)"></el-button>
+              </div>
+            </div>
+          </div>
+          <div class="player-item-wrap">
+            <div
+              v-for="(player, index) in opponentOnTheCourtTeamPlayers"
+              :key="index"
+              :class="{'player-item': true, 'select': player.matchTeamPlayerId === selectScoringMatchTeamPlayerId}"
+              @click="selectScoringMatchTeamPlayerId = player.matchTeamPlayerId"
+            >
+              <div>{{ scoreFormatter(player) }}</div>
+              <div>{{ player.playerName }}</div>
+            </div>
+          </div>
+        </div>
+      </template>
     </el-row>
-    <el-dialog title="计分工具" :visible.sync="toolDialogVisible" :close-on-click-modal="false">
-      <el-form label-width="120px" ref="toolForm">
-        <el-form-item label="需要的计分工具">
+    <el-dialog class="dialog" title="计分工具" :visible.sync="toolDialogVisible" :close-on-click-modal="false">
+      <el-form label-width="0px" ref="toolForm">
+        <el-form-item>
           <el-checkbox-group v-model="selectTools">
             <el-checkbox v-for="toolVal in allTools" :label="toolVal" :key="toolVal">
               {{ $app.typeDef.playerActionTypeMap[toolVal] }}
@@ -124,8 +172,8 @@
         <el-button type="primary" @click.native="editTools">提交</el-button>
       </div>
     </el-dialog>
-    <el-dialog title="上场球员" :visible.sync="changeGoCourtDialogVisible" :close-on-click-modal="false">
-      <el-form label-width="120px" ref="goCourtForm">
+    <el-dialog class="dialog" title="上场球员" :visible.sync="changeGoCourtDialogVisible" :close-on-click-modal="false">
+      <el-form label-width="50px" ref="goCourtForm">
         <el-form-item label="主队">
           <el-checkbox-group v-model="selectGoCourts">
             <el-checkbox v-for="player in homeCourtTeamPlayers" :label="player.matchTeamPlayerId" :key="player.matchTeamPlayerId">
@@ -134,7 +182,7 @@
           </el-checkbox-group>
         </el-form-item>
       </el-form>
-      <el-form label-width="120px" ref="goCourtForm">
+      <el-form label-width="50px" ref="goCourtForm">
         <el-form-item label="客队">
           <el-checkbox-group v-model="selectGoCourts">
             <el-checkbox v-for="player in opponentTeamPlayers" :label="player.matchTeamPlayerId" :key="player.matchTeamPlayerId">
@@ -148,12 +196,12 @@
         <el-button type="primary" @click.native="submitPlayersState">提交</el-button>
       </div>
     </el-dialog>
-    <el-dialog title="添加球员" :visible.sync="addPlayerDialogVisible" :close-on-click-modal="false">
-      <el-form label-width="120px" ref="addPlayerForm">
-        <el-form-item label="球员名字" prop="playerName">
+    <el-dialog class="dialog" title="添加球员" :visible.sync="addPlayerDialogVisible" :close-on-click-modal="false">
+      <el-form label-width="50px" ref="addPlayerForm">
+        <el-form-item label="名字" prop="playerName">
           <el-input v-model="addPlayerForm.playerName" auto-complete="off"></el-input>
         </el-form-item>
-        <el-form-item label="球员备注" prop="playerRemark">
+        <el-form-item label="备注" prop="playerRemark">
           <el-input v-model="addPlayerForm.playerRemark" auto-complete="off"></el-input>
         </el-form-item>
         <el-form-item label="球号" prop="playerTeamNum">
@@ -282,6 +330,8 @@ export default class BallScoring extends Vue {
       selectMatchTeamId: null,
       addPlayerForm: {},
       addPlayerLoading: false,
+      // phone
+      selectScoringMatchTeamPlayerId: null,
     };
   }
   async mounted() {
@@ -532,6 +582,7 @@ export default class BallScoring extends Vue {
     this.$notify.success('更新成功');
   }
   updatePlayerTableAction(updateData: ISchedulePlayerActions) {
+    console.log('updatePlayerTableAction', updateData);
     const schedulePlayers: IScheduleTeamPlayerInfo[] = this.$data.schedulePlayers;
     const playerIndex = schedulePlayers
       .findIndex((player) => player.matchTeamPlayerId === updateData.matchTeamPlayerId);
@@ -674,12 +725,15 @@ export default class BallScoring extends Vue {
 .container {
   margin: -20px;
 }
-.table-wrap {
-  margin-top: 50px;
-}
+// .table-wrap {
+//   margin-top: 50px;
+// }
 .scoring-title {
   font-weight: 700;
   font-size: 1.2em;
+}
+.scoring-help-button {
+  margin-bottom: 5px;
 }
 .table-group-title {
   font-size: 1.2em;
@@ -704,5 +758,66 @@ export default class BallScoring extends Vue {
 }
 .btn-small {
   padding: 5px;
+}
+// phone
+.phone {
+  margin: 0px;
+  padding: 10px;
+}
+.phone /deep/ .el-dialog {
+  width: 90%;
+  margin-left: 2.5%;
+  // margin-right: auto;
+}
+.match-info-item {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  .team-inf-item {
+    max-width: 50%;
+    .score {
+      color: #67c23a;
+      text-align: center;
+      padding: 5px 0;
+    }
+  }
+}
+.phone-score {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  .player-item-wrap {
+    width: 60px;
+    .player-item {
+      border: 1px solid #ccc;
+      padding: 6px 0;
+      border-radius: 5px;
+      margin-bottom: 5px;
+      text-align: center;
+      &.select {
+        background: #67c23a;
+        color: #fff;
+      }
+    }
+  }
+  .score-container {
+    flex: 1;
+    margin: 0 3px;
+    .score-item {
+      width: 100%;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      padding: 3px 0;
+      margin-bottom: 3px;
+      text-align: center;
+      border-radius: 5px;
+      border: 1px solid #dedede;
+      .tool-name {
+        font-size: 14px;
+        width: 60px;
+      }
+    }
+  }
 }
 </style>

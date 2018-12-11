@@ -6,8 +6,14 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-
+import { inPc } from '@/app/system';
 @Component
 export default class Home extends Vue {
+  mounted() {
+    if (inPc) {
+      return;
+    }
+    this.$router.push({ name: 'PhoneScoringSelectSchedule' });
+  }
 }
 </script>

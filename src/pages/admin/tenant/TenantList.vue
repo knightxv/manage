@@ -225,7 +225,7 @@ export default class TenantList extends Vue {
       if (!treeRed) {
         return;
       }
-      treeRed.setCheckedKeys(row.menuIds, false);
+      treeRed.setCheckedKeys(row.menuIds || [], false);
     });
   }
   async editTenantMenu() {
