@@ -4,6 +4,7 @@
     <template v-if="allSlideshow">
       <el-form-item label="赛事页面绑定的幻灯片" prop="matchSelectSlideshowId">
           <el-select v-model="matchSelectSlideshowId" filterable placeholder="请选择">
+            <el-option key="-1" label="null" :value="null"> </el-option>
             <el-option
               v-for="item in allSlideshow"
               :key="item.id"
@@ -14,6 +15,18 @@
       </el-form-item>
       <el-form-item label="录播页面绑定的幻灯片" prop="playBackSelectSlideshowId">
           <el-select v-model="playBackSelectSlideshowId" filterable placeholder="请选择">
+            <el-option key="-1" label="null" :value="null"> </el-option>
+            <el-option
+              v-for="item in allSlideshow"
+              :key="item.id"
+              :label="item.slideshowName"
+              :value="item.id">
+            </el-option>
+          </el-select>
+      </el-form-item>
+      <el-form-item label="直播间默认幻灯片" prop="liveDefaultSlideShowId">
+          <el-select v-model="liveDefaultSlideShowId" filterable placeholder="请选择">
+            <el-option key="-1" label="null" :value="null"> </el-option>
             <el-option
               v-for="item in allSlideshow"
               :key="item.id"
@@ -43,6 +56,7 @@ export default class GlobalProperties extends Vue {
       matchSelectSlideshowId: null,
       playBackSelectSlideshowId: null,
       // globalProperties: [],
+      liveDefaultSlideShowId: null,
     };
   }
   mounted() {
@@ -64,6 +78,9 @@ export default class GlobalProperties extends Vue {
       }
       if (propertie.globalPropertiesType === globalPropertiesType.VIDEO_PAGE_SLIDESHOW) {
         this.$data.playBackSelectSlideshowId = +propertie.value;
+      }
+      if (propertie.globalPropertiesType === globalPropertiesType.DEFAULT_LIVE_SLIDESHOW) {
+        this.$data.liveDefaultSlideShowId = +propertie.value;
       }
     });
   }
@@ -87,6 +104,7 @@ export default class GlobalProperties extends Vue {
     const globalProperties: any[] = [];
     this.setMatchSlidePropertie(globalProperties);
     this.setPlayBackSlidePropertie(globalProperties);
+    this.setDefaultLiveSlidePropertie(globalProperties);
     const res = await ApiGlobalProperties.saveProperties(globalProperties);
     if (!res.isSuccess) {
       return;
@@ -113,6 +131,17 @@ export default class GlobalProperties extends Vue {
       globalPropertiesType: globalPropertiesType.VIDEO_PAGE_SLIDESHOW,
       id: 1,
       value: playBackSelectSlideshowId,
+    });
+  }
+  setDefaultLiveSlidePropertie(globalProperties: any[]) {
+    const liveDefaultSlideShowId = this.$data.liveDefaultSlideShowId;
+    if (!liveDefaultSlideShowId) {
+      return;
+    }
+    globalProperties.push({
+      globalPropertiesType: globalPropertiesType.DEFAULT_LIVE_SLIDESHOW,
+      id: 2,
+      value: liveDefaultSlideShowId,
     });
   }
 }

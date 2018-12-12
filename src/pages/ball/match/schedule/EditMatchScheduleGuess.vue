@@ -46,13 +46,6 @@
         >{{ $app.typeDef.guessGameValueTypeLabelMap[type] }}</el-radio>
       </el-radio-group>
     </el-form-item>
-    <el-form-item label="封盘时间" prop="guessStopTime">
-      <el-date-picker
-        v-model="editForm.guessStopTime"
-        type="datetime"
-        value-format="timestamp"
-      ></el-date-picker>
-    </el-form-item>
   </el-form>
   <div style="margin-left: 300px;margin-top: 30px;">
     <el-button type="primary" @click.native="addSubmit" :loading="loading">提交</el-button>
@@ -72,7 +65,6 @@ export default class EditMatchScheduleGuess extends Vue {
       editFormRules: {
       },
       editForm: {
-        guessStopTime: new Date().getTime(),
         guessBankerType: guessBankerType.SYSTEM_BANKER,
         guessGameValueType: guessGameValueType.BALANCE,
       },
@@ -89,7 +81,6 @@ export default class EditMatchScheduleGuess extends Vue {
     }
     this.$data.editForm = {
       ...res.data,
-      guessStopTime: res.data.guessStopTime * 1000,
     };
   }
   addSubmit() {
@@ -97,9 +88,7 @@ export default class EditMatchScheduleGuess extends Vue {
       if (!valid) {
         return;
       }
-      const { guessStopTime } = this.$data.editForm;
       const params = Object.assign({}, this.$data.editForm, {
-        guessStopTime: Math.floor(guessStopTime / 1000),
       });
       const res = await ApiSchedule.editMatchScheduleGuessGame(params);
       if (!res.isSuccess) {

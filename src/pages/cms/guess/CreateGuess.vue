@@ -46,13 +46,6 @@
         >{{ $app.typeDef.guessGameValueTypeLabelMap[type] }}</el-radio>
       </el-radio-group>
     </el-form-item>
-    <el-form-item label="封盘时间" prop="guessStopTime">
-      <el-date-picker
-        v-model="addForm.guessStopTime"
-        type="datetime"
-        value-format="timestamp"
-      ></el-date-picker>
-    </el-form-item>
   </el-form>
   <div style="margin-left: 300px;margin-top: 30px;">
     <el-button type="primary" @click.native="addSubmit" :loading="loading">提交</el-button>
@@ -72,7 +65,6 @@ export default class CreateGuess extends Vue {
       addFormRules: {
       },
       addForm: {
-        guessStopTime: new Date().getTime(),
         guessBankerType: guessBankerType.SYSTEM_BANKER,
         guessGameValueType: guessGameValueType.BALANCE,
       },
@@ -83,9 +75,7 @@ export default class CreateGuess extends Vue {
       if (!valid) {
         return;
       }
-      const { guessStopTime } = this.$data.addForm;
       const params = Object.assign({}, this.$data.addForm, {
-        guessStopTime: Math.floor(guessStopTime / 1000),
       });
       const res = await ApiGuess.createGuessGame(params);
       if (!res.isSuccess) {

@@ -53,6 +53,7 @@ export const slideWebTagLabMap = {
 export const globalPropertiesType = {
   HOME_PAGE_SLIDESHOW: 'HOME_PAGE_SLIDESHOW',
   VIDEO_PAGE_SLIDESHOW: 'VIDEO_PAGE_SLIDESHOW',
+  DEFAULT_LIVE_SLIDESHOW: 'DEFAULT_LIVE_SLIDESHOW',
 };
 /** socket注册类型 */
 export enum SocketRegisterType {
