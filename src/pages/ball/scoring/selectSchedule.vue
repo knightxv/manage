@@ -66,6 +66,7 @@
     <el-pagination
       layout="prev, pager, next"
       @current-change="handleCurrentChange"
+      :current-page.sync="page"
       :page-size="10"
       :total="total"
       style="float:right;"
@@ -85,7 +86,7 @@ export default class SelectSchedule extends Vue {
   data() {
     return {
       page: 1,
-      size: 12,
+      size: 10,
       total: 0,
       selectMatchId: '',
       matchs: [],
@@ -95,6 +96,7 @@ export default class SelectSchedule extends Vue {
     };
   }
   onSelectChange() {
+    this.$data.page = 1;
     this.getSchedules();
   }
   handleCurrentChange(val: number) {
