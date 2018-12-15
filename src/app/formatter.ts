@@ -14,6 +14,9 @@ export default {
           return '';
       }
       const time = rowData[property];
+      if (!time) {
+        return '--';
+      }
       return formatDateBySecTime(time);
     },
     sexLab(rowData: any, { property }: any): string {

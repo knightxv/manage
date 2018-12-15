@@ -24,9 +24,9 @@
       </el-table-column>
       <el-table-column prop="guessGameValueType" label="投注值类型" sortable>
       </el-table-column>
-      <el-table-column prop="guessBankerType" label="竞猜庄家类型" sortable>
+      <el-table-column prop="guessBankerType" label="竞猜庄家类型" :formatter="guessBankerTypeFormatter" sortable>
       </el-table-column>
-      <el-table-column prop="guessGameStatusType" label="竞猜状态" sortable>
+      <el-table-column prop="guessGameStatusType" label="竞猜状态" :formatter="guessGameStatusTypeFormatter" sortable>
       </el-table-column>
       <el-table-column prop="remark" label="额外说明" sortable>
       </el-table-column>
@@ -34,8 +34,8 @@
       </el-table-column>
       <el-table-column label="操作" width="250">
         <template slot-scope="scope">
-          <el-button v-if="scope.row.guessGameStatusType != 'START'" size="mini" type="primary" @click="stopGuess(scope.row.id)">结束竞猜</el-button>
-          <el-button v-else size="mini" @click="startGuess(scope.row.id)">开启竞猜</el-button>
+          <el-button v-if="scope.row.guessGameStatusType === $app.typeDef.guessGameStatusType.UN_START" @click="startGuess(scope.row.id)">开启竞猜</el-button>
+          <el-button v-if="scope.row.guessGameStatusType === $app.typeDef.guessGameStatusType.DOING" size="mini" type="primary" @click="stopGuess(scope.row.id)">竞猜封盘</el-button>
           <el-button size="mini" type="warning" @click="goEditPage(scope.row.id)">编辑</el-button>
           <el-button size="mini" type="danger" @click="deleteItem(scope.row.id)">删除</el-button>
         </template>
@@ -126,6 +126,12 @@ export default class GuessList extends Vue {
     }
     this.$message.success('删除成功');
     this.getList();
+  }
+  guessGameStatusTypeFormatter(row: any) {
+    return guessGameStatusTypeLabMap[row.guessGameStatusType];
+  }
+  guessBankerTypeFormatter(row: any) {
+    return guessBankerTypeLabMap[row.guessBankerType];
   }
 }
 </script>

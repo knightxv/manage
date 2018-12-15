@@ -24,9 +24,9 @@
       </el-table-column>
       <el-table-column prop="guessGameValueType" label="投注值类型" sortable>
       </el-table-column>
-      <el-table-column prop="guessBankerType" label="竞猜庄家类型" sortable>
+      <el-table-column prop="guessBankerType" label="竞猜庄家类型" :formatter="guessBankerTypeFormatter" sortable>
       </el-table-column>
-      <el-table-column prop="guessGameStatusType" label="竞猜状态" sortable>
+      <el-table-column prop="guessGameStatusType" label="竞猜状态" :formatter="guessGameStatusTypeFormatter" sortable>
       </el-table-column>
       <el-table-column prop="gameWinner" label="胜方" :formatter="gameWinnerFormatter" sortable>
       </el-table-column>
@@ -36,10 +36,10 @@
       </el-table-column>
       <el-table-column label="操作" width="600">
         <template slot-scope="scope">
-          <el-button size="mini" @click="startGuess(scope.row.matchScheduleGuessGameId)">开启竞猜</el-button>
-          <el-button size="mini" @click="stopGuess(scope.row.matchScheduleGuessGameId)">竞猜封盘</el-button>
-          <el-button size="mini" @click="endGuess(scope.row.guessGameId)">结算竞猜</el-button>
-          <el-button size="mini" @click="cancelGuess(scope.row.guessGameId)">流局竞猜</el-button>
+          <el-button v-if="scope.row.guessGameStatusType === $app.typeDef.guessGameStatusType.UN_START" size="mini" @click="startGuess(scope.row.matchScheduleGuessGameId)">开启竞猜</el-button>
+          <el-button v-if="scope.row.guessGameStatusType === $app.typeDef.guessGameStatusType.DOING" size="mini" @click="stopGuess(scope.row.matchScheduleGuessGameId)">竞猜封盘</el-button>
+          <el-button v-if="scope.row.guessGameStatusType === $app.typeDef.guessGameStatusType.STOP" size="mini" @click="endGuess(scope.row.guessGameId)">结算竞猜</el-button>
+          <el-button v-if="scope.row.guessGameStatusType === $app.typeDef.guessGameStatusType.STOP" size="mini" @click="cancelGuess(scope.row.guessGameId)">流局竞猜</el-button>
           <el-button size="mini" type="warning" @click="goEditPage(scope.row.matchScheduleGuessGameId)">编辑</el-button>
           <el-button size="mini" type="danger" @click="deleteItem(scope.row.matchScheduleGuessGameId)">删除</el-button>
         </template>
@@ -62,7 +62,8 @@
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
 import ApiSchedule from '@/services/liveapp/schedule';
-import { gameWinnerLabelMap, gameWinner } from '@/app/typeDef';
+import { gameWinnerLabelMap, gameWinner, guessGameStatusType, guessGameStatusTypeLabMap,
+guessBankerTypeLabMap } from '@/app/typeDef';
 @Component
 export default class MatchScheduleGuessList extends Vue {
   data() {
@@ -178,6 +179,12 @@ export default class MatchScheduleGuessList extends Vue {
       return '';
     }
     return gameWinnerLabelMap[row.gameWinner];
+  }
+  guessGameStatusTypeFormatter(row: any) {
+    return guessGameStatusTypeLabMap[row.guessGameStatusType];
+  }
+  guessBankerTypeFormatter(row: any) {
+    return guessBankerTypeLabMap[row.guessBankerType];
   }
 }
 </script>

@@ -4,17 +4,17 @@
     <el-form-item label="竞猜标题" prop="title">
       <el-input v-model="editForm.title" auto-complete="off"></el-input>
     </el-form-item>
+    <el-form-item label="正面名称" prop="headName">
+      <el-input v-model="editForm.headName" auto-complete="off"></el-input>
+    </el-form-item>
+    <el-form-item v-if="editForm.guessBankerType === $app.typeDef.guessBankerType.SYSTEM_BANKER" label="正面赔率" prop="headOdds">
+      <el-input v-model="editForm.headOdds" auto-complete="off"></el-input>
+    </el-form-item>
     <el-form-item label="反面名称" prop="tailName">
       <el-input v-model="editForm.tailName" auto-complete="off"></el-input>
     </el-form-item>
-    <el-form-item label="反面赔率" prop="tailOdds">
+    <el-form-item v-if="editForm.guessBankerType === $app.typeDef.guessBankerType.SYSTEM_BANKER" label="反面赔率" prop="tailOdds">
       <el-input v-model="editForm.tailOdds" auto-complete="off"></el-input>
-    </el-form-item>
-    <el-form-item label="正面赔率" prop="headOdds">
-      <el-input v-model="editForm.headOdds" auto-complete="off"></el-input>
-    </el-form-item>
-    <el-form-item label="正面名称" prop="headName">
-      <el-input v-model="editForm.headName" auto-complete="off"></el-input>
     </el-form-item>
     <el-form-item label="额外说明" prop="remark">
       <el-input v-model="editForm.remark" auto-complete="off"></el-input>
