@@ -58,6 +58,7 @@
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
 import ApiGuess from '@/services/cms/guess';
+import { guessGameStatusTypeLabMap, guessBankerTypeLabMap } from '@/app/typeDef';
 @Component
 export default class GuessList extends Vue {
   data() {
