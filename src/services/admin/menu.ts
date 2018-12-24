@@ -2,8 +2,8 @@ import http from '@/app/http';
 import { IMenuListData, IRoleMenuBody } from '@/services/apiDataType';
 
 export default {
-    getMenus(): Promise<IMenuListData> {
-        return http.get('/api-admin/menu', null);
+    getMenus(projectType: string = 'COMMON'): Promise<IMenuListData> {
+        return http.get(`/api-admin/menu/tree/${projectType}`, null);
     },
     /** 更新菜单 */
     editMenu(params: IRoleMenuBody) {
